@@ -21,6 +21,7 @@ import time
 import unicodedata
 from datetime import date
 from html.parser import HTMLParser
+from urllib.parse import urlparse, quote
 from urllib.request import Request, urlopen
 from urllib.error import URLError
 
@@ -83,8 +84,18 @@ def html_to_text(html: str) -> str:
     return "\n".join(lines)
 
 
-def fetch_html(url: str) -> str | None:
-    req = Request(url, headers={
+def encode_url(url: str) -> str:
+    """URLパスに日本語が含まれる場合をパーセントエンコードする"""
+    parsed = urlparse(url)
+    encoded_path = quote(parsed.path, safe="/:@!$&'()*+,;=")
+    encoded_query = quote(parsed.query, safe="=&+%")
+    rebuilt = parsed._replace(path=encoded_path, query=encoded_query)
+    return rebuilt.geturl()
+
+
+def fetch_html(url: str):
+    safe_url = encode_url(url)
+    req = Request(safe_url, headers={
         "User-Agent": UA,
         "Accept-Language": "ja,en;q=0.8",
         "Accept": "text/html",
@@ -98,7 +109,7 @@ def fetch_html(url: str) -> str | None:
             except (UnicodeDecodeError, LookupError):
                 continue
         return raw.decode("utf-8", errors="replace")
-    except URLError as e:
+    except Exception as e:
         print(f"  [通信エラー] {e}")
         return None
 
@@ -120,8 +131,7 @@ def load_racer_names() -> dict:
 
 # ---- 差分から候補を抽出 ----
 
-def extract_candidates(diff_lines: list[str], url: str,
-                        name_to_toban: dict) -> list[dict]:
+def extract_candidates(diff_lines, url, name_to_toban):
     """
     差分テキスト行から、関係キーワード + 選手名が含まれる行を候補として返す。
     既存サイトの全データを取り込まず、あくまで「新規追加された行」だけ対象。

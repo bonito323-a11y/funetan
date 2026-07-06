@@ -1,7 +1,11 @@
 # ファン手帳データ（再配布禁止のため除外）
-scripts/cache/
-*.lzh
+scripts/cache/fan*.lzh
+scripts/cache/fan*.txt
 *.LZH
+
+# 巡回キャッシュ（監視サイトのHTMLは再配布禁止）
+scripts/cache/sites/
+scripts/cache/candidates.json
 
 # macOS
 .DS_Store
