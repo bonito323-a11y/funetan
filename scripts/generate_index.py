@@ -152,6 +152,7 @@ def generate_index(racers):
   <div class="topbar">
     <div class="brand">舟☆探<small>選手名鑑</small></div>
     <nav>
+      <a href="map.html">関係マップ</a>
       <a href="couples.html">夫婦一覧</a>
       <a href="siblings.html">兄弟一覧</a>
       <a href="shitei.html">師弟一覧</a>
@@ -173,6 +174,11 @@ def generate_index(racers):
 <main>
 
   <div class="summary-grid">
+    <a class="summary-card" href="map.html">
+      <div class="icon">🗺️</div>
+      <div class="label">関係マップ</div>
+      <div class="sub">NETWORK MAP</div>
+    </a>
     <a class="summary-card" href="couples.html">
       <div class="icon">💑</div>
       <div class="label">夫婦一覧</div>
@@ -187,11 +193,6 @@ def generate_index(racers):
       <div class="icon">🎓</div>
       <div class="label">師弟一覧</div>
       <div class="sub">MENTOR</div>
-    </a>
-    <a class="summary-card" href="hobby.html">
-      <div class="icon">🎯</div>
-      <div class="label">趣味別</div>
-      <div class="sub">HOBBY</div>
     </a>
   </div>
 
