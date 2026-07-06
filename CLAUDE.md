@@ -88,6 +88,35 @@ id, from_toban, rel_type, to_toban, to_name, confidence, source_url, source_date
 
 各マイルストーン完了時に必ず：commit → 作業ログ.md 更新 → ダシオさんに確認ポイントを提示。
 
+## 選手追加フロー（M2以降いつでも使える）
+
+ダシオさんが「〇〇（登録番号XXXX）を追加して」と言ったら：
+
+1. **スクリプトで自動取得**（1人ずつ、1秒待機）
+   ```
+   python scripts/add_racer.py <登録番号> [名前]
+   ```
+   - 公式サイト（boatrace.jp）からプロフィールを取得
+   - 名前の照合チェックを自動実施（不一致なら警告）
+   - 取得内容を表示 → ダシオさんに確認を求めてから追記
+
+2. **relations.csv に関係情報を追記**（confidence・source_url 必須）
+   - confidence=C（噂レベル）はDBに保持するが絶対に表示しない
+
+3. **趣味・SNS URL・引退かどうか**はスクリプトでは取れないので、追記後に racers.csv を手動確認
+
+4. **サイトを再生成**してコミット
+   ```
+   python scripts/generate_racer_page.py   # 全員 or 追加した登録番号だけ
+   python scripts/generate_map.py
+   python scripts/generate_index.py
+   git add data/ docs/ && git commit -m "選手追加: <名前>（<登録番号>）"
+   ```
+
+**注意事項**
+- 追加は1人ずつ。まとめて大量取得しない（公式サイトへの負荷配慮）
+- source_url が空の relations.csv 行は生成時に警告が出る。必ず出典を入れる
+
 ## 週次運用（M7以降の定型指示）
 
 ダシオさんが「巡回して」と言ったら：
