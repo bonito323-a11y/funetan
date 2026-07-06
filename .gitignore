@@ -1,0 +1,8 @@
+# ファン手帳データ（再配布禁止のため除外）
+scripts/cache/
+*.lzh
+*.LZH
+
+# macOS
+.DS_Store
+**/.DS_Store

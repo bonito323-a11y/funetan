@@ -85,8 +85,8 @@
 </div>
 
 <script>
-const nodes = [{"id": "9001", "name": "艇場太郎", "branch": "福岡", "grade": "A1", "hobby": "釣り", "status": "現役", "retired": false}, {"id": "9002", "name": "艇場次郎", "branch": "福岡", "grade": "A2", "hobby": "ゴルフ", "status": "現役", "retired": false}, {"id": "9003", "name": "水面花子", "branch": "大阪", "grade": "B1", "hobby": "料理", "status": "現役", "retired": false}, {"id": "9004", "name": "大波一郎", "branch": "福岡", "grade": "B2", "hobby": "盆栽", "status": "引退", "retired": true}];
-const links = [{"source": "9001", "target": "9002", "type": "family", "label": "弟"}, {"source": "9001", "target": "9003", "type": "spouse", "label": "配偶者"}, {"source": "9001", "target": "9004", "type": "mentor", "label": "師匠"}];
+const nodes = [];
+const links = [];
 const colors = {spouse:"#E33A2E",family:"#2E5FE3",mentor:"#2FA65A",friend:"#F2C21F",douki:"#7B8794"};
 
 const svg = d3.select("#graph");

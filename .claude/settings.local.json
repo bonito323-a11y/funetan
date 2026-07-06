@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 scripts/import_fanzine.py scripts/cache/fan2604.txt)"
+    ]
+  }
+}
