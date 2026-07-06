@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>関係マップ デモ｜舟☆探 選手名鑑</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+  :root{
+    --ink:#1C2530;--paper:#F7F5F0;--navy:#0E2A3C;--navy2:#173B52;
+    --red:#E33A2E;--blue:#2E5FE3;--yellow:#F2C21F;--green:#2FA65A;
+    --line:#D8D3C8;--muted:#94A3B2;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--navy);color:#fff;font-family:'Zen Kaku Gothic New',sans-serif;overflow:hidden;height:100vh;display:flex;flex-direction:column}
+  .lane-strip{display:flex;height:6px;flex-shrink:0}
+  .lane-strip span{flex:1}
+  .l1{background:#fff}.l2{background:#222}.l3{background:var(--red)}.l4{background:var(--blue)}.l5{background:var(--yellow)}.l6{background:var(--green)}
+  header{padding:12px 16px 8px;flex-shrink:0}
+  .brand{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:16px;letter-spacing:.08em}
+  .brand small{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:500;font-size:10px;opacity:.6;margin-left:8px;letter-spacing:.15em}
+  .sub{font-size:11px;color:var(--muted);margin-top:2px}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;padding:6px 16px 4px;font-size:10px;color:var(--muted);flex-shrink:0}
+  .legend i{display:inline-block;width:16px;height:3px;border-radius:2px;margin-right:4px;vertical-align:middle}
+  #graph{flex:1;touch-action:none}
+  .controls{position:fixed;bottom:88px;left:0;right:0;display:flex;justify-content:center;gap:8px;pointer-events:none}
+  .controls button{pointer-events:auto;font-family:inherit;font-weight:700;font-size:12px;padding:9px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.25);background:var(--navy2);color:#fff;cursor:pointer}
+  .controls button.demo{background:var(--red);border-color:var(--red)}
+  #panel{position:fixed;bottom:0;left:0;right:0;background:var(--paper);color:var(--ink);border-radius:12px 12px 0 0;padding:14px 18px;min-height:74px;box-shadow:0 -4px 20px rgba(0,0,0,.35)}
+  #panel .p-name{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:17px}
+  #panel .p-name span{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B7280;margin-left:6px}
+  #panel .p-body{font-size:12px;margin-top:3px;color:#374151;line-height:1.6}
+  .node-label{font-size:11px;font-weight:700;fill:#fff;pointer-events:none;text-anchor:middle;paint-order:stroke;stroke:var(--navy);stroke-width:3px}
+  .node-toban{font-size:8px;fill:var(--muted);pointer-events:none;text-anchor:middle;font-family:'IBM Plex Mono',monospace}
+</style>
+</head>
+<body>
+<div class="lane-strip"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span><span class="l5"></span><span class="l6"></span></div>
+<header>
+  <div class="brand">舟☆探<small>関係マップ（デモ）</small></div>
+  <div class="sub">選手をタップ→繋がりをハイライト。ドラッグで動かせます ※架空のサンプルデータ</div>
+</header>
+<div class="legend">
+  <span><i style="background:var(--red)"></i>夫婦</span>
+  <span><i style="background:var(--blue)"></i>家族</span>
+  <span><i style="background:var(--green)"></i>師弟</span>
+  <span><i style="background:var(--yellow)"></i>友人・仲良し</span>
+  <span><i style="background:#7B8794"></i>同期</span>
+</div>
+<svg id="graph"></svg>
+<div class="controls">
+  <button class="demo" id="demoBtn">デモ：友人の配偶者の妹を辿る</button>
+  <button id="resetBtn">リセット</button>
+</div>
+<div id="panel">
+  <div class="p-name">関係マップ</div>
+  <div class="p-body">relations.csvのデータをそのままこの地図に変換できます。選手をタップしてみてください。</div>
+</div>
+
+<script>
+const nodes = [
+  {id:"9001",name:"艇場太郎",branch:"福岡",hobby:"釣り"},
+  {id:"9002",name:"艇場次郎",branch:"福岡",hobby:"ゴルフ"},
+  {id:"9003",name:"水面花子",branch:"大阪",hobby:"料理"},
+  {id:"9004",name:"大波一郎",branch:"福岡",hobby:"盆栽",retired:true},
+  {id:"9005",name:"白波健",branch:"山口",hobby:"釣り"},
+  {id:"9006",name:"白波美咲",branch:"山口",hobby:"カフェ巡り"},
+  {id:"9007",name:"青島恵",branch:"香川",hobby:"ゴルフ"},
+  {id:"9008",name:"緑川蓮",branch:"埼玉",hobby:"サウナ"},
+  {id:"9009",name:"大波翔",branch:"福岡",hobby:"釣り"},
+  {id:"9010",name:"黄山さくら",branch:"大阪",hobby:"料理"},
+];
+const links = [
+  {source:"9001",target:"9002",type:"family",label:"兄弟"},
+  {source:"9001",target:"9003",type:"spouse",label:"夫婦"},
+  {source:"9001",target:"9004",type:"mentor",label:"師弟"},
+  {source:"9001",target:"9005",type:"friend",label:"釣り仲間"},
+  {source:"9005",target:"9006",type:"spouse",label:"夫婦"},
+  {source:"9006",target:"9007",type:"family",label:"姉妹"},
+  {source:"9002",target:"9008",type:"douki",label:"同期(105期)"},
+  {source:"9004",target:"9009",type:"family",label:"親子"},
+  {source:"9009",target:"9001",type:"friend",label:"兄弟弟子・友人"},
+  {source:"9003",target:"9010",type:"friend",label:"仲良し"},
+];
+const colors={spouse:"#E33A2E",family:"#2E5FE3",mentor:"#2FA65A",friend:"#F2C21F",douki:"#7B8794"};
+
+const svg=d3.select("#graph");
+const W=()=>svg.node().clientWidth, H=()=>svg.node().clientHeight;
+const g=svg.append("g");
+svg.call(d3.zoom().scaleExtent([0.5,2.5]).on("zoom",e=>g.attr("transform",e.transform)));
+
+const sim=d3.forceSimulation(nodes)
+  .force("link",d3.forceLink(links).id(d=>d.id).distance(95))
+  .force("charge",d3.forceManyBody().strength(-380))
+  .force("center",d3.forceCenter(W()/2,H()/2))
+  .force("collide",d3.forceCollide(38));
+
+const link=g.selectAll("line").data(links).join("line")
+  .attr("stroke",d=>colors[d.type]).attr("stroke-width",2.5)
+  .attr("stroke-dasharray",d=>d.type==="douki"?"4 4":null).attr("stroke-opacity",.75);
+
+const node=g.selectAll("g.n").data(nodes).join("g").attr("class","n").style("cursor","pointer")
+  .call(d3.drag()
+    .on("start",(e,d)=>{if(!e.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y;})
+    .on("drag",(e,d)=>{d.fx=e.x;d.fy=e.y;})
+    .on("end",(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null;}));
+
+node.append("circle").attr("r",17)
+  .attr("fill",d=>d.retired?"#3E4C59":"#173B52")
+  .attr("stroke","#fff").attr("stroke-width",1.5);
+node.append("text").attr("class","node-label").attr("dy",-24).text(d=>d.name);
+node.append("text").attr("class","node-toban").attr("dy",34).text(d=>d.id);
+
+const panel=document.getElementById("panel");
+function setPanel(title,body){panel.querySelector(".p-name").innerHTML=title;panel.querySelector(".p-body").innerHTML=body;}
+
+const adj={};links.forEach(l=>{
+  const s=l.source.id||l.source,t=l.target.id||l.target;
+  (adj[s]=adj[s]||[]).push({to:t,label:l.label});
+  (adj[t]=adj[t]||[]).push({to:s,label:l.label});
+});
+
+function focusNode(d){
+  const nbrs=new Set([d.id,...(adj[d.id]||[]).map(x=>x.to)]);
+  node.select("circle").attr("opacity",n=>nbrs.has(n.id)?1:.15)
+      .attr("fill",n=>n.id===d.id?"#E33A2E":(n.retired?"#3E4C59":"#173B52"));
+  node.selectAll("text").attr("opacity",n=>nbrs.has(n.id)?1:.15);
+  link.attr("stroke-opacity",l=>(l.source.id===d.id||l.target.id===d.id)?1:.08)
+      .attr("stroke-width",l=>(l.source.id===d.id||l.target.id===d.id)?3.5:2);
+  const rels=(adj[d.id]||[]).map(x=>{
+    const n2=nodes.find(n=>n.id===x.to);
+    return `<b>${x.label}</b>：${n2.name}`;
+  }).join("　/　");
+  setPanel(`${d.name}<span>${d.id}・${d.branch}支部${d.retired?"・引退":""}</span>`,
+    `趣味：${d.hobby}<br>${rels}`);
+}
+node.on("click",(e,d)=>{e.stopPropagation();focusNode(d);});
+
+function reset(){
+  node.select("circle").attr("opacity",1).attr("fill",n=>n.retired?"#3E4C59":"#173B52");
+  node.selectAll("text").attr("opacity",1);
+  link.attr("stroke-opacity",.75).attr("stroke-width",2.5);
+  setPanel("関係マップ","relations.csvのデータをそのままこの地図に変換できます。選手をタップしてみてください。");
+}
+document.getElementById("resetBtn").onclick=reset;
+svg.on("click",reset);
+
+// デモ：友人の配偶者の妹（9001→9005→9006→9007）
+document.getElementById("demoBtn").onclick=()=>{
+  const path=["9001","9005","9006","9007"];
+  const steps=["艇場太郎","友人の白波健","その配偶者・白波美咲","その妹・青島恵"];
+  const onPath=new Set(path);
+  node.select("circle").attr("opacity",n=>onPath.has(n.id)?1:.12).attr("fill",n=>n.retired?"#3E4C59":"#173B52");
+  node.selectAll("text").attr("opacity",n=>onPath.has(n.id)?1:.12);
+  link.attr("stroke-opacity",.06).attr("stroke-width",2);
+  let i=0;
+  const tick=()=>{
+    if(i>=path.length){
+      setPanel("友人の配偶者の妹、発見",
+        "艇場太郎 →<b>友人</b>→ 白波健 →<b>夫婦</b>→ 白波美咲 →<b>姉妹</b>→ 青島恵。3段先の繋がりもCSVから自動で辿れます。");
+      return;
+    }
+    const id=path[i];
+    node.select("circle").filter(n=>n.id===id).attr("fill","#E33A2E").attr("r",21).transition().duration(400).attr("r",17);
+    if(i>0){
+      const a=path[i-1],b=id;
+      link.filter(l=>(l.source.id===a&&l.target.id===b)||(l.source.id===b&&l.target.id===a))
+        .attr("stroke-opacity",1).attr("stroke-width",4.5);
+    }
+    setPanel("辿っています…",steps.slice(0,i+1).join(" → "));
+    i++;setTimeout(tick,750);
+  };
+  tick();
+};
+
+sim.on("tick",()=>{
+  link.attr("x1",d=>d.source.x).attr("y1",d=>d.source.y).attr("x2",d=>d.target.x).attr("y2",d=>d.target.y);
+  node.attr("transform",d=>`translate(${d.x},${d.y})`);
+});
+window.addEventListener("resize",()=>sim.force("center",d3.forceCenter(W()/2,H()/2)).alpha(.3).restart());
+</script>
+</body>
+</html>

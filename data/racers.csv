@@ -1,0 +1,5 @@
+toban,name,kana,branch,ki,birth,grade,status,hometown,hobby,x_url,insta_url,youtube_url,note,checked
+9001,艇場太郎,ていばたろう,福岡,100,1985-04-01,A1,active,福岡県,釣り,https://x.com/sample,,,サンプルデータ,2026-07-06
+9002,艇場次郎,ていばじろう,福岡,105,1990-08-15,A2,active,福岡県,ゴルフ,,,,サンプルデータ・太郎の弟,2026-07-06
+9003,水面花子,みなもはなこ,大阪,110,1993-02-20,B1,active,大阪府,料理,,https://instagram.com/sample,,サンプルデータ・太郎の妻,2026-07-06
+9004,大波一郎,おおなみいちろう,福岡,75,1965-11-03,B2,retired,佐賀県,盆栽,,,,サンプルデータ・太郎の師匠,2026-07-06

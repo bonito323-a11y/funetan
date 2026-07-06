@@ -1,0 +1,18 @@
+サイト名,URL,取得対象,巡回頻度,優先度,備考
+フネラブ(kcbn) 兄弟姉妹一覧,https://kcbn.jp/brother-sisters/,家族関係,週1,高,2026年1月更新と鮮度高い
+フネラブ(kcbn) 師弟一覧,https://kcbn.jp/master-and-disciple/,師弟関係,週1,高,現役選手の師弟を網羅
+テイモン名鑑 家族関係,https://boatracer.teimon.jp/family/,家族関係,週1,高,構造が整理されていて差分検出しやすい
+テイモン名鑑 師弟関係,https://boatracer.teimon.jp/shitei/,師弟関係,週1,高,師匠328人/弟子482人
+テイモン名鑑 トップ,https://boatracer.teimon.jp/,新規選手・更新情報,週1,高,更新履歴が日付付きで出る
+Wikipedia 競艇選手一覧,https://ja.wikipedia.org/wiki/競艇選手一覧,血縁・師弟・引退情報,週1,高,1ページ完結で差分監視が最も楽
+馬々の黄昏的日記 女子血縁一覧,https://www.umanarok.net/tasogare/boatraser-blood,女子選手の血縁・夫婦,週1,中,コメント欄の読者情報→管理人更新の集合知型
+Boat With 結婚まとめ,https://www.blu-express.com/column/marriage/,夫婦・結婚発表,週1,中,相手の職業付き・日々更新をうたう
+Boat With 師弟まとめ,https://www.blu-express.com/column/master/,師弟関係,月1,中,
+口コミ競艇速報 結婚離婚まとめ,https://boatrace-kuchikomi.com/kyoutei-kisochishiki/senshu-data/kekkon/,結婚・離婚・師弟婚,週1,中,SNS発の発表を記事化するのが早い
+cosboa 夫婦一覧,https://www.cosboa.org/column/kyotei-couple/,夫婦,月1,中,2025年3月時点54組の一覧
+マクール コラム,https://sp.macour.jp/columns/,選手インタビュー・家族ネタ,週1,中,専門誌系の一次情報に近い記事
+競艇レポまとめ,https://kyoutei-report.com/,選手個別記事(嫁・師匠・SNS),月1,低,
+公式 級別発表・登録抹消,https://www.boatrace.jp/,新規登録・引退・級別,半期+随時,高,racers.csvのgrade/status更新用
+JLC公式YouTube,https://www.youtube.com/@BOATRACE_JLC/videos,インタビュー内の発言(結婚・引退等),週1,高,新着動画タイトル+概要欄を取得。重要動画は字幕もテキスト化
+ボートレース広報Instagram,https://www.instagram.com/boat_race_pr/,選手の素顔・交友,参考,低,直接クロールせずGoogle検索経由で参照
+Googleアラート(設定),https://www.google.com/alerts,「ボートレーサー 結婚」「競艇選手 入籍」「競艇選手 引退」等,毎日メール,高,クロール不要の無料監視。最初に設定する

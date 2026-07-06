@@ -1,0 +1,5 @@
+id,from_toban,rel_type,to_toban,to_name,confidence,source_url,source_date,checked,memo
+R0001,9001,弟,9002,艇場次郎,A,https://example.com/official-interview,2020-05-01,2026-07-06,同支部の兄弟レーサー
+R0002,9001,配偶者,9003,水面花子,A,https://example.com/instagram-post,2024-03-03,2026-07-06,本人Instagramで入籍報告
+R0003,9001,師匠,9004,大波一郎,B,https://example.com/magazine-article,2010-04-10,2026-07-06,専門誌インタビューで言及
+R0004,9001,親族,,一般男性（従兄弟）,C,https://example.com/matome,2023-01-15,2026-07-06,確度C=サイト非表示・保留中

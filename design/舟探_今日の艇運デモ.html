@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>今日の艇運 デモ｜舟☆探 選手名鑑</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1C2530;--paper:#F7F5F0;--navy:#0E2A3C;--navy2:#173B52;
+    --red:#E33A2E;--blue:#2E5FE3;--yellow:#F2C21F;--green:#2FA65A;
+    --line:#D8D3C8;--muted:#6B7280;
+    --serif:'Zen Old Mincho',serif;--sans:'Zen Kaku Gothic New',sans-serif;--mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.7;font-size:15px}
+  .lane-strip{display:flex;height:6px}
+  .lane-strip span{flex:1}
+  .l1{background:#fff;border-bottom:1px solid var(--line)}.l2{background:#222}.l3{background:var(--red)}.l4{background:var(--blue)}.l5{background:var(--yellow)}.l6{background:var(--green)}
+  header{background:var(--navy);color:#fff}
+  .topbar{max-width:720px;margin:0 auto;padding:14px 20px}
+  .brand{font-family:var(--serif);font-weight:900;font-size:18px;letter-spacing:.08em}
+  .brand small{font-family:var(--sans);font-weight:500;font-size:11px;opacity:.7;margin-left:8px;letter-spacing:.15em}
+  .hero{background:var(--navy);color:#fff;padding:22px 20px 30px}
+  .hero-in{max-width:720px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:26px;letter-spacing:.04em}
+  .hero .date{font-family:var(--mono);font-size:12px;color:var(--yellow);letter-spacing:.15em}
+  .hero .who{font-size:13px;color:rgba(255,255,255,.7)}
+  .who b{font-family:var(--serif);font-size:16px;color:#fff}
+
+  main{max-width:720px;margin:0 auto;padding:8px 20px 40px}
+  section{margin-top:32px}
+  h2{font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:.06em;padding-bottom:8px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline}
+  h2 .en{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);font-weight:500}
+  .card{background:#fff;border:1px solid var(--line);border-radius:6px;margin-top:14px;padding:18px}
+
+  /* 総合スコア */
+  .score-wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .score-num{font-family:var(--mono);font-weight:600;font-size:56px;line-height:1;color:var(--navy)}
+  .score-num small{font-size:16px;color:var(--muted);font-family:var(--sans);font-weight:500}
+  .score-word{font-family:var(--serif);font-weight:900;font-size:22px;color:var(--red)}
+  .score-desc{font-size:13px;color:var(--muted);flex:1;min-width:200px}
+
+  /* ヘキサ */
+  .hexa-wrap{display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:center}
+  .hexa-legend{font-size:12px;min-width:180px}
+  .hexa-legend div{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed var(--line)}
+  .hexa-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:8px;vertical-align:baseline}
+  .hexa-legend b{font-family:var(--mono)}
+
+  /* バイオリズム */
+  .bio-caption{font-size:12px;color:var(--muted);margin-top:8px}
+  .bio-vals{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .bio-pill{font-size:12px;font-weight:700;padding:5px 12px;border-radius:16px;color:#fff}
+
+  /* 方位 */
+  .houi{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .houi-text{flex:1;min-width:200px;font-size:13px}
+  .houi-text b{font-family:var(--serif);font-size:16px}
+  .kichi{color:var(--green);font-weight:700}
+
+  .disclaimer{margin-top:36px;font-size:11px;color:var(--muted);background:#EFEBE2;border-radius:4px;padding:12px 14px}
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:18px;text-align:center;font-size:11px;color:var(--muted)}
+  .sample-note{max-width:720px;margin:14px auto 0;padding:0 20px;font-size:11px;color:var(--red)}
+</style>
+</head>
+<body>
+<header>
+  <div class="topbar"><div class="brand">舟☆探<small>今日の艇運</small></div></div>
+  <div class="lane-strip"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span><span class="l5"></span><span class="l6"></span></div>
+  <div class="hero">
+    <div class="hero-in">
+      <div>
+        <div class="date" id="today"></div>
+        <h1>今日の艇運</h1>
+      </div>
+      <div class="who"><b>艇場 太郎</b>　9001・福岡支部<br>1985年4月1日生まれ（おひつじ座）</div>
+    </div>
+  </div>
+</header>
+<div class="sample-note">※デザイン確認用モック。選手は架空ですが、バイオリズムは生年月日から本当に計算しています。</div>
+
+<main>
+
+  <section>
+    <h2>総合艇運 <span class="en">TODAY'S SCORE</span></h2>
+    <div class="card">
+      <div class="score-wrap">
+        <div class="score-num" id="scoreNum">--<small>/100</small></div>
+        <div>
+          <div class="score-word" id="scoreWord">--</div>
+          <div style="font-size:11px;color:var(--muted)">6要素の平均から算出</div>
+        </div>
+        <div class="score-desc" id="scoreDesc"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>艇運ヘキサ <span class="en">HEXA CHART</span></h2>
+    <div class="card">
+      <div class="hexa-wrap">
+        <svg id="hexa" width="280" height="280" viewBox="0 0 280 280"></svg>
+        <div class="hexa-legend" id="hexaLegend"></div>
+      </div>
+      <div class="bio-caption">6艇カラーの6軸で今日の運気を採点。①〜③はバイオリズム実計算、④〜⑥は生年月日由来の暦データ。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>バイオリズム <span class="en">BIORHYTHM</span></h2>
+    <div class="card">
+      <svg id="bio" width="100%" height="180" viewBox="0 0 640 180" preserveAspectRatio="none"></svg>
+      <div class="bio-vals" id="bioVals"></div>
+      <div class="bio-caption">誕生日を起点に身体23日・感情28日・知性33日の周期で波を描く古典的な計算法。中央の縦線が今日。波がゼロ線をまたぐ「要注意日」も自動で検出できます。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>今節の方位 <span class="en">DIRECTION</span></h2>
+    <div class="card">
+      <div class="houi">
+        <svg id="compass" width="150" height="150" viewBox="0 0 150 150"></svg>
+        <div class="houi-text">
+          <b>ボートレース徳山</b>（福岡支部の本拠から見て<b>東北東</b>）<br>
+          九星気学で艇場太郎は「二黒土星」。今月の<span class="kichi">吉方位は東</span>——徳山遠征は追い風か。<br>
+          <span style="font-size:11px;color:var(--muted)">※支部所在地と24場の位置関係は固定データなので全選手×全場を自動生成できます</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>暦ノート <span class="en">KOYOMI</span></h2>
+    <div class="card" style="font-size:13px">
+      <b>星座</b>：おひつじ座（今週の星回り：勝負運上昇）　<b>厄年</b>：該当なし（1985年生・数え42歳は2026年…本厄！→自動判定でここに表示）<br>
+      <b>姓名判断</b>：艇場太郎＝総画32画・吉（画数テーブルから自動計算）<br>
+      <span style="font-size:11px;color:var(--muted)">四柱推命（三柱簡易版）・九星などもすべて生年月日から機械的に生成</span>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    「今日の艇運」は生年月日等をもとにしたエンターテインメントコンテンツです。レース予想の根拠となるものではなく、的中を示唆するものではありません。舟券の購入はご自身の判断でお楽しみください。
+  </div>
+</main>
+
+<footer>舟☆探 選手名鑑｜艇運はエンタメです。データで読む予想は「舟☆探」で。</footer>
+
+<script>
+// ===== 実データ：艇場太郎の誕生日 =====
+const birth = new Date(1985,3,1); // 1985-04-01
+const today = new Date();
+document.getElementById("today").textContent =
+  today.getFullYear()+"."+String(today.getMonth()+1).padStart(2,"0")+"."+String(today.getDate()).padStart(2,"0");
+
+const days = Math.floor((today - birth)/86400000);
+const bio = p => Math.sin(2*Math.PI*days/p);           // 今日の値
+const bioAt = (p,off) => Math.sin(2*Math.PI*(days+off)/p);
+const pct = v => Math.round((v+1)*50);                  // -1..1 → 0..100
+
+// ===== 6軸データ（①〜③実計算、④〜⑥はサンプル値）=====
+const axes = [
+  {name:"① 身体",  color:"#B9B4A6", val:pct(bio(23))},
+  {name:"② 感情",  color:"#222222", val:pct(bio(28))},
+  {name:"③ 知性",  color:"#E33A2E", val:pct(bio(33))},
+  {name:"④ 星回り", color:"#2E5FE3", val:74},
+  {name:"⑤ 方位",  color:"#F2C21F", val:82},
+  {name:"⑥ 巡り(暦)",color:"#2FA65A", val:58},
+];
+
+// 総合スコア
+const total = Math.round(axes.reduce((s,a)=>s+a.val,0)/6);
+document.getElementById("scoreNum").innerHTML = total+"<small>/100</small>";
+const word = total>=80?"絶好調":total>=65?"上昇気流":total>=45?"凪":total>=30?"向かい風":"時化";
+document.getElementById("scoreWord").textContent = word;
+document.getElementById("scoreDesc").textContent =
+  total>=65?"波に乗る一日。スタート勘が冴えるかも。":total>=45?"平常運転。展示航走をよく見て。":"無理は禁物の日。手堅い動きに注目。";
+
+// 凡例
+document.getElementById("hexaLegend").innerHTML =
+  axes.map(a=>`<div><span><i style="background:${a.color};${a.color==='#B9B4A6'?'border:1px solid #999':''}"></i>${a.name}</span><b>${a.val}</b></div>`).join("");
+
+// ===== 六角レーダー =====
+(function(){
+  const svg=document.getElementById("hexa"), C=140, R=105;
+  const pt=(i,r)=>{const ang=-Math.PI/2+i*Math.PI/3;return [C+r*Math.cos(ang),C+r*Math.sin(ang)];};
+  let g="";
+  [0.33,0.66,1].forEach(f=>{
+    g+=`<polygon points="${[0,1,2,3,4,5].map(i=>pt(i,R*f).join(",")).join(" ")}" fill="none" stroke="#D8D3C8" stroke-width="1"/>`;
+  });
+  [0,1,2,3,4,5].forEach(i=>{g+=`<line x1="${C}" y1="${C}" x2="${pt(i,R)[0]}" y2="${pt(i,R)[1]}" stroke="#D8D3C8" stroke-width="1"/>`;});
+  const poly=[0,1,2,3,4,5].map(i=>pt(i,R*axes[i].val/100).join(",")).join(" ");
+  g+=`<polygon points="${poly}" fill="rgba(14,42,60,.18)" stroke="#0E2A3C" stroke-width="2.5" stroke-linejoin="round"/>`;
+  [0,1,2,3,4,5].forEach(i=>{
+    const [x,y]=pt(i,R*axes[i].val/100);
+    g+=`<circle cx="${x}" cy="${y}" r="6" fill="${axes[i].color}" stroke="#fff" stroke-width="2"/>`;
+    const [lx,ly]=pt(i,R+18);
+    g+=`<text x="${lx}" y="${ly}" text-anchor="middle" font-size="11" font-weight="700" fill="#1C2530" dominant-baseline="middle">${axes[i].name.slice(2)}</text>`;
+  });
+  svg.innerHTML=g;
+})();
+
+// ===== バイオリズム波形（±10日）=====
+(function(){
+  const svg=document.getElementById("bio"), W=640, H=180, mid=H/2, span=10, step=W/(span*2);
+  const series=[{p:23,c:"#8A8577",label:"身体"},{p:28,c:"#222",label:"感情"},{p:33,c:"#E33A2E",label:"知性"}];
+  let g=`<line x1="0" y1="${mid}" x2="${W}" y2="${mid}" stroke="#D8D3C8"/>`;
+  g+=`<line x1="${W/2}" y1="10" x2="${W/2}" y2="${H-10}" stroke="#0E2A3C" stroke-width="2" stroke-dasharray="5 4"/>`;
+  g+=`<text x="${W/2}" y="14" text-anchor="middle" font-size="11" font-weight="700" fill="#0E2A3C">今日</text>`;
+  series.forEach(s=>{
+    let d="";
+    for(let o=-span;o<=span;o+=0.25){
+      const x=(o+span)*step, y=mid - bioAt(s.p,o)*(H/2-24);
+      d+=(d?"L":"M")+x.toFixed(1)+" "+y.toFixed(1)+" ";
+    }
+    g+=`<path d="${d}" fill="none" stroke="${s.c}" stroke-width="2.5"/>`;
+    const ty=mid - bioAt(s.p,0)*(H/2-24);
+    g+=`<circle cx="${W/2}" cy="${ty}" r="5" fill="${s.c}" stroke="#fff" stroke-width="2"/>`;
+  });
+  svg.innerHTML=g;
+  document.getElementById("bioVals").innerHTML=series.map(s=>{
+    const v=pct(bio(s.p));
+    return `<span class="bio-pill" style="background:${s.c}">${s.label} ${v}</span>`;
+  }).join("");
+})();
+
+// ===== 方位コンパス =====
+(function(){
+  const svg=document.getElementById("compass"), C=75, R=62;
+  let g=`<circle cx="${C}" cy="${C}" r="${R}" fill="#fff" stroke="#0E2A3C" stroke-width="2"/>`;
+  const dirs=["北","北東","東","南東","南","南西","西","北西"];
+  dirs.forEach((d,i)=>{
+    const ang=-Math.PI/2+i*Math.PI/4;
+    const x=C+(R-13)*Math.cos(ang), y=C+(R-13)*Math.sin(ang);
+    g+=`<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="10" font-weight="700" fill="${d==="東"?"#2FA65A":"#6B7280"}">${d}</text>`;
+  });
+  // 吉方位=東を扇形でハイライト
+  const a1=-Math.PI/8, a2=Math.PI/8;
+  g+=`<path d="M${C} ${C} L${C+R*Math.cos(a1)} ${C+R*Math.sin(a1)} A${R} ${R} 0 0 1 ${C+R*Math.cos(a2)} ${C+R*Math.sin(a2)} Z" fill="rgba(47,166,90,.25)"/>`;
+  // 徳山方向の矢印（東北東っぽく）
+  const ta=-Math.PI/7;
+  g+=`<line x1="${C}" y1="${C}" x2="${C+(R-6)*Math.cos(ta)}" y2="${C+(R-6)*Math.sin(ta)}" stroke="#E33A2E" stroke-width="3" stroke-linecap="round"/>`;
+  g+=`<circle cx="${C}" cy="${C}" r="4" fill="#0E2A3C"/>`;
+  svg.innerHTML=g;
+})();
+</script>
+</body>
+</html>
