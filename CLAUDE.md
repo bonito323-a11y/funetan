@@ -124,10 +124,53 @@ id, from_toban, rel_type, to_toban, to_name, confidence, source_url, source_date
 - 追加は1人ずつ。まとめて大量取得しない（公式サイトへの負荷配慮）
 - source_url が空の relations.csv 行は生成時に警告が出る。必ず出典を入れる
 
-## 週次運用（M7以降の定型指示）
+## 関係情報の管理方針（厳守）
+
+- **既存サイトの一覧を丸ごと取り込むことは禁止**。必ず差分のみを候補とする
+- **初回巡回はベースライン保存のみ**。候補は一切出力しない
+- **出典URLのない関係情報は絶対にrelations.csvに入れない**
+- confidence=C の情報はDBに保持するがサイトには表示しない
+- 関係情報の初期投入は ダシオさんが取材テンプレ（add_relation.py）で1件ずつ登録する
+
+## 関係情報フロー（取材テンプレ）
+
+ダシオさんが調査した関係情報を手入力する場合：
+```
+python scripts/add_relation.py
+```
+→ 対話形式で from_toban / rel_type / to_toban / 確度 / 出典URL を入力して追記。
+
+## 週次運用フロー（監視サイト巡回）
 
 ダシオさんが「巡回して」と言ったら：
-1. data/監視サイトリスト.csv の優先度「高」のサイトを取得
-2. 前回保存分（scripts/cache/）と差分比較
-3. 新情報を「relations.csv 追記案」の形で提示（confidence と source_url 付き）
-4. ダシオさんの承認を得てから CSV に追記 → サイト再生成 → commit
+
+1. **巡回・差分抽出**
+   ```
+   python scripts/patrol.py
+   ```
+   - 初回のみ: ベースライン保存（候補なし）
+   - 2回目以降: 前回保存との差分から候補を `scripts/cache/candidates.json` に出力
+
+2. **承認UI生成**
+   ```
+   python scripts/generate_review.py
+   ```
+   → `docs/review/index.html` をブラウザで開く
+
+3. **ブラウザで承認**
+   - 出典URLを必ず確認してから承認チェック
+   - 関係タイプ・確度・登録番号を編集
+   - 「承認済みをダウンロード」→ `approved.json` をDLフォルダへ保存
+
+4. **relations.csv に追記**
+   ```
+   python scripts/approve.py ~/Downloads/approved.json
+   ```
+
+5. **サイト再生成 → commit**
+   ```
+   python scripts/generate_racer_page.py
+   python scripts/generate_map.py
+   python scripts/generate_index.py
+   git add data/ docs/ && git commit -m "関係情報更新: YYYY-MM-DD巡回分"
+   ```

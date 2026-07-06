@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>関係候補 承認UI｜舟☆探</title>
+<style>
+  :root{
+    --navy:#0E2A3C; --red:#E33A2E; --blue:#2E5FE3;
+    --yellow:#F2C21F; --green:#2FA65A; --line:#D8D3C8;
+    --paper:#F7F5F0; --ink:#1C2530; --muted:#6B7280;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:'Helvetica Neue',Arial,'Hiragino Kaku Gothic ProN',sans-serif;font-size:14px;line-height:1.6}
+
+  .lane-strip{display:flex;height:6px}
+  .lane-strip span{flex:1}
+  .l1{background:#fff;border-bottom:1px solid var(--line)}.l2{background:#222}
+  .l3{background:var(--red)}.l4{background:var(--blue)}
+  .l5{background:var(--yellow)}.l6{background:var(--green)}
+
+  header{background:var(--navy);color:#fff;padding:14px 20px}
+  header h1{font-size:18px;font-weight:bold}
+  header p{font-size:12px;opacity:.7;margin-top:4px}
+
+  .toolbar{background:#fff;border-bottom:1px solid var(--line);padding:12px 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:10}
+  .count{font-size:13px;color:var(--muted);margin-right:auto}
+
+  button{font-size:13px;font-weight:bold;padding:9px 20px;border-radius:4px;border:none;cursor:pointer}
+  .btn-all{background:#EFEBE2;color:var(--ink)}
+  .btn-none{background:#EFEBE2;color:var(--ink)}
+  .btn-download{background:var(--navy);color:#fff;font-size:14px;padding:10px 28px}
+  .btn-download:disabled{opacity:.4;cursor:not-allowed}
+
+  main{max-width:860px;margin:24px auto;padding:0 16px 60px}
+
+  .empty{text-align:center;padding:60px;color:var(--muted);font-size:16px}
+
+  .card{background:#fff;border:1px solid var(--line);border-left:4px solid var(--line);border-radius:6px;margin-bottom:16px;overflow:hidden;transition:border-color .15s}
+  .card.approved{border-left-color:var(--green);background:#F3FAF5}
+  .card-check{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#F9F7F3;border-bottom:1px solid var(--line);cursor:pointer}
+  .card-check input[type=checkbox]{width:18px;height:18px;cursor:pointer}
+  .cb-label{font-weight:bold;font-size:13px}
+
+  .card-body{padding:14px 16px}
+  .snippet{background:#F0EDE6;border-radius:4px;padding:10px 12px;font-size:12px;color:#374151;margin-bottom:10px;word-break:break-all;line-height:1.7}
+  .src-link{margin-bottom:14px}
+  .src-link a{color:var(--blue);font-size:13px;font-weight:bold}
+  .src-link a:hover{opacity:.8}
+
+  .fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:600px){.fields{grid-template-columns:1fr}}
+  .field-group{display:flex;flex-direction:column;gap:4px}
+  .field-rel,.field-conf,.field-memo,.field-date{display:flex;flex-direction:column;gap:4px}
+  .fields label{font-size:11px;font-weight:bold;color:var(--muted);letter-spacing:.05em}
+  .fields input,.fields select{padding:7px 10px;border:1px solid var(--line);border-radius:4px;font-size:13px;font-family:inherit;background:#fff}
+  .fields input:focus,.fields select:focus{outline:2px solid var(--blue);border-color:var(--blue)}
+  .field-memo,.field-date{grid-column:span 1}
+
+  .result-msg{margin-top:16px;padding:12px 16px;background:#E7F3EB;border-radius:6px;font-weight:bold;color:#1E7A41;display:none}
+</style>
+</head>
+<body>
+
+<div class="lane-strip"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span><span class="l5"></span><span class="l6"></span></div>
+<header>
+  <h1>関係候補 承認UI</h1>
+  <p>巡回日: 2026年7月6日 ／ 候補: 0 件 ／ 出典URLを必ず確認してから承認してください</p>
+</header>
+
+<div class="toolbar">
+  <span class="count" id="countMsg">0 / 0 件を承認済み</span>
+  <button class="btn-all" onclick="selectAll()">すべて選択</button>
+  <button class="btn-none" onclick="selectNone()">すべて解除</button>
+  <button class="btn-download" id="dlBtn" onclick="download()" disabled>✅ 承認済みをダウンロード</button>
+</div>
+
+<main>
+<p class="empty">候補がありません。巡回後に再度実行してください。</p>
+  <div class="result-msg" id="resultMsg"></div>
+</main>
+
+<script>
+const candidates = [];
+
+function updateCount() {
+  const checked = document.querySelectorAll('.approve-cb:checked').length;
+  document.getElementById('countMsg').textContent = checked + ' / 0 件を承認済み';
+  document.getElementById('dlBtn').disabled = checked === 0;
+}
+
+function selectAll() {
+  document.querySelectorAll('.approve-cb').forEach(cb => {
+    cb.checked = true;
+    cb.closest('.card').classList.add('approved');
+  });
+  updateCount();
+}
+
+function selectNone() {
+  document.querySelectorAll('.approve-cb').forEach(cb => {
+    cb.checked = false;
+    cb.closest('.card').classList.remove('approved');
+  });
+  updateCount();
+}
+
+document.querySelectorAll('.approve-cb').forEach(cb => {
+  cb.addEventListener('change', function() {
+    this.closest('.card').classList.toggle('approved', this.checked);
+    updateCount();
+  });
+});
+
+function download() {
+  const approved = [];
+  document.querySelectorAll('.approve-cb:checked').forEach(cb => {
+    const idx = parseInt(cb.dataset.idx);
+    const card = document.getElementById('card-' + idx);
+    approved.push({
+      from_toban:  card.querySelector('.f-from-toban').value.trim(),
+      from_name:   card.querySelector('.f-from-name').value.trim(),
+      rel_type:    card.querySelector('.f-rel-type').value,
+      to_toban:    card.querySelector('.f-to-toban').value.trim(),
+      to_name:     card.querySelector('.f-to-name').value.trim(),
+      confidence:  card.querySelector('.f-conf').value,
+      source_url:  candidates[idx].source_url,
+      source_date: card.querySelector('.f-date').value.trim(),
+      memo:        card.querySelector('.f-memo').value.trim(),
+    });
+  });
+
+  const blob = new Blob([JSON.stringify(approved, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'approved.json';
+  a.click();
+
+  const msg = document.getElementById('resultMsg');
+  msg.style.display = 'block';
+  msg.textContent = '✅ approved.json をダウンロードしました。ターミナルで python scripts/approve.py ~/Downloads/approved.json を実行してください。';
+}
+</script>
+
+</body>
+</html>
