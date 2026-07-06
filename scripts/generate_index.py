@@ -1,0 +1,262 @@
+#!/usr/bin/env python3
+"""
+トップページ（docs/index.html）生成スクリプト
+"""
+
+import csv
+import json
+import os
+from datetime import date
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(BASE_DIR, "data")
+DOCS_DIR = os.path.join(BASE_DIR, "docs")
+
+RACERS_CSV = os.path.join(DATA_DIR, "racers.csv")
+
+STATUS_LABEL = {
+    "active": "現役",
+    "retired": "引退",
+    "inactive": "休業",
+}
+
+def load_racers():
+    racers = []
+    with open(RACERS_CSV, encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            racers.append(row)
+    return racers
+
+def generate_index(racers):
+    # 検索用JSONデータ（JavaScript に埋め込む）
+    search_data = [
+        {
+            "toban": r["toban"],
+            "name": r["name"],
+            "kana": r["kana"],
+            "branch": r["branch"],
+            "grade": r["grade"],
+            "status": STATUS_LABEL.get(r["status"], r["status"]),
+        }
+        for r in racers
+    ]
+    search_json = json.dumps(search_data, ensure_ascii=False)
+
+    # 選手一覧テーブルの行
+    rows_html = ""
+    for r in racers:
+        status_str = STATUS_LABEL.get(r["status"], r["status"])
+        grade_color = "#E33A2E" if r["grade"].startswith("A") else "#6B7280"
+        rows_html += f'''      <tr class="racer-row" data-name="{r["name"]}" data-kana="{r["kana"]}" data-toban="{r["toban"]}">
+        <td><a href="racer/{r["toban"]}.html" class="toban-link">{r["toban"]}</a></td>
+        <td><a href="racer/{r["toban"]}.html" class="name-link">{r["name"]}</a></td>
+        <td style="font-size:12px;color:#6B7280">{r["kana"]}</td>
+        <td>{r["branch"]}</td>
+        <td style="font-weight:700;color:{grade_color}">{r["grade"]}</td>
+        <td>{status_str}</td>
+      </tr>\n'''
+
+    today = date.today().strftime("%Y年%-m月%-d日")
+
+    html = f'''<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>舟☆探 選手名鑑 ｜ BOATRACE選手の人間関係データベース</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{{
+    --ink:#1C2530;
+    --paper:#F7F5F0;
+    --navy:#0E2A3C;
+    --navy-2:#173B52;
+    --red:#E33A2E;
+    --blue:#2E5FE3;
+    --yellow:#F2C21F;
+    --green:#2FA65A;
+    --line:#D8D3C8;
+    --muted:#6B7280;
+    --serif:'Zen Old Mincho',serif;
+    --sans:'Zen Kaku Gothic New',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }}
+  *{{margin:0;padding:0;box-sizing:border-box}}
+  body{{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.7;font-size:15px}}
+  a{{color:inherit;text-decoration:none}}
+
+  /* 6艇カラーストライプ */
+  .lane-strip{{display:flex;height:6px}}
+  .lane-strip span{{flex:1}}
+  .lane-strip .l1{{background:#fff;border-bottom:1px solid var(--line)}}
+  .lane-strip .l2{{background:#222}}
+  .lane-strip .l3{{background:var(--red)}}
+  .lane-strip .l4{{background:var(--blue)}}
+  .lane-strip .l5{{background:var(--yellow)}}
+  .lane-strip .l6{{background:var(--green)}}
+
+  header{{background:var(--navy);color:#fff}}
+  .topbar{{max-width:900px;margin:0 auto;padding:14px 20px;display:flex;justify-content:space-between;align-items:baseline}}
+  .brand{{font-family:var(--serif);font-weight:900;font-size:18px;letter-spacing:.08em}}
+  .brand small{{font-family:var(--sans);font-weight:500;font-size:11px;opacity:.7;margin-left:8px;letter-spacing:.15em}}
+  .topbar nav{{font-size:12px;opacity:.85}}
+  .topbar nav a{{margin-left:14px}}
+
+  .hero{{background:var(--navy);color:#fff;padding:40px 20px 48px;text-align:center}}
+  .hero h1{{font-family:var(--serif);font-weight:900;font-size:38px;letter-spacing:.06em;line-height:1.2}}
+  .hero p{{margin-top:10px;font-size:14px;color:rgba(255,255,255,.7);letter-spacing:.05em}}
+
+  /* 検索ボックス */
+  .search-wrap{{max-width:480px;margin:28px auto 0;position:relative}}
+  .search-wrap input{{width:100%;padding:14px 20px;font-size:16px;font-family:var(--sans);border:none;border-radius:4px;outline:none;background:#fff;color:var(--ink)}}
+  .search-wrap input::placeholder{{color:#aaa}}
+  .search-hint{{margin-top:8px;font-size:11px;color:rgba(255,255,255,.5);text-align:center}}
+
+  main{{max-width:900px;margin:0 auto;padding:36px 20px 60px}}
+
+  /* まとめページへのリンク */
+  .summary-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:40px}}
+  @media(max-width:600px){{.summary-grid{{grid-template-columns:1fr 1fr}}}}
+  .summary-card{{background:#fff;border:1px solid var(--line);border-top:3px solid var(--navy);border-radius:4px;padding:18px 16px;text-align:center;transition:transform .12s ease}}
+  .summary-card:hover{{transform:translateY(-2px)}}
+  .summary-card .icon{{font-size:24px;margin-bottom:6px}}
+  .summary-card .label{{font-family:var(--serif);font-weight:600;font-size:16px}}
+  .summary-card .sub{{font-size:11px;color:var(--muted);margin-top:2px}}
+
+  /* 選手一覧 */
+  h2{{font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:.06em;padding-bottom:8px;border-bottom:2px solid var(--ink);display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}}
+  h2 .en{{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);font-weight:500}}
+
+  .count-note{{font-size:12px;color:var(--muted);margin-bottom:10px}}
+
+  table{{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);font-size:14px}}
+  th{{padding:10px 12px;background:#EFEBE2;font-weight:700;font-size:11px;letter-spacing:.05em;border-bottom:2px solid var(--line);text-align:left}}
+  td{{padding:10px 12px;border-bottom:1px solid var(--line)}}
+  tr:last-child td{{border-bottom:none}}
+  tr.racer-row:hover td{{background:#F0EDE6}}
+  .toban-link{{font-family:var(--mono);font-size:13px;color:var(--muted)}}
+  .name-link{{font-family:var(--serif);font-weight:600;font-size:16px}}
+  .name-link:hover{{color:var(--navy)}}
+
+  /* 非表示（検索フィルタ用） */
+  .hidden{{display:none}}
+
+  .no-result{{text-align:center;padding:32px;color:var(--muted);font-size:14px;display:none}}
+
+  footer{{border-top:1px solid var(--line);margin-top:48px;padding:20px;text-align:center;font-size:11px;color:var(--muted)}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="brand">舟☆探<small>選手名鑑</small></div>
+    <nav>
+      <a href="couples.html">夫婦一覧</a>
+      <a href="siblings.html">兄弟一覧</a>
+      <a href="shitei.html">師弟一覧</a>
+      <a href="hobby.html">趣味別</a>
+    </nav>
+  </div>
+  <div class="lane-strip"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span><span class="l5"></span><span class="l6"></span></div>
+
+  <div class="hero">
+    <h1>舟☆探 選手名鑑</h1>
+    <p>BOATRACE選手の人間関係・プロフィールデータベース</p>
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="選手名・登録番号・かなで検索..." autocomplete="off">
+    </div>
+    <div class="search-hint">例：「太郎」「9001」「ていば」</div>
+  </div>
+</header>
+
+<main>
+
+  <div class="summary-grid">
+    <a class="summary-card" href="couples.html">
+      <div class="icon">💑</div>
+      <div class="label">夫婦一覧</div>
+      <div class="sub">COUPLES</div>
+    </a>
+    <a class="summary-card" href="siblings.html">
+      <div class="icon">👫</div>
+      <div class="label">兄弟一覧</div>
+      <div class="sub">SIBLINGS</div>
+    </a>
+    <a class="summary-card" href="shitei.html">
+      <div class="icon">🎓</div>
+      <div class="label">師弟一覧</div>
+      <div class="sub">MENTOR</div>
+    </a>
+    <a class="summary-card" href="hobby.html">
+      <div class="icon">🎯</div>
+      <div class="label">趣味別</div>
+      <div class="sub">HOBBY</div>
+    </a>
+  </div>
+
+  <h2>選手一覧 <span class="en">ALL RACERS</span></h2>
+  <div class="count-note" id="countNote">全 {len(racers)} 名</div>
+
+  <table id="racerTable">
+    <thead>
+      <tr>
+        <th>登録番号</th>
+        <th>選手名</th>
+        <th>よみがな</th>
+        <th>支部</th>
+        <th>級別</th>
+        <th>現況</th>
+      </tr>
+    </thead>
+    <tbody id="racerBody">
+{rows_html}    </tbody>
+  </table>
+  <div class="no-result" id="noResult">該当する選手が見つかりませんでした</div>
+
+</main>
+
+<footer>
+  舟☆探 選手名鑑 ｜ 最終更新：{today} ｜ 掲載情報にはすべて出典を明記しています。
+</footer>
+
+<script>
+(function() {{
+  var input = document.getElementById('searchInput');
+  var rows = document.querySelectorAll('.racer-row');
+  var noResult = document.getElementById('noResult');
+  var countNote = document.getElementById('countNote');
+  var total = {len(racers)};
+
+  input.addEventListener('input', function() {{
+    var q = this.value.trim().toLowerCase();
+    var shown = 0;
+
+    rows.forEach(function(row) {{
+      var name = row.dataset.name;
+      var kana = row.dataset.kana;
+      var toban = row.dataset.toban;
+      var match = !q || name.includes(q) || kana.includes(q) || toban.includes(q);
+      row.classList.toggle('hidden', !match);
+      if (match) shown++;
+    }});
+
+    noResult.style.display = shown === 0 ? 'block' : 'none';
+    countNote.textContent = q ? (shown + ' 名ヒット / 全 ' + total + ' 名') : ('全 ' + total + ' 名');
+  }});
+}})();
+</script>
+
+</body>
+</html>
+'''
+
+    out_path = os.path.join(DOCS_DIR, "index.html")
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"[生成] {out_path}")
+
+if __name__ == "__main__":
+    racers = load_racers()
+    generate_index(racers)
+    print("完了")
