@@ -59,6 +59,11 @@ id, from_toban, rel_type, to_toban, to_name, confidence, source_url, source_date
 - **confidence=C の関係はサイトに絶対に表示しない**（DBに保持はする）
 - source_url が空の行は生成時に警告を出す
 
+**確度（confidence）基準：**
+- `A` = 本人の発言・投稿が確認できる（SNS・インタビュー・公の場での直接引用）
+- `B` = 第三者による記載（記者の地の文・Wikipedia・まとめ一覧）
+- `C` = 噂・未確認情報（サイト非表示、DBのみ保持）
+
 ## 生成するページ
 
 1. **選手個別ページ** `docs/racer/{toban}.html` — design/選手ページモック.html のデザインを踏襲。人間関係カード（確度バッジ付き）、基本情報、外部リンク（toban から機械生成：公式 `boatrace.jp/owpc/pc/data/racersearch/profile?toban=`、艇国DB `boatrace-db.net/racer/index2/regno/`）、舟☆探CTA
