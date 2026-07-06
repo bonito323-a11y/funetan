@@ -58,6 +58,9 @@
   .field-memo,.field-date{grid-column:span 1}
 
   .result-msg{margin-top:16px;padding:12px 16px;background:#E7F3EB;border-radius:6px;font-weight:bold;color:#1E7A41;display:none}
+  .badge-kari{background:#FFF3CD;color:#856404;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;border:1px solid #FFDA6A;margin-left:8px}
+  .badge-quote{background:#D1ECF1;color:#0C5460;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;border:1px solid #BEE5EB;margin-left:6px}
+  .name-warning{background:#FFF3CD;border:1px solid #FFDA6A;border-radius:4px;padding:8px 12px;font-size:12px;color:#856404;margin-bottom:10px;font-weight:bold}
 </style>
 </head>
 <body>
@@ -65,27 +68,452 @@
 <div class="lane-strip"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span><span class="l5"></span><span class="l6"></span></div>
 <header>
   <h1>関係候補 承認UI</h1>
-  <p>巡回日: 2026年7月6日 ／ 候補: 0 件 ／ 出典URLを必ず確認してから承認してください</p>
+  <p>巡回日: 2026年7月6日 ／ 候補: 6 件 ／ 出典URLを必ず確認してから承認してください</p>
 </header>
 
 <div class="toolbar">
-  <span class="count" id="countMsg">0 / 0 件を承認済み</span>
+  <span class="count" id="countMsg">0 / 6 件を承認済み</span>
   <button class="btn-all" onclick="selectAll()">すべて選択</button>
   <button class="btn-none" onclick="selectNone()">すべて解除</button>
   <button class="btn-download" id="dlBtn" onclick="download()" disabled>✅ 承認済みをダウンロード</button>
 </div>
 
 <main>
-<p class="empty">候補がありません。巡回後に再度実行してください。</p>
+
+    <div class="card" id="card-0">
+      <label class="card-check">
+        <input type="checkbox" class="approve-cb" data-idx="0">
+        <span class="cb-label">承認</span>
+        <span class="badge-kari">仮（承認時に確定）</span>
+      </label>
+
+      <div class="card-body">
+        
+        <div class="snippet">📄 …GI初優勝を飾った。SGは16年3月のクラシックで初出場。通算優勝回数は18回。同期は 鎌倉涼 、 平高奈菜 、 深川麻奈美 ら。163cm、47kg。血液型=AB。</div>
+        <div class="src-link">
+          <a href="https://sp.macour.jp/columns/macour/187490/" target="_blank" rel="noopener">🔗 出典を確認する（新しいタブ）</a>
+        </div>
+
+        <div class="fields">
+          <div class="field-group">
+            <label>登録番号（from）</label>
+            <input class="f-from-toban" type="text" value="4433" placeholder="例: 4444">
+            <label>選手名（from）</label>
+            <input class="f-from-name" type="text" value="川野芽唯" placeholder="例: 桐生順平">
+          </div>
+
+          <div class="field-rel">
+            <label>関係タイプ</label>
+            <select class="f-rel-type">
+              <option value="父">父</option>
+<option value="母">母</option>
+<option value="子">子</option>
+<option value="兄">兄</option>
+<option value="姉">姉</option>
+<option value="弟">弟</option>
+<option value="妹">妹</option>
+<option value="配偶者">配偶者</option>
+<option value="元配偶者">元配偶者</option>
+<option value="師匠">師匠</option>
+<option value="弟子">弟子</option>
+<option value="親族">親族</option>
+<option value="友人">友人</option>
+<option value="同期" selected>同期</option>
+<option value="仲良し">仲良し</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>登録番号（to）</label>
+            <input class="f-to-toban" type="text" value="4447" placeholder="例: 4422">
+            <label>選手名（to）※一般人は空欄でも可</label>
+            <input class="f-to-name" type="text" value="深川麻奈美" placeholder="例: 田口節子">
+          </div>
+
+          <div class="field-conf">
+            <label>確度</label>
+            <select class="f-conf">
+              <option value="A">◎ 本人公表</option>
+<option value="B" selected>○ 報道・信頼できる媒体</option>
+            </select>
+          </div>
+
+          <div class="field-memo">
+            <label>メモ（任意）</label>
+            <input class="f-memo" type="text" value="" placeholder="例: 本人インタビューで言及">
+          </div>
+
+          <div class="field-date">
+            <label>出典日付</label>
+            <input class="f-date" type="text" value="2025-12-19" placeholder="YYYY-MM-DD">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="card-1">
+      <label class="card-check">
+        <input type="checkbox" class="approve-cb" data-idx="1">
+        <span class="cb-label">承認</span>
+        <span class="badge-kari">仮（承認時に確定）</span>
+      </label>
+
+      <div class="card-body">
+        
+        <div class="snippet">📄 …世の中のお母さん方も同じだと思うんですが、やっぱりどっちかに寄ってしまうんです。夫( 深谷知博 )とはお互いに仕事を理解し合っていますが、子どもに寂しい思いをさせたりもあるし、だから出走回数を調整したりとかもありました。</div>
+        <div class="src-link">
+          <a href="https://sp.macour.jp/columns/macour/187489/" target="_blank" rel="noopener">🔗 出典を確認する（新しいタブ）</a>
+        </div>
+
+        <div class="fields">
+          <div class="field-group">
+            <label>登録番号（from）</label>
+            <input class="f-from-toban" type="text" value="4524" placeholder="例: 4444">
+            <label>選手名（from）</label>
+            <input class="f-from-name" type="text" value="深谷知博" placeholder="例: 桐生順平">
+          </div>
+
+          <div class="field-rel">
+            <label>関係タイプ</label>
+            <select class="f-rel-type">
+              <option value="父">父</option>
+<option value="母" selected>母</option>
+<option value="子">子</option>
+<option value="兄">兄</option>
+<option value="姉">姉</option>
+<option value="弟">弟</option>
+<option value="妹">妹</option>
+<option value="配偶者">配偶者</option>
+<option value="元配偶者">元配偶者</option>
+<option value="師匠">師匠</option>
+<option value="弟子">弟子</option>
+<option value="親族">親族</option>
+<option value="友人">友人</option>
+<option value="同期">同期</option>
+<option value="仲良し">仲良し</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>登録番号（to）</label>
+            <input class="f-to-toban" type="text" value="" placeholder="例: 4422">
+            <label>選手名（to）※一般人は空欄でも可</label>
+            <input class="f-to-name" type="text" value="一般女性" placeholder="例: 田口節子">
+          </div>
+
+          <div class="field-conf">
+            <label>確度</label>
+            <select class="f-conf">
+              <option value="A">◎ 本人公表</option>
+<option value="B" selected>○ 報道・信頼できる媒体</option>
+            </select>
+          </div>
+
+          <div class="field-memo">
+            <label>メモ（任意）</label>
+            <input class="f-memo" type="text" value="" placeholder="例: 本人インタビューで言及">
+          </div>
+
+          <div class="field-date">
+            <label>出典日付</label>
+            <input class="f-date" type="text" value="2025-12-15" placeholder="YYYY-MM-DD">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="card-2">
+      <label class="card-check">
+        <input type="checkbox" class="approve-cb" data-idx="2">
+        <span class="cb-label">承認</span>
+        <span class="badge-kari">仮（承認時に確定）</span>
+      </label>
+
+      <div class="card-body">
+        
+        <div class="snippet">📄 …するなど人気、実力を兼ね備える。今年の浜名湖レディースチャンピオンでGI初優勝。同期には 桐生順平 、 宮地元輝 、 和田兼輔 、 川野芽唯 、 平高奈菜 らがいる。158cm、45kg。血液型=A。</div>
+        <div class="src-link">
+          <a href="https://sp.macour.jp/columns/macour/187489/" target="_blank" rel="noopener">🔗 出典を確認する（新しいタブ）</a>
+        </div>
+
+        <div class="fields">
+          <div class="field-group">
+            <label>登録番号（from）</label>
+            <input class="f-from-toban" type="text" value="4433" placeholder="例: 4444">
+            <label>選手名（from）</label>
+            <input class="f-from-name" type="text" value="川野芽唯" placeholder="例: 桐生順平">
+          </div>
+
+          <div class="field-rel">
+            <label>関係タイプ</label>
+            <select class="f-rel-type">
+              <option value="父">父</option>
+<option value="母">母</option>
+<option value="子">子</option>
+<option value="兄">兄</option>
+<option value="姉">姉</option>
+<option value="弟">弟</option>
+<option value="妹">妹</option>
+<option value="配偶者">配偶者</option>
+<option value="元配偶者">元配偶者</option>
+<option value="師匠">師匠</option>
+<option value="弟子">弟子</option>
+<option value="親族">親族</option>
+<option value="友人">友人</option>
+<option value="同期" selected>同期</option>
+<option value="仲良し">仲良し</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>登録番号（to）</label>
+            <input class="f-to-toban" type="text" value="4444" placeholder="例: 4422">
+            <label>選手名（to）※一般人は空欄でも可</label>
+            <input class="f-to-name" type="text" value="桐生順平" placeholder="例: 田口節子">
+          </div>
+
+          <div class="field-conf">
+            <label>確度</label>
+            <select class="f-conf">
+              <option value="A">◎ 本人公表</option>
+<option value="B" selected>○ 報道・信頼できる媒体</option>
+            </select>
+          </div>
+
+          <div class="field-memo">
+            <label>メモ（任意）</label>
+            <input class="f-memo" type="text" value="" placeholder="例: 本人インタビューで言及">
+          </div>
+
+          <div class="field-date">
+            <label>出典日付</label>
+            <input class="f-date" type="text" value="2025-12-15" placeholder="YYYY-MM-DD">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="card-3">
+      <label class="card-check">
+        <input type="checkbox" class="approve-cb" data-idx="3">
+        <span class="cb-label">承認</span>
+        <span class="badge-kari">仮（承認時に確定）</span>
+      </label>
+
+      <div class="card-body">
+        
+        <div class="snippet">📄 レースは5コースの 森清友翔 がダッシュ乗りも良く1マークをまくって先行。6コースの 渡邉雄朗 が握って追走しようとしたところをまくられた2コースの 佐藤大騎 も握ったため両者接触で渡邉雄朗が転覆。1マークのターン入り口だったこともあり、後続艇は誰もよけることができず、イン 土山卓也 は転覆、3コースの 松本浩貴 はエンスト、4コースの 藤生…</div>
+        <div class="src-link">
+          <a href="https://sp.macour.jp/columns/macour/184291/" target="_blank" rel="noopener">🔗 出典を確認する（新しいタブ）</a>
+        </div>
+
+        <div class="fields">
+          <div class="field-group">
+            <label>登録番号（from）</label>
+            <input class="f-from-toban" type="text" value="3659" placeholder="例: 4444">
+            <label>選手名（from）</label>
+            <input class="f-from-name" type="text" value="藤生雄人" placeholder="例: 桐生順平">
+          </div>
+
+          <div class="field-rel">
+            <label>関係タイプ</label>
+            <select class="f-rel-type">
+              <option value="父">父</option>
+<option value="母">母</option>
+<option value="子">子</option>
+<option value="兄">兄</option>
+<option value="姉">姉</option>
+<option value="弟">弟</option>
+<option value="妹">妹</option>
+<option value="配偶者">配偶者</option>
+<option value="元配偶者">元配偶者</option>
+<option value="師匠">師匠</option>
+<option value="弟子">弟子</option>
+<option value="親族">親族</option>
+<option value="友人">友人</option>
+<option value="同期">同期</option>
+<option value="仲良し" selected>仲良し</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>登録番号（to）</label>
+            <input class="f-to-toban" type="text" value="3860" placeholder="例: 4422">
+            <label>選手名（to）※一般人は空欄でも可</label>
+            <input class="f-to-name" type="text" value="松本浩貴" placeholder="例: 田口節子">
+          </div>
+
+          <div class="field-conf">
+            <label>確度</label>
+            <select class="f-conf">
+              <option value="A">◎ 本人公表</option>
+<option value="B" selected>○ 報道・信頼できる媒体</option>
+            </select>
+          </div>
+
+          <div class="field-memo">
+            <label>メモ（任意）</label>
+            <input class="f-memo" type="text" value="" placeholder="例: 本人インタビューで言及">
+          </div>
+
+          <div class="field-date">
+            <label>出典日付</label>
+            <input class="f-date" type="text" value="2025-08-08" placeholder="YYYY-MM-DD">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="card-4">
+      <label class="card-check">
+        <input type="checkbox" class="approve-cb" data-idx="4">
+        <span class="cb-label">承認</span>
+        <span class="badge-kari">仮（承認時に確定）</span>
+      </label>
+
+      <div class="card-body">
+        
+        <div class="snippet">📄 …神祭。勝率1位だった鐘ヶ江真司が鳴門で6コースからのまくり勝ち。 仲谷颯仁 への弟子入りが決まった直後の初勝利で、今後はSG覇者になった西山貴浩あたりからも厳しく鍛えてもらえそう。</div>
+        <div class="src-link">
+          <a href="https://sp.macour.jp/columns/macour/184291/" target="_blank" rel="noopener">🔗 出典を確認する（新しいタブ）</a>
+        </div>
+
+        <div class="fields">
+          <div class="field-group">
+            <label>登録番号（from）</label>
+            <input class="f-from-toban" type="text" value="4371" placeholder="例: 4444">
+            <label>選手名（from）</label>
+            <input class="f-from-name" type="text" value="西山貴浩" placeholder="例: 桐生順平">
+          </div>
+
+          <div class="field-rel">
+            <label>関係タイプ</label>
+            <select class="f-rel-type">
+              <option value="父">父</option>
+<option value="母">母</option>
+<option value="子">子</option>
+<option value="兄">兄</option>
+<option value="姉">姉</option>
+<option value="弟">弟</option>
+<option value="妹">妹</option>
+<option value="配偶者">配偶者</option>
+<option value="元配偶者">元配偶者</option>
+<option value="師匠">師匠</option>
+<option value="弟子" selected>弟子</option>
+<option value="親族">親族</option>
+<option value="友人">友人</option>
+<option value="同期">同期</option>
+<option value="仲良し">仲良し</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>登録番号（to）</label>
+            <input class="f-to-toban" type="text" value="4848" placeholder="例: 4422">
+            <label>選手名（to）※一般人は空欄でも可</label>
+            <input class="f-to-name" type="text" value="仲谷颯仁" placeholder="例: 田口節子">
+          </div>
+
+          <div class="field-conf">
+            <label>確度</label>
+            <select class="f-conf">
+              <option value="A">◎ 本人公表</option>
+<option value="B" selected>○ 報道・信頼できる媒体</option>
+            </select>
+          </div>
+
+          <div class="field-memo">
+            <label>メモ（任意）</label>
+            <input class="f-memo" type="text" value="" placeholder="例: 本人インタビューで言及">
+          </div>
+
+          <div class="field-date">
+            <label>出典日付</label>
+            <input class="f-date" type="text" value="2025-08-08" placeholder="YYYY-MM-DD">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="card-5">
+      <label class="card-check">
+        <input type="checkbox" class="approve-cb" data-idx="5">
+        <span class="cb-label">承認</span>
+        <span class="badge-kari">仮（承認時に確定）</span>
+      </label>
+
+      <div class="card-body">
+        
+        <div class="snippet">📄 …り2回目となる大村ナイターで開催される。前回は雪が降る中で 白井英治 が優勝し、師匠の今村豊さんに黄金のヘルメットをかぶせてあげた表彰式が非常に印象的だった。</div>
+        <div class="src-link">
+          <a href="https://sp.macour.jp/columns/macour/183569/" target="_blank" rel="noopener">🔗 出典を確認する（新しいタブ）</a>
+        </div>
+
+        <div class="fields">
+          <div class="field-group">
+            <label>登録番号（from）</label>
+            <input class="f-from-toban" type="text" value="2992" placeholder="例: 4444">
+            <label>選手名（from）</label>
+            <input class="f-from-name" type="text" value="今村豊" placeholder="例: 桐生順平">
+          </div>
+
+          <div class="field-rel">
+            <label>関係タイプ</label>
+            <select class="f-rel-type">
+              <option value="父">父</option>
+<option value="母">母</option>
+<option value="子">子</option>
+<option value="兄">兄</option>
+<option value="姉">姉</option>
+<option value="弟">弟</option>
+<option value="妹">妹</option>
+<option value="配偶者">配偶者</option>
+<option value="元配偶者">元配偶者</option>
+<option value="師匠" selected>師匠</option>
+<option value="弟子">弟子</option>
+<option value="親族">親族</option>
+<option value="友人">友人</option>
+<option value="同期">同期</option>
+<option value="仲良し">仲良し</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>登録番号（to）</label>
+            <input class="f-to-toban" type="text" value="3897" placeholder="例: 4422">
+            <label>選手名（to）※一般人は空欄でも可</label>
+            <input class="f-to-name" type="text" value="白井英治" placeholder="例: 田口節子">
+          </div>
+
+          <div class="field-conf">
+            <label>確度</label>
+            <select class="f-conf">
+              <option value="A">◎ 本人公表</option>
+<option value="B" selected>○ 報道・信頼できる媒体</option>
+            </select>
+          </div>
+
+          <div class="field-memo">
+            <label>メモ（任意）</label>
+            <input class="f-memo" type="text" value="" placeholder="例: 本人インタビューで言及">
+          </div>
+
+          <div class="field-date">
+            <label>出典日付</label>
+            <input class="f-date" type="text" value="2025-07-10" placeholder="YYYY-MM-DD">
+          </div>
+        </div>
+      </div>
+    </div>
   <div class="result-msg" id="resultMsg"></div>
 </main>
 
 <script>
-const candidates = [];
+const candidates = [{"snippet": "…GI初優勝を飾った。SGは16年3月のクラシックで初出場。通算優勝回数は18回。同期は 鎌倉涼 、 平高奈菜 、 深川麻奈美 ら。163cm、47kg。血液型=AB。", "source_url": "https://sp.macour.jp/columns/macour/187490/", "source_date": "2025-12-19", "matched_names": ["川野芽唯", "深川麻奈美"], "suggested_rel": "同期", "suggested_conf": "B仮", "from_toban": "4433", "from_name": "川野芽唯", "to_toban": "4447", "to_name": "深川麻奈美", "has_direct_quote": false, "name_warning": ""}, {"snippet": "…世の中のお母さん方も同じだと思うんですが、やっぱりどっちかに寄ってしまうんです。夫( 深谷知博 )とはお互いに仕事を理解し合っていますが、子どもに寂しい思いをさせたりもあるし、だから出走回数を調整したりとかもありました。", "source_url": "https://sp.macour.jp/columns/macour/187489/", "source_date": "2025-12-15", "matched_names": ["深谷知博"], "suggested_rel": "母", "suggested_conf": "B仮", "from_toban": "4524", "from_name": "深谷知博", "to_toban": "", "to_name": "一般女性", "has_direct_quote": false, "name_warning": ""}, {"snippet": "…するなど人気、実力を兼ね備える。今年の浜名湖レディースチャンピオンでGI初優勝。同期には 桐生順平 、 宮地元輝 、 和田兼輔 、 川野芽唯 、 平高奈菜 らがいる。158cm、45kg。血液型=A。", "source_url": "https://sp.macour.jp/columns/macour/187489/", "source_date": "2025-12-15", "matched_names": ["川野芽唯", "桐生順平"], "suggested_rel": "同期", "suggested_conf": "B仮", "from_toban": "4433", "from_name": "川野芽唯", "to_toban": "4444", "to_name": "桐生順平", "has_direct_quote": false, "name_warning": ""}, {"snippet": "レースは5コースの 森清友翔 がダッシュ乗りも良く1マークをまくって先行。6コースの 渡邉雄朗 が握って追走しようとしたところをまくられた2コースの 佐藤大騎 も握ったため両者接触で渡邉雄朗が転覆。1マークのターン入り口だったこともあり、後続艇は誰もよけることができず、イン 土山卓也 は転覆、3コースの 松本浩貴 はエンスト、4コースの 藤生…", "source_url": "https://sp.macour.jp/columns/macour/184291/", "source_date": "2025-08-08", "matched_names": ["藤生雄人", "松本浩貴"], "suggested_rel": "仲良し", "suggested_conf": "B仮", "from_toban": "3659", "from_name": "藤生雄人", "to_toban": "3860", "to_name": "松本浩貴", "has_direct_quote": false, "name_warning": ""}, {"snippet": "…神祭。勝率1位だった鐘ヶ江真司が鳴門で6コースからのまくり勝ち。 仲谷颯仁 への弟子入りが決まった直後の初勝利で、今後はSG覇者になった西山貴浩あたりからも厳しく鍛えてもらえそう。", "source_url": "https://sp.macour.jp/columns/macour/184291/", "source_date": "2025-08-08", "matched_names": ["西山貴浩", "仲谷颯仁"], "suggested_rel": "弟子", "suggested_conf": "B仮", "from_toban": "4371", "from_name": "西山貴浩", "to_toban": "4848", "to_name": "仲谷颯仁", "has_direct_quote": false, "name_warning": ""}, {"snippet": "…り2回目となる大村ナイターで開催される。前回は雪が降る中で 白井英治 が優勝し、師匠の今村豊さんに黄金のヘルメットをかぶせてあげた表彰式が非常に印象的だった。", "source_url": "https://sp.macour.jp/columns/macour/183569/", "source_date": "2025-07-10", "matched_names": ["今村豊", "白井英治"], "suggested_rel": "師匠", "suggested_conf": "B仮", "from_toban": "2992", "from_name": "今村豊", "to_toban": "3897", "to_name": "白井英治", "has_direct_quote": false, "name_warning": ""}];
 
 function updateCount() {
   const checked = document.querySelectorAll('.approve-cb:checked').length;
-  document.getElementById('countMsg').textContent = checked + ' / 0 件を承認済み';
+  document.getElementById('countMsg').textContent = checked + ' / 6 件を承認済み';
   document.getElementById('dlBtn').disabled = checked === 0;
 }
 

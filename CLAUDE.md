@@ -145,6 +145,36 @@ python scripts/add_relation.py
 ```
 → 対話形式で from_toban / rel_type / to_toban / 確度 / 出典URL を入力して追記。
 
+## マクールコラム抽出方針
+
+マクール（sp.macour.jp）の過去コラム記事から関係情報の候補を自動抽出する。
+
+**アクセスルール**
+- robots.txt（`/columns/` は禁止なし）を毎回冒頭で確認してから開始
+- 1記事ごとに3〜5秒待機。1回の実行で最大50記事まで
+- User-Agent に `funetan-patrol/1.0` を明記
+
+**抽出するデータのみ（記事本文は保存しない）**
+- 記事URL・記事日付
+- 記事内に登場する選手名（racers.csv との照合）
+- 関係タイプの推定（師弟/夫婦/兄弟/親子等）
+- 本人発言の有無（「」内に選手名＋関係キーワードがあればTrue）
+
+**確度の初期値**
+- 本人発言あり（直接引用「」検出）→ `A仮`
+- 本人発言なし → `B仮`
+- 仮確度のまま relations.csv には入れない。必ずダシオさんが承認時に確定させる
+
+**出力先**
+- `scripts/cache/candidates.json`（既存のpatrols.pyと共用）
+- → `python scripts/generate_review.py` で承認UI（docs/review/index.html）を生成
+
+**実行コマンド**
+```
+python scripts/scrape_macour.py          # 最新50記事を対象
+python scripts/scrape_macour.py --pages 3   # 記事一覧を3ページ分取得（約90記事）
+```
+
 ## 週次運用フロー（監視サイト巡回）
 
 ダシオさんが「巡回して」と言ったら：

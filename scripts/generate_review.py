@@ -58,9 +58,11 @@ def rel_options_html(selected=""):
 
 
 def conf_options_html(selected="B"):
+    # "A仮"→A, "B仮"→B に正規化して選択
+    base = selected.replace("仮", "")
     opts = []
     for val, label in CONF_OPTIONS:
-        sel = ' selected' if val == selected else ''
+        sel = ' selected' if val == base else ''
         opts.append(f'<option value="{val}"{sel}>{label}</option>')
     return "\n".join(opts)
 
@@ -81,14 +83,27 @@ def generate(candidates, racers):
         to_toban   = c.get("to_toban", "")
         to_name    = c.get("to_name", "")
 
+        # A仮/B仮のバッジ
+        raw_conf = c.get("suggested_conf", "B")
+        is_kari  = "仮" in raw_conf
+        kari_badge = '<span class="badge-kari">仮（承認時に確定）</span>' if is_kari else ''
+        # 直接引用フラグ
+        has_quote = c.get("has_direct_quote", False)
+        quote_badge = '<span class="badge-quote">「」直接引用あり</span>' if has_quote else ''
+        # 改姓警告
+        name_warning = c.get("name_warning", "")
+        warning_html = f'<div class="name-warning">⚠️ 改姓の可能性あり: {name_warning}</div>' if name_warning else ''
+
         cards.append(f'''
     <div class="card" id="card-{i}">
       <label class="card-check">
         <input type="checkbox" class="approve-cb" data-idx="{i}">
         <span class="cb-label">承認</span>
+        {kari_badge}{quote_badge}
       </label>
 
       <div class="card-body">
+        {warning_html}
         <div class="snippet">📄 {snippet}</div>
         <div class="src-link">
           <a href="{src_url}" target="_blank" rel="noopener">🔗 出典を確認する（新しいタブ）</a>
@@ -199,6 +214,9 @@ def generate(candidates, racers):
   .field-memo,.field-date{{grid-column:span 1}}
 
   .result-msg{{margin-top:16px;padding:12px 16px;background:#E7F3EB;border-radius:6px;font-weight:bold;color:#1E7A41;display:none}}
+  .badge-kari{{background:#FFF3CD;color:#856404;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;border:1px solid #FFDA6A;margin-left:8px}}
+  .badge-quote{{background:#D1ECF1;color:#0C5460;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;border:1px solid #BEE5EB;margin-left:6px}}
+  .name-warning{{background:#FFF3CD;border:1px solid #FFDA6A;border-radius:4px;padding:8px 12px;font-size:12px;color:#856404;margin-bottom:10px;font-weight:bold}}
 </style>
 </head>
 <body>
