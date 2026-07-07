@@ -194,6 +194,11 @@ def generate_index(racers):
       <div class="label">師弟一覧</div>
       <div class="sub">MENTOR</div>
     </a>
+    <a class="summary-card" href="hobby.html">
+      <div class="icon">🎨</div>
+      <div class="label">趣味別</div>
+      <div class="sub">HOBBIES</div>
+    </a>
   </div>
 
   <h2>選手一覧 <span class="en">ALL RACERS</span></h2>

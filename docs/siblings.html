@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>兄弟・姉妹一覧｜舟☆探</title>
+<style>
+  :root{
+    --ink:#1C2530; --paper:#F7F5F0; --navy:#0E2A3C;
+    --red:#E33A2E; --blue:#2E5FE3; --yellow:#F2C21F; --green:#2FA65A;
+    --line:#D8D3C8; --muted:#6B7280;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:'Helvetica Neue',Arial,'Hiragino Kaku Gothic ProN',sans-serif;line-height:1.7;font-size:15px}
+  a{color:inherit}
+
+  .lane-strip{display:flex;height:6px}
+  .lane-strip span{flex:1}
+  .l1{background:#fff;border-bottom:1px solid var(--line)}.l2{background:#222}
+  .l3{background:var(--red)}.l4{background:var(--blue)}.l5{background:var(--yellow)}.l6{background:var(--green)}
+
+  header{background:var(--navy);color:#fff}
+  .topbar{max-width:800px;margin:0 auto;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .brand{font-weight:900;font-size:17px;letter-spacing:.06em}
+  .nav-links{display:flex;gap:14px;font-size:12px}
+  .nav-links a{color:rgba(255,255,255,.75);text-decoration:none}
+  .nav-links a:hover{color:#fff}
+  .hero{background:var(--navy);padding:18px 20px 26px}
+  .hero-in{max-width:800px;margin:0 auto}
+  .hero h1{font-weight:900;font-size:24px;letter-spacing:.04em}
+  .hero p{font-size:13px;color:rgba(255,255,255,.7);margin-top:4px}
+
+  main{max-width:800px;margin:0 auto;padding:12px 20px 60px}
+  .count{font-size:13px;color:var(--muted);margin:16px 0 8px}
+
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+  th{background:var(--navy);color:#fff;font-weight:700;font-size:12px;letter-spacing:.08em;padding:8px 12px;text-align:left}
+  td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:hover td{background:#F0EDE6}
+  .rlink{font-weight:700;text-decoration:none;color:var(--navy)}
+  .rlink:hover{text-decoration:underline}
+  .rlink-plain{font-weight:700}
+  .toban{font-family:monospace;font-size:11px;color:var(--muted);font-weight:400}
+  .meta{font-size:12px;color:var(--muted)}
+  .badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px}
+  .badge-a{background:#E7F3EB;color:#1E7A41;border:1px solid #A3D9B1}
+  .badge-b{background:#EBF0FB;color:#1A3FA3;border:1px solid #A3BAF5}
+  .src{font-size:11px}
+  .src a{color:var(--blue);text-decoration:none}
+  .src a:hover{text-decoration:underline}
+  .empty{text-align:center;padding:60px;color:var(--muted);font-size:15px}
+
+  .hobby-section{margin-top:28px}
+  .hobby-section h2{font-weight:900;font-size:17px;padding-bottom:6px;border-bottom:2px solid var(--ink)}
+  .hobby-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .hobby-tag{font-size:13px;font-weight:700;padding:6px 14px;border-radius:16px;background:#fff;border:1px solid var(--line);cursor:pointer;text-decoration:none;color:var(--navy)}
+  .hobby-tag:hover{border-color:var(--navy);background:var(--navy);color:#fff}
+  .hobby-group{margin-top:20px}
+  .hobby-group h3{font-size:15px;font-weight:700;margin-bottom:8px;padding:6px 12px;background:#fff;border-left:4px solid var(--navy);border:1px solid var(--line);border-radius:4px}
+  .racer-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .racer-chip{font-size:13px;font-weight:700;padding:6px 14px;border-radius:16px;background:#fff;border:1px solid var(--line);text-decoration:none;color:var(--navy)}
+  .racer-chip:hover{border-color:var(--navy)}
+
+  .checked{font-size:11px;color:var(--muted);margin-top:24px;text-align:right}
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:16px;text-align:center;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <div class="brand">舟☆探</div>
+    <nav class="nav-links">
+      <a href="index.html">トップ</a>
+      <a href="map.html">関係マップ</a>
+      <a href="couples.html">夫婦</a>
+      <a href="siblings.html">兄弟</a>
+      <a href="shitei.html">師弟</a>
+      <a href="hobby.html">趣味</a>
+    </nav>
+  </div>
+  <div class="lane-strip"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span><span class="l5"></span><span class="l6"></span></div>
+  <div class="hero">
+    <div class="hero-in">
+      <h1>兄弟・姉妹一覧 <span style="font-family:monospace;font-size:13px;font-weight:400;opacity:.6">SIBLINGS</span></h1>
+      <p>競艇選手の兄弟姉妹ペア一覧。すべて出典付き。</p>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="count">1 組を掲載</div>
+  <table>
+    <thead><tr><th>年上</th><th></th><th>年下</th><th>確度</th><th>出典</th></tr></thead>
+    <tbody><tr>
+  <td><a href="racer/4719.html" class="rlink">上條暢嵩 <span class="toban">4719</span></a><div class="meta">大阪支部・110期・A1</div></td>
+  <td style="text-align:center;font-size:18px">👨‍👦</td>
+  <td><a href="racer/4514.html" class="rlink">上條嘉嗣 <span class="toban">4514</span></a><div class="meta">大阪支部・102期・A1</div></td>
+  <td><span class="badge badge-b">○ 報道</span></td>
+  <td class="src"><a href="https://sp.macour.jp/columns/macour/181974/" target="_blank" rel="noopener">出典</a><br><span style="color:var(--muted)">2025-05-08</span></td>
+</tr></tbody>
+  </table>
+  <div class="checked">データ確認日: 2026年7月7日</div>
+</main>
+<footer>舟☆探 選手名鑑｜掲載情報にはすべて出典を明記しています。</footer>
+</body>
+</html>
