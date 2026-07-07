@@ -33,7 +33,8 @@
   main{max-width:800px;margin:0 auto;padding:12px 20px 60px}
   .count{font-size:13px;color:var(--muted);margin:16px 0 8px}
 
-  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px;min-width:480px}
   th{background:var(--navy);color:#fff;font-weight:700;font-size:12px;letter-spacing:.08em;padding:8px 12px;text-align:left}
   td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
   tr:hover td{background:#F0EDE6}
@@ -88,7 +89,7 @@
 </header>
 <main>
   <div class="count">1 組を掲載</div>
-  <table>
+  <div class="table-wrap"><table>
     <thead><tr><th>年上</th><th></th><th>年下</th><th>確度</th><th>出典</th></tr></thead>
     <tbody><tr>
   <td><a href="racer/4719.html" class="rlink">上條暢嵩 <span class="toban">4719</span></a><div class="meta">大阪支部・110期・A1</div></td>
@@ -97,7 +98,7 @@
   <td><span class="badge badge-b">○ 報道</span></td>
   <td class="src"><a href="https://sp.macour.jp/columns/macour/181974/" target="_blank" rel="noopener">出典</a><br><span style="color:var(--muted)">2025-05-08</span></td>
 </tr></tbody>
-  </table>
+  </table></div>
   <div class="checked">データ確認日: 2026年7月7日</div>
 </main>
 <footer>舟☆探 選手名鑑｜掲載情報にはすべて出典を明記しています。</footer>

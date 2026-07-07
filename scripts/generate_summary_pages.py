@@ -126,7 +126,8 @@ COMMON_CSS = """
   main{max-width:800px;margin:0 auto;padding:12px 20px 60px}
   .count{font-size:13px;color:var(--muted);margin:16px 0 8px}
 
-  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px;min-width:480px}
   th{background:var(--navy);color:#fff;font-weight:700;font-size:12px;letter-spacing:.08em;padding:8px 12px;text-align:left}
   td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
   tr:hover td{background:#F0EDE6}
@@ -247,10 +248,10 @@ def generate_couples(rels, racers):
 {page_header("夫婦・カップル一覧", "COUPLES", "競艇選手同士・選手と一般人のカップル情報。すべて出典付き。")}
 <main>
   <div class="count">{count} 組を掲載</div>
-  <table>
+  <div class="table-wrap"><table>
     <thead><tr><th>選手</th><th>関係</th><th>パートナー</th><th>確度</th><th>出典</th></tr></thead>
     <tbody>{rows_html}</tbody>
-  </table>
+  </table></div>
 {page_footer()}
 '''
     out = os.path.join(DOCS_DIR, "couples.html")
@@ -328,10 +329,10 @@ def generate_siblings(rels, racers):
 {page_header("兄弟・姉妹一覧", "SIBLINGS", "競艇選手の兄弟姉妹ペア一覧。すべて出典付き。")}
 <main>
   <div class="count">{count} 組を掲載</div>
-  <table>
+  <div class="table-wrap"><table>
     <thead><tr><th>年上</th><th></th><th>年下</th><th>確度</th><th>出典</th></tr></thead>
     <tbody>{rows_html}</tbody>
-  </table>
+  </table></div>
 {page_footer()}
 '''
     out = os.path.join(DOCS_DIR, "siblings.html")
@@ -410,10 +411,10 @@ def generate_shitei(rels, racers):
 {page_header("師弟一覧", "MASTER & APPRENTICE", "競艇選手の師匠と弟子の関係一覧。すべて出典付き。")}
 <main>
   <div class="count">{count} 組を掲載（師匠 → 弟子の順）</div>
-  <table>
+  <div class="table-wrap"><table>
     <thead><tr><th>師匠</th><th></th><th>弟子</th><th>確度</th><th>出典</th></tr></thead>
     <tbody>{rows_html}</tbody>
-  </table>
+  </table></div>
 {page_footer()}
 '''
     out = os.path.join(DOCS_DIR, "shitei.html")
