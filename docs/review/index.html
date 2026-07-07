@@ -72,11 +72,11 @@
 <div class="lane-strip"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span><span class="l5"></span><span class="l6"></span></div>
 <header>
   <h1>関係候補 承認UI</h1>
-  <p>巡回日: 2026年7月7日 ／ 候補: 3 件 ／ 出典URLを必ず確認してから承認してください</p>
+  <p>巡回日: 2026年7月7日 ／ 候補: 5 件 ／ 出典URLを必ず確認してから承認してください</p>
 </header>
 
 <div class="toolbar">
-  <span class="count" id="countMsg">0 / 3 件を承認済み</span>
+  <span class="count" id="countMsg">0 / 5 件を承認済み</span>
   <button class="btn-all" onclick="selectAll()">すべて選択</button>
   <button class="btn-none" onclick="selectNone()">すべて解除</button>
   <button class="btn-download" id="dlBtn" onclick="download()" disabled>✅ 承認済みをダウンロード</button>
@@ -308,15 +308,165 @@
         </div>
       </div>
     </div>
+
+    <div class="card" id="card-3">
+      <label class="card-check">
+        <input type="checkbox" class="approve-cb" data-idx="3">
+        <span class="cb-label">承認</span>
+        <span class="badge-kari">仮（承認時に確定）</span>
+      </label>
+
+      <div class="card-body">
+        
+        <div class="headline">📰 無事故男・片岡雅裕が8年半ぶりに失格、阿波勝哉がF3、峰竜太・定松勇樹・毒島誠が期初めにF～5月のボート重大ニュース～ | ボートレース（競艇）【マクール】</div>
+        <div class="evidence-box">
+          <div class="evidence-label">▼ 判定根拠となった原文</div>
+          <div class="evidence-text">なお、弟子の 定松勇樹 もクラシックのF休みを消化する前の5月21日に津でF</div>
+        </div>
+        <div class="src-link">
+          <a href="https://sp.macour.jp/columns/macour/182601/" target="_blank" rel="noopener">🔗 出典を確認する（新しいタブ）</a>
+        </div>
+
+        <div class="fields">
+          <div class="field-group">
+            <label>登録番号（from）</label>
+            <input class="f-from-toban" type="text" value="5121" placeholder="例: 4444">
+            <label>選手名（from）</label>
+            <input class="f-from-name" type="text" value="定松勇樹" placeholder="例: 桐生順平">
+          </div>
+
+          <div class="field-rel">
+            <label>関係タイプ</label>
+            <select class="f-rel-type">
+              <option value="父">父</option>
+<option value="母">母</option>
+<option value="子">子</option>
+<option value="兄">兄</option>
+<option value="姉">姉</option>
+<option value="弟">弟</option>
+<option value="妹">妹</option>
+<option value="配偶者">配偶者</option>
+<option value="元配偶者">元配偶者</option>
+<option value="師匠">師匠</option>
+<option value="弟子" selected>弟子</option>
+<option value="親族">親族</option>
+<option value="友人">友人</option>
+<option value="同期">同期</option>
+<option value="仲良し">仲良し</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>登録番号（to）</label>
+            <input class="f-to-toban" type="text" value="4238" placeholder="例: 4422">
+            <label>選手名（to）※一般人は空欄でも可</label>
+            <input class="f-to-name" type="text" value="毒島誠" placeholder="例: 田口節子">
+          </div>
+
+          <div class="field-conf">
+            <label>確度</label>
+            <select class="f-conf">
+              <option value="A">◎ 本人公表</option>
+<option value="B" selected>○ 報道・信頼できる媒体</option>
+            </select>
+          </div>
+
+          <div class="field-memo">
+            <label>メモ（任意）</label>
+            <input class="f-memo" type="text" value="" placeholder="例: 本人インタビューで言及">
+          </div>
+
+          <div class="field-date">
+            <label>出典日付</label>
+            <input class="f-date" type="text" value="2025-06-11" placeholder="YYYY-MM-DD">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="card-4">
+      <label class="card-check">
+        <input type="checkbox" class="approve-cb" data-idx="4">
+        <span class="cb-label">承認</span>
+        <span class="badge-kari">仮（承認時に確定）</span>
+      </label>
+
+      <div class="card-body">
+        
+        <div class="headline">📰 異例のあっせんが波乱を呼ぶか？濱野谷憲吾ら精鋭と女子B2選手11人が競演する注目シリーズ/ボートレース津 | ボートレース（競艇）【マクール】</div>
+        <div class="evidence-box">
+          <div class="evidence-label">▼ 判定根拠となった原文</div>
+          <div class="evidence-text">弟の 上條暢嵩 は4月に住之江のGIを優勝したばかりで今後は兄弟で記念戦線の活躍が期待されている</div>
+        </div>
+        <div class="src-link">
+          <a href="https://sp.macour.jp/columns/macour/181974/" target="_blank" rel="noopener">🔗 出典を確認する（新しいタブ）</a>
+        </div>
+
+        <div class="fields">
+          <div class="field-group">
+            <label>登録番号（from）</label>
+            <input class="f-from-toban" type="text" value="4514" placeholder="例: 4444">
+            <label>選手名（from）</label>
+            <input class="f-from-name" type="text" value="上條嘉嗣" placeholder="例: 桐生順平">
+          </div>
+
+          <div class="field-rel">
+            <label>関係タイプ</label>
+            <select class="f-rel-type">
+              <option value="父">父</option>
+<option value="母">母</option>
+<option value="子">子</option>
+<option value="兄">兄</option>
+<option value="姉">姉</option>
+<option value="弟" selected>弟</option>
+<option value="妹">妹</option>
+<option value="配偶者">配偶者</option>
+<option value="元配偶者">元配偶者</option>
+<option value="師匠">師匠</option>
+<option value="弟子">弟子</option>
+<option value="親族">親族</option>
+<option value="友人">友人</option>
+<option value="同期">同期</option>
+<option value="仲良し">仲良し</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>登録番号（to）</label>
+            <input class="f-to-toban" type="text" value="4719" placeholder="例: 4422">
+            <label>選手名（to）※一般人は空欄でも可</label>
+            <input class="f-to-name" type="text" value="上條暢嵩" placeholder="例: 田口節子">
+          </div>
+
+          <div class="field-conf">
+            <label>確度</label>
+            <select class="f-conf">
+              <option value="A">◎ 本人公表</option>
+<option value="B" selected>○ 報道・信頼できる媒体</option>
+            </select>
+          </div>
+
+          <div class="field-memo">
+            <label>メモ（任意）</label>
+            <input class="f-memo" type="text" value="" placeholder="例: 本人インタビューで言及">
+          </div>
+
+          <div class="field-date">
+            <label>出典日付</label>
+            <input class="f-date" type="text" value="2025-05-08" placeholder="YYYY-MM-DD">
+          </div>
+        </div>
+      </div>
+    </div>
   <div class="result-msg" id="resultMsg"></div>
 </main>
 
 <script>
-const candidates = [{"snippet": "夫( 深谷知博 )とはお互いに仕事を理解し合っていますが、子どもに寂しい思いをさせたりもあるし、だから出走回数を調整したりとかもありました", "evidence_sentence": "夫( 深谷知博 )とはお互いに仕事を理解し合っていますが、子どもに寂しい思いをさせたりもあるし、だから出走回数を調整したりとかもありました", "source_url": "https://sp.macour.jp/columns/macour/187489/", "source_date": "2025-12-15", "matched_names": ["鎌倉涼", "深谷知博"], "suggested_rel": "配偶者", "suggested_conf": "B仮", "from_toban": "4456", "from_name": "鎌倉涼", "to_toban": "4524", "to_name": "深谷知博", "has_direct_quote": false, "name_warning": "", "headline": "鎌倉涼「まさか私がGIを獲るなんて」、母は強しを体現した浜名湖レディースチャンピオン | ボートレース（競艇）【マクール】"}, {"snippet": "仲谷颯仁 への弟子入りが決まった直後の初勝利で、今後はSG覇者になった西山貴浩あたりからも厳しく鍛えてもらえそう", "evidence_sentence": "仲谷颯仁 への弟子入りが決まった直後の初勝利で、今後はSG覇者になった西山貴浩あたりからも厳しく鍛えてもらえそう", "source_url": "https://sp.macour.jp/columns/macour/184291/", "source_date": "2025-08-08", "matched_names": ["鐘ヶ江真司", "仲谷颯仁"], "suggested_rel": "師匠", "suggested_conf": "B仮", "from_toban": "5398", "from_name": "鐘ヶ江真司", "to_toban": "4848", "to_name": "仲谷颯仁", "has_direct_quote": false, "name_warning": "", "headline": "西山貴浩が悲願のSG初優勝、川井萌が重傷、大村グランプリ・びわこ23年ぶりSG開催決定～7月のボート重大ニュース～ | ボートレース（競艇）【マクール】"}, {"snippet": "前回は雪が降る中で 白井英治 が優勝し、師匠の今村豊さんに黄金のヘルメットをかぶせてあげた表彰式が非常に印象的だった", "evidence_sentence": "前回は雪が降る中で 白井英治 が優勝し、師匠の今村豊さんに黄金のヘルメットをかぶせてあげた表彰式が非常に印象的だった", "source_url": "https://sp.macour.jp/columns/macour/183569/", "source_date": "2025-07-10", "matched_names": ["白井英治", "今村豊"], "suggested_rel": "師匠", "suggested_conf": "B仮", "from_toban": "3897", "from_name": "白井英治", "to_toban": "2992", "to_name": "今村豊", "has_direct_quote": false, "name_warning": "", "headline": "グランプリは4年ぶり大村ナイター！びわこで23年ぶりSG開催～2026年度SG・PGI等開催地決定～ | ボートレース（競艇）【マクール】"}];
+const candidates = [{"snippet": "夫( 深谷知博 )とはお互いに仕事を理解し合っていますが、子どもに寂しい思いをさせたりもあるし、だから出走回数を調整したりとかもありました", "evidence_sentence": "夫( 深谷知博 )とはお互いに仕事を理解し合っていますが、子どもに寂しい思いをさせたりもあるし、だから出走回数を調整したりとかもありました", "source_url": "https://sp.macour.jp/columns/macour/187489/", "source_date": "2025-12-15", "matched_names": ["鎌倉涼", "深谷知博"], "suggested_rel": "配偶者", "suggested_conf": "B仮", "from_toban": "4456", "from_name": "鎌倉涼", "to_toban": "4524", "to_name": "深谷知博", "has_direct_quote": false, "name_warning": "", "headline": "鎌倉涼「まさか私がGIを獲るなんて」、母は強しを体現した浜名湖レディースチャンピオン | ボートレース（競艇）【マクール】"}, {"snippet": "仲谷颯仁 への弟子入りが決まった直後の初勝利で、今後はSG覇者になった西山貴浩あたりからも厳しく鍛えてもらえそう", "evidence_sentence": "仲谷颯仁 への弟子入りが決まった直後の初勝利で、今後はSG覇者になった西山貴浩あたりからも厳しく鍛えてもらえそう", "source_url": "https://sp.macour.jp/columns/macour/184291/", "source_date": "2025-08-08", "matched_names": ["鐘ヶ江真司", "仲谷颯仁"], "suggested_rel": "師匠", "suggested_conf": "B仮", "from_toban": "5398", "from_name": "鐘ヶ江真司", "to_toban": "4848", "to_name": "仲谷颯仁", "has_direct_quote": false, "name_warning": "", "headline": "西山貴浩が悲願のSG初優勝、川井萌が重傷、大村グランプリ・びわこ23年ぶりSG開催決定～7月のボート重大ニュース～ | ボートレース（競艇）【マクール】"}, {"snippet": "前回は雪が降る中で 白井英治 が優勝し、師匠の今村豊さんに黄金のヘルメットをかぶせてあげた表彰式が非常に印象的だった", "evidence_sentence": "前回は雪が降る中で 白井英治 が優勝し、師匠の今村豊さんに黄金のヘルメットをかぶせてあげた表彰式が非常に印象的だった", "source_url": "https://sp.macour.jp/columns/macour/183569/", "source_date": "2025-07-10", "matched_names": ["白井英治", "今村豊"], "suggested_rel": "師匠", "suggested_conf": "B仮", "from_toban": "3897", "from_name": "白井英治", "to_toban": "2992", "to_name": "今村豊", "has_direct_quote": false, "name_warning": "", "headline": "グランプリは4年ぶり大村ナイター！びわこで23年ぶりSG開催～2026年度SG・PGI等開催地決定～ | ボートレース（競艇）【マクール】"}, {"snippet": "なお、弟子の 定松勇樹 もクラシックのF休みを消化する前の5月21日に津でF", "evidence_sentence": "なお、弟子の 定松勇樹 もクラシックのF休みを消化する前の5月21日に津でF", "source_url": "https://sp.macour.jp/columns/macour/182601/", "source_date": "2025-06-11", "matched_names": ["定松勇樹", "毒島誠"], "suggested_rel": "弟子", "suggested_conf": "B仮", "from_toban": "5121", "from_name": "定松勇樹", "to_toban": "4238", "to_name": "毒島誠", "has_direct_quote": false, "name_warning": "", "headline": "無事故男・片岡雅裕が8年半ぶりに失格、阿波勝哉がF3、峰竜太・定松勇樹・毒島誠が期初めにF～5月のボート重大ニュース～ | ボートレース（競艇）【マクール】"}, {"snippet": "弟の 上條暢嵩 は4月に住之江のGIを優勝したばかりで今後は兄弟で記念戦線の活躍が期待されている", "evidence_sentence": "弟の 上條暢嵩 は4月に住之江のGIを優勝したばかりで今後は兄弟で記念戦線の活躍が期待されている", "source_url": "https://sp.macour.jp/columns/macour/181974/", "source_date": "2025-05-08", "matched_names": ["上條嘉嗣", "上條暢嵩"], "suggested_rel": "弟", "suggested_conf": "B仮", "from_toban": "4514", "from_name": "上條嘉嗣", "to_toban": "4719", "to_name": "上條暢嵩", "has_direct_quote": false, "name_warning": "", "headline": "異例のあっせんが波乱を呼ぶか？濱野谷憲吾ら精鋭と女子B2選手11人が競演する注目シリーズ/ボートレース津 | ボートレース（競艇）【マクール】"}];
 
 function updateCount() {
   const checked = document.querySelectorAll('.approve-cb:checked').length;
-  document.getElementById('countMsg').textContent = checked + ' / 3 件を承認済み';
+  document.getElementById('countMsg').textContent = checked + ' / 5 件を承認済み';
   document.getElementById('dlBtn').disabled = checked === 0;
 }
 
