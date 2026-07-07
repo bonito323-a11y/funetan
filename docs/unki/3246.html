@@ -190,7 +190,7 @@
   </section>
 
   <section>
-    <h2>今節の方位 <span class="en">DIRECTION</span></h2>
+    <h2>今年の吉方位 <span class="en">LUCKY DIRECTION</span></h2>
     <div class="card">
       <div class="houi-wrap">
         <svg id="compass" width="140" height="140" viewBox="0 0 140 140"></svg>
@@ -366,12 +366,16 @@ function dirToRad(name) {
 }
 
 // ===== 厄年判定（数え年）=====
+// 男性本厄: 25/42/61、女性本厄: 19/33/37/61（両性共通の61含む合算で判定）
+// CSVに性別フィールドがないため、両性の厄年を合算した表で判定する
 function getYakudoshi(birthYear, today) {
   const k = today.getFullYear() - birthYear + 1;
-  if (k === 42) return ["大厄", "数え年42歳（最も注意が必要な年）", true];
-  if (k === 41 || k === 43) return ["前後厄", `数え年${k}歳（大厄の前後）`, true];
-  if (k === 25 || k === 26 || k === 24) return ["厄年", `数え年${k}歳`, true];
-  if (k === 61 || k === 60 || k === 62) return ["還暦厄", `数え年${k}歳`, true];
+  const honYaku  = [19, 25, 33, 37, 42, 61];
+  const maeYaku  = [18, 24, 32, 36, 41, 60];
+  const atoYaku  = [20, 26, 34, 38, 43, 62];
+  if (honYaku.includes(k))  return ["本厄",  `数え年${k}歳（最も注意が必要な年）`, true];
+  if (maeYaku.includes(k))  return ["前厄",  `数え年${k}歳（本厄の前年）`, true];
+  if (atoYaku.includes(k))  return ["後厄",  `数え年${k}歳（本厄の翌年）`, true];
   return ["該当なし", `数え年${k}歳`, false];
 }
 const [yakuLabel, yakuSub, isYaku] = getYakudoshi(1964, today);
@@ -403,12 +407,27 @@ const axes = [
 // ===== 総合スコア =====
 const total = Math.round(axes.reduce((s,a) => s + a.val, 0) / 6);
 document.getElementById("scoreNum").innerHTML = total + "<small>/100</small>";
-const word = total >= 80 ? "絶好調" : total >= 65 ? "上昇気流" : total >= 45 ? "凪" : total >= 30 ? "向かい風" : "時化";
+
+// バイオリズム3軸のうち低調期の数をカウント（臨界日は守り寄りとして加算）
+const bioLowCount = [23, 28, 33].filter(p => {
+  const st = bioState(p);
+  return st === "low" || st === "critical";
+}).length;
+const isMostlyLow = bioLowCount >= 2;
+
+const word = isMostlyLow
+  ? (total >= 60 ? "充電期" : total >= 40 ? "静観" : "向かい風")
+  : (total >= 80 ? "絶好調" : total >= 65 ? "上昇気流" : total >= 45 ? "凪" : total >= 30 ? "向かい風" : "時化");
 document.getElementById("scoreWord").textContent = word;
-document.getElementById("scoreDesc").textContent =
-  total >= 65 ? "波に乗る一日。心身の充実が感じられやすい日とされる。" :
-  total >= 45 ? "平常運転。バランスの取れた一日とされる。" :
-  "無理は禁物の日。心身を労わることが大切とされる。";
+document.getElementById("scoreDesc").textContent = isMostlyLow
+  ? (total >= 60
+    ? "守りを固めつつ流れを待つ日。暦の吉日を活かしながら力を温存するとよいとされる。"
+    : "バイオリズムの守り期間にあたる日。焦らず充電に徹することが吉とされる。")
+  : (total >= 65
+    ? "波に乗る一日。心身の充実が感じられやすい日とされる。"
+    : total >= 45
+      ? "平常運転。バランスの取れた一日とされる。"
+      : "無理は禁物の日。心身を労わることが大切とされる。");
 
 // ===== 凡例 =====
 document.getElementById("hexaLegend").innerHTML =
@@ -593,8 +612,8 @@ document.getElementById("hexaLegend").innerHTML =
   document.getElementById("houiText").innerHTML = `
     ${venueStr}<br>
     九星：<b style="color:var(--navy)">${kyusei}</b><br>
-    今月の<span class="kichi">吉方位は${luckyDirs.join("・")}</span><br>
-    <span style="font-size:11px;color:var(--muted)">※九星気学に基づくエンタメ表示です（年運）</span>`;
+    今年の<span class="kichi">吉方位は${luckyDirs.join("・")}</span><br>
+    <span style="font-size:11px;color:var(--muted)">※九星気学に基づくエンタメ表示です（年盤・年運）</span>`;
 })();
 </script>
 
