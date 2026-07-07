@@ -7,7 +7,8 @@ usage:
 
 【仕様】
   - 生年月日があれば生成。なければスキップ。
-  - バイオリズム・厄年・星座・九星・方位はすべてJSで計算（毎日再生成不要）
+  - バイオリズム・六曜・月齢・潮・厄年・星座・九星・方位はすべてJSで計算
+  - コメントは docs/js/comments.js を参照（日付シードで日替わり）
   - docs/unki/{toban}.html に出力
 """
 
@@ -23,13 +24,6 @@ OUT_DIR    = os.path.join(BASE_DIR, "docs", "unki")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 TODAY_STR = date.today().strftime("%Y年%-m月%-d日")
-
-BRANCH_LIST = [
-    "桐生","戸田","江戸川","平和島","多摩川","浜名湖",
-    "蒲郡","常滑","津","三国","びわこ","住之江",
-    "尼崎","鳴門","丸亀","児島","宮島","徳山",
-    "下関","若松","芦屋","福岡","唐津","大村",
-]
 
 BRANCH_COORDS = {
     "桐生":  (36.41, 139.39), "戸田":    (35.82, 139.68), "江戸川": (35.71, 139.88),
@@ -56,8 +50,7 @@ BRANCH_NAME_MAP = {
     "栃木": "桐生",   "新潟": "桐生",   "長野": "桐生",
     "神奈川": "多摩川","東京都": "江戸川",
     "和歌山": "住之江","京都": "住之江","奈良": "住之江",
-    "岐阜": "常滑",   "滋賀県": "びわこ",
-    "島根": "宮島",   "鳥取": "宮島",
+    "岐阜": "常滑",   "島根": "宮島",   "鳥取": "宮島",
     "高知": "丸亀",   "熊本": "大村",   "鹿児島": "大村",
     "宮崎": "大村",   "大分": "若松",   "福岡県": "福岡",
     "山口県": "徳山", "沖縄": "大村",
@@ -65,11 +58,8 @@ BRANCH_NAME_MAP = {
 
 
 def branch_to_venue(branch):
-    """支部名からホーム艇場の名前と座標を返す（見つからない場合はNone）"""
-    # 直接一致
     if branch in BRANCH_COORDS:
         return branch, BRANCH_COORDS[branch]
-    # マップ経由
     mapped = BRANCH_NAME_MAP.get(branch)
     if mapped and mapped in BRANCH_COORDS:
         return mapped, BRANCH_COORDS[mapped]
@@ -91,7 +81,7 @@ def generate_page(racer):
     ki     = racer["ki"] or ""
 
     if not birth or len(birth) < 10:
-        return None  # 生年月日がなければスキップ
+        return None
 
     try:
         bd = date.fromisoformat(birth)
@@ -102,7 +92,6 @@ def generate_page(racer):
     birth_month = bd.month
     birth_day   = bd.day
 
-    # ホーム艇場情報
     venue_name, venue_coord = branch_to_venue(branch)
     venue_lat  = venue_coord[0] if venue_coord else "null"
     venue_lng  = venue_coord[1] if venue_coord else "null"
@@ -117,9 +106,10 @@ def generate_page(racer):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>今日の艇運｜{name}（{toban}）｜舟☆探</title>
+<script src="../js/comments.js"></script>
 <style>
   :root{{
-    --ink:#1C2530; --paper:#F7F5F0; --navy:#0E2A3C; --navy2:#173B52;
+    --ink:#1C2530; --paper:#F7F5F0; --navy:#0E2A3C;
     --red:#E33A2E; --blue:#2E5FE3; --yellow:#F2C21F; --green:#2FA65A;
     --line:#D8D3C8; --muted:#6B7280;
   }}
@@ -137,7 +127,6 @@ def generate_page(racer):
   .nav-links{{display:flex;gap:12px;font-size:12px}}
   .nav-links a{{color:rgba(255,255,255,.75);text-decoration:none}}
   .nav-links a:hover{{color:#fff}}
-
   .hero{{background:var(--navy);padding:20px 20px 28px}}
   .hero-in{{max-width:720px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px}}
   .hero h1{{font-weight:900;font-size:24px;letter-spacing:.04em;line-height:1.3}}
@@ -151,32 +140,66 @@ def generate_page(racer):
   h2 .en{{font-family:monospace;font-size:10px;letter-spacing:.2em;color:var(--muted);font-weight:500}}
   .card{{background:#fff;border:1px solid var(--line);border-radius:6px;margin-top:12px;padding:16px 18px}}
 
+  /* 総合スコア */
   .score-wrap{{display:flex;align-items:center;gap:20px;flex-wrap:wrap}}
   .score-num{{font-family:monospace;font-weight:700;font-size:54px;line-height:1;color:var(--navy)}}
   .score-num small{{font-size:15px;color:var(--muted);font-weight:400}}
   .score-word{{font-weight:900;font-size:22px;color:var(--red)}}
   .score-desc{{font-size:13px;color:var(--muted);flex:1;min-width:180px}}
 
+  /* ヘキサ */
   .hexa-wrap{{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center}}
   .hexa-legend{{font-size:12px;min-width:170px}}
   .hexa-legend div{{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed var(--line)}}
   .hexa-legend i{{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:7px;vertical-align:middle}}
   .hexa-legend b{{font-family:monospace;font-weight:700}}
 
+  /* バイオリズム */
   .bio-caption{{font-size:12px;color:var(--muted);margin-top:8px}}
   .bio-vals{{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}}
   .bio-pill{{font-size:12px;font-weight:700;padding:5px 12px;border-radius:14px;color:#fff}}
 
+  /* バイオリズム状態バッジ */
+  .bio-states{{margin-top:14px;display:flex;flex-direction:column;gap:9px}}
+  .bio-state-row{{display:flex;align-items:flex-start;gap:9px;flex-wrap:wrap}}
+  .bio-state-cycle{{font-size:11px;font-weight:700;color:var(--muted);min-width:26px;padding-top:3px}}
+  .state-badge{{font-size:11px;font-weight:700;padding:2px 9px;border-radius:10px;white-space:nowrap}}
+  .state-high    {{background:#E7F3EB;color:#1E7A41;border:1px solid #A3D9B1}}
+  .state-rising  {{background:#EBF0FB;color:#1A3FA3;border:1px solid #A3BAF5}}
+  .state-falling {{background:#FDF3D7;color:#9A7208;border:1px solid #F5D882}}
+  .state-low     {{background:#F0F0F0;color:#555;border:1px solid #CCC}}
+  .state-critical{{background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5;animation:blink .9s step-end infinite}}
+  @keyframes blink{{0%,100%{{opacity:1}}50%{{opacity:.55}}}}
+  .state-comment{{font-size:12px;color:var(--muted);flex:1;min-width:180px;line-height:1.6}}
+
+  /* 暦ノート */
   .koyomi-grid{{display:grid;grid-template-columns:1fr 1fr;gap:10px}}
   @media(max-width:500px){{.koyomi-grid{{grid-template-columns:1fr}}}}
   .koyomi-item{{padding:10px 14px;border-radius:5px;border:1px solid var(--line)}}
-  .koyomi-label{{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}}
+  .koyomi-label{{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.1em;margin-bottom:4px}}
   .koyomi-val{{font-size:15px;font-weight:700}}
   .koyomi-sub{{font-size:11px;color:var(--muted);margin-top:2px}}
-
+  .koyomi-comment{{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.6}}
+  .koyomi-luck-great{{border-color:var(--yellow);background:#FFFBEA}}
+  .koyomi-luck-good {{border-color:#A3BAF5;background:#F0F4FF}}
+  .koyomi-luck-bad  {{border-color:#FCA5A5;background:#FFF5F5}}
   .yaku-warn{{background:#FFF3CD;border:1px solid #FFDA6A;color:#856404}}
-  .yaku-ok{{background:#E7F3EB;border:1px solid #A3D9B1;color:#1E7A41}}
+  .yaku-ok  {{background:#E7F3EB;border:1px solid #A3D9B1;color:#1E7A41}}
 
+  /* 月齢と潮 */
+  .moon-tide-grid{{display:grid;grid-template-columns:1fr 1fr;gap:10px}}
+  @media(max-width:500px){{.moon-tide-grid{{grid-template-columns:1fr}}}}
+  .moon-icon-wrap{{display:flex;align-items:center;gap:10px;margin:4px 0 6px}}
+  .moon-icon{{font-size:40px;line-height:1}}
+  .moon-phase-name{{font-size:15px;font-weight:700}}
+  .moon-age-text{{font-size:11px;color:var(--muted)}}
+  .moon-special{{background:var(--navy)!important;color:#fff!important;border-color:var(--navy)!important}}
+  .moon-special .koyomi-label{{color:rgba(255,255,255,.6)}}
+  .moon-special .koyomi-comment{{color:rgba(255,255,255,.75)}}
+  .moon-special .moon-age-text{{color:rgba(255,255,255,.6)}}
+  .moon-special .moon-phase-name{{color:var(--yellow)}}
+
+  /* 方位 */
   .houi-wrap{{display:flex;gap:16px;align-items:center;flex-wrap:wrap}}
   .houi-text{{flex:1;min-width:180px;font-size:13px}}
   .houi-text b{{font-size:15px;font-weight:900}}
@@ -249,6 +272,7 @@ def generate_page(racer):
     <div class="card">
       <svg id="bio" width="100%" height="170" viewBox="0 0 640 170" preserveAspectRatio="none"></svg>
       <div class="bio-vals" id="bioVals"></div>
+      <div class="bio-states" id="bioStates"></div>
       <div class="bio-caption">誕生日を起点に身体23日・感情28日・知性33日の周期で波を描く古典的な計算法。中央の縦線が今日。</div>
     </div>
   </section>
@@ -257,6 +281,13 @@ def generate_page(racer):
     <h2>暦ノート <span class="en">KOYOMI</span></h2>
     <div class="card">
       <div class="koyomi-grid" id="koyomiGrid"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>月齢と潮 <span class="en">MOON &amp; TIDE</span></h2>
+    <div class="card">
+      <div class="moon-tide-grid" id="moonTideGrid"></div>
     </div>
   </section>
 
@@ -297,17 +328,95 @@ today.setHours(0,0,0,0);
 document.getElementById("todayBadge").textContent =
   today.getFullYear()+"."+String(today.getMonth()+1).padStart(2,"0")+"."+String(today.getDate()).padStart(2,"0");
 
+// ===== 日付シード（同じ日は全選手同じコメント選択）=====
+const dateSeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+function seedPick(arr, salt) {{
+  if (!arr || arr.length === 0) return "";
+  const n = dateSeed + (salt | 0);
+  const x = Math.sin(n * 9301 + 49297) * 233280;
+  return arr[Math.abs(Math.floor(x)) % arr.length];
+}}
+
 // ===== バイオリズム計算 =====
 const daysSinceBirth = Math.floor((today - birth) / 86400000);
 const bioVal  = p => Math.sin(2 * Math.PI * daysSinceBirth / p);
 const bioAt   = (p, off) => Math.sin(2 * Math.PI * (daysSinceBirth + off) / p);
 const pct     = v => Math.round((v + 1) * 50);
+// 安定度スコア：ゼロ線からの距離。山でも谷でも遠いほど高く、臨界日（ゼロ交差）に近いほど低い
+const bioStab = p => Math.round(Math.abs(bioVal(p)) * 100);
 
 const bio = {{
   phy: bioVal(23),
   emo: bioVal(28),
   int: bioVal(33),
 }};
+
+// ===== バイオリズム状態判定（5状態）=====
+// val: 現在値(-1〜1)、vel: 変化方向（cos = 正なら上昇）
+function bioState(p) {{
+  const v = Math.sin(2 * Math.PI * daysSinceBirth / p);
+  const d = Math.cos(2 * Math.PI * daysSinceBirth / p);
+  if (Math.abs(v) < 0.13) return "critical"; // 臨界日
+  if (v > 0.5)  return "high";               // 高調期
+  if (v > 0.13) return d > 0 ? "rising" : "falling"; // 上昇中 or 下降中（正の領域）
+  return "low";                               // 低調期
+}}
+
+const STATE_INFO = {{
+  high:     {{ label:"高調期",        cls:"state-high",     icon:"▲" }},
+  rising:   {{ label:"上昇中",        cls:"state-rising",   icon:"↑" }},
+  falling:  {{ label:"下降中",        cls:"state-falling",  icon:"↓" }},
+  low:      {{ label:"低調期（充電）", cls:"state-low",      icon:"▼" }},
+  critical: {{ label:"⚡ 臨界日",     cls:"state-critical", icon:"⚡" }},
+}};
+
+// ===== 六曜計算（旧暦月日から算出）=====
+function getRokuyou() {{
+  // 基準朔: 2000-01-06 18:14 UTC（既知の新月）
+  const REF_NM = new Date(Date.UTC(2000, 0, 6, 18, 14));
+  const CYCLE  = 29.530588853;
+  const elapsed = (today - REF_NM) / 86400000;
+  const age     = ((elapsed % CYCLE) + CYCLE) % CYCLE;
+  const months  = Math.floor(elapsed / CYCLE);
+  const lunarMonth = ((months % 12) + 12) % 12 + 1;
+  const lunarDay   = Math.floor(age) + 1;
+  const idx = ((lunarMonth + lunarDay - 2) % 6 + 6) % 6;
+  return ["先勝","友引","先負","仏滅","大安","赤口"][idx];
+}}
+const rokuyou = getRokuyou();
+
+// ===== 月齢・月相・潮回り =====
+function getMoonTideData() {{
+  const REF_NM = new Date(Date.UTC(2000, 0, 6, 18, 14));
+  const CYCLE  = 29.530588853;
+  const elapsed = (today - REF_NM) / 86400000;
+  const age     = ((elapsed % CYCLE) + CYCLE) % CYCLE;
+  const lunarDay = Math.floor(age) + 1;
+
+  let phase, emoji;
+  if      (age < 1.85 || age >= 27.65) {{ phase = "新月";     emoji = "🌑"; }}
+  else if (age < 7.38)                 {{ phase = "三日月";   emoji = "🌒"; }}
+  else if (age < 11.08)                {{ phase = "上弦の月"; emoji = "🌓"; }}
+  else if (age < 14.77)                {{ phase = "十三夜";   emoji = "🌔"; }}
+  else if (age < 16.62)                {{ phase = "満月";     emoji = "🌕"; }}
+  else if (age < 22.15)                {{ phase = "居待月";   emoji = "🌖"; }}
+  else if (age < 25.84)                {{ phase = "下弦の月"; emoji = "🌗"; }}
+  else                                 {{ phase = "有明月";   emoji = "🌘"; }}
+
+  // 旧暦日から潮回り
+  const tideArr = [
+    "大潮","大潮","大潮","中潮","中潮","中潮",
+    "小潮","小潮","小潮","長潮","若潮","中潮",
+    "中潮","中潮","大潮","大潮","大潮","中潮",
+    "中潮","中潮","小潮","小潮","小潮","長潮",
+    "若潮","中潮","中潮","中潮","大潮","大潮"
+  ];
+  const tide = tideArr[(lunarDay - 1) % 30];
+  const isSpecial = (phase === "新月" || phase === "満月");
+
+  return {{ age: age.toFixed(1), lunarDay, phase, emoji, tide, isSpecial }};
+}}
+const moonData = getMoonTideData();
 
 // ===== 星座 =====
 function getZodiac(m, d) {{
@@ -323,93 +432,71 @@ function getZodiac(m, d) {{
 }}
 const zodiac = getZodiac({birth_month}, {birth_day});
 
-// ===== 今年の星座運（週替わり擬似ランダム）=====
-const weekNum = Math.floor(daysSinceBirth / 7) % 5;
-const zodiacLucks = ["普通の一週間","勝負運が上昇","体力充実の時","集中力アップ","焦りは禁物"];
-const zodiacLuck = zodiacLucks[weekNum];
-
 // ===== 九星（生年月日から計算）=====
 function getKyusei(year, month, day) {{
-  // 節分（2/4前後）以前は前年として計算
   const adjYear = (month < 2 || (month === 2 && day < 4)) ? year - 1 : year;
   const base = (adjYear - 1) % 9;
   const stars = ["一白水星","二黒土星","三碧木星","四緑木星","五黄土星","六白金星","七赤金星","八白土星","九紫火星"];
-  // 九星は降順（年が増えるごとに1つ下がる）
-  const idx = (8 - base % 9 + 9) % 9;
-  return stars[idx];
+  return stars[(8 - base % 9 + 9) % 9];
 }}
 const kyusei = getKyusei({birth_year}, {birth_month}, {birth_day});
 
-// 今月の吉方位（九星ごとに固定パターン）
-const kyuseiHoui = {{
-  "一白水星": ["南","東北"],
-  "二黒土星": ["西南","東北"],
-  "三碧木星": ["東","北"],
-  "四緑木星": ["東南","南"],
-  "五黄土星": ["西","東北"],
-  "六白金星": ["北西","西"],
-  "七赤金星": ["西","南東"],
-  "八白土星": ["東北","南西"],
-  "九紫火星": ["南","東南"],
-}};
-const luckyDirs = kyuseiHoui[kyusei] || ["東","南"];
+// ===== 吉方位（九星 → 年運方位）※将来の月運拡張に備えて関数化 =====
+function getLuckyDirs(star) {{
+  const map = {{
+    "一白水星": ["南","東北"],
+    "二黒土星": ["西南","東北"],
+    "三碧木星": ["東","北"],
+    "四緑木星": ["東南","南"],
+    "五黄土星": ["西","東北"],
+    "六白金星": ["北西","西"],
+    "七赤金星": ["西","南東"],
+    "八白土星": ["東北","南西"],
+    "九紫火星": ["南","東南"],
+  }};
+  return map[star] || ["東","南"];
+}}
+const luckyDirs    = getLuckyDirs(kyusei);
 const luckyDirMain = luckyDirs[0];
 
-// ===== 厄年判定（数え年）=====
-function getYakudoshi(birthYear, today) {{
-  const kazoedoshi = today.getFullYear() - birthYear + 1;
-  // 男性の厄年（数え年）
-  const yakuMen = [25, 42, 61]; // 42が大厄
-  const yakuLabel = {{25:"前厄・後厄", 42:"大厄（最も注意）", 43:"本厄後の後厄", 41:"大厄の前厄", 61:"還暦厄"}};
-  // 性別不明なので男性基準で判定
-  if (kazoedoshi === 42) return ["大厄", "数え年42歳（最も注意が必要な年）", true];
-  if (kazoedoshi === 41 || kazoedoshi === 43) return ["前後厄", `数え年${{kazoedoshi}}歳（大厄の前後）`, true];
-  if (kazoedoshi === 25 || kazoedoshi === 26 || kazoedoshi === 24) return ["厄年", `数え年${{kazoedoshi}}歳`, true];
-  if (kazoedoshi === 61 || kazoedoshi === 60 || kazoedoshi === 62) return ["還暦厄", `数え年${{kazoedoshi}}歳`, true];
-  return ["該当なし", `数え年${{kazoedoshi}}歳`, false];
-}}
-const [yakuLabel, yakuSub, isYaku] = getYakudoshi({birth_year}, today);
-
-// ===== ホーム艇場の方角計算（from支部、to艇場）=====
-// 支部の大まかな座標（略式）
-function calcBearing(fromLat, fromLng, toLat, toLng) {{
-  const toRad = d => d * Math.PI / 180;
-  const dLng = toRad(toLng - fromLng);
-  const fLat = toRad(fromLat);
-  const tLat = toRad(toLat);
-  const y = Math.sin(dLng) * Math.cos(tLat);
-  const x = Math.cos(fLat) * Math.sin(tLat) - Math.sin(fLat) * Math.cos(tLat) * Math.cos(dLng);
-  return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
-}}
-
-// 方角名
-function bearingToName(deg) {{
-  const dirs = ["北","北北東","北東","東北東","東","東南東","南東","南南東",
-                "南","南南西","南西","西南西","西","西北西","北西","北北西"];
-  return dirs[Math.round(deg / 22.5) % 16];
-}}
-
-// 方角→SVG角度（北=上=-π/2）
+// ===== 方角→SVG角度（北=上=-π/2）=====
 function dirToRad(name) {{
-  // SVGでは角度0が右(East)なので、北=0°をcompensation
   const map = {{"北":0,"北東":45,"東":90,"南東":135,"南":180,"南西":225,"西":270,"北西":315,
                "北北東":22.5,"東北東":67.5,"東南東":112.5,"南南東":157.5,
                "南南西":202.5,"西南西":247.5,"北北西":337.5,"西北西":292.5}};
   return ((map[name] || 0) - 90) * Math.PI / 180;
 }}
 
-// ===== 今月の九星スコア（月ごとに変化する簡易スコア）=====
+// ===== 厄年判定（数え年）=====
+function getYakudoshi(birthYear, today) {{
+  const k = today.getFullYear() - birthYear + 1;
+  if (k === 42) return ["大厄", "数え年42歳（最も注意が必要な年）", true];
+  if (k === 41 || k === 43) return ["前後厄", `数え年${{k}}歳（大厄の前後）`, true];
+  if (k === 25 || k === 26 || k === 24) return ["厄年", `数え年${{k}}歳`, true];
+  if (k === 61 || k === 60 || k === 62) return ["還暦厄", `数え年${{k}}歳`, true];
+  return ["該当なし", `数え年${{k}}歳`, false];
+}}
+const [yakuLabel, yakuSub, isYaku] = getYakudoshi({birth_year}, today);
+
+// ===== 六曜の luck クラス =====
+const rokuyouLuckMap = {{
+  "大安":"great", "先勝":"good", "友引":"good",
+  "先負":"neutral", "赤口":"bad", "仏滅":"bad"
+}};
+const luckCssMap = {{ great:"koyomi-luck-great", good:"koyomi-luck-good", bad:"koyomi-luck-bad" }};
+
+// ===== 今月の九星スコア =====
 const monthOffset = (today.getFullYear() * 12 + today.getMonth()) % 9;
 const kyuseiMonthScore = [72, 65, 80, 58, 75, 82, 68, 60, 78][monthOffset];
 
-// ===== 今月の方位スコア =====
-const houiScore = luckyDirMain ? 78 : 55;
+// ===== 方位スコア =====
+const houiScore = 78;
 
 // ===== 6軸データ =====
 const axes = [
-  {{name:"① 身体",  color:"#B9B4A6", val:pct(bio.phy)}},
-  {{name:"② 感情",  color:"#222222", val:pct(bio.emo)}},
-  {{name:"③ 知性",  color:"#E33A2E", val:pct(bio.int)}},
+  {{name:"① 身体",  color:"#B9B4A6", val:bioStab(23)}},
+  {{name:"② 感情",  color:"#222222", val:bioStab(28)}},
+  {{name:"③ 知性",  color:"#E33A2E", val:bioStab(33)}},
   {{name:"④ 星回り", color:"#2E5FE3", val:kyuseiMonthScore}},
   {{name:"⑤ 方位",  color:"#F2C21F", val:houiScore}},
   {{name:"⑥ 巡り",  color:"#2FA65A", val: isYaku ? 35 : 70}},
@@ -421,13 +508,18 @@ document.getElementById("scoreNum").innerHTML = total + "<small>/100</small>";
 const word = total >= 80 ? "絶好調" : total >= 65 ? "上昇気流" : total >= 45 ? "凪" : total >= 30 ? "向かい風" : "時化";
 document.getElementById("scoreWord").textContent = word;
 document.getElementById("scoreDesc").textContent =
-  total >= 65 ? "波に乗る一日。スタート勘が冴えるかも。" :
-  total >= 45 ? "平常運転。展示航走をよく見て。" :
-  "無理は禁物の日。手堅い動きに注目。";
+  total >= 65 ? "波に乗る一日。心身の充実が感じられやすい日とされる。" :
+  total >= 45 ? "平常運転。バランスの取れた一日とされる。" :
+  "無理は禁物の日。心身を労わることが大切とされる。";
 
 // ===== 凡例 =====
 document.getElementById("hexaLegend").innerHTML =
-  axes.map(a => `<div><span><i style="background:${{a.color}};${{a.color==='#B9B4A6'?'border:1px solid #999':''}}"></i>${{a.name}}</span><b>${{a.val}}</b></div>`).join("");
+  axes.map((a, i) => {{
+    const critBadge = (i < 3 && bioState([23,28,33][i]) === "critical")
+      ? `<span style="font-size:9px;background:#FEE2E2;color:#B91C1C;padding:1px 4px;border-radius:7px;margin-left:3px">転調注意日</span>`
+      : "";
+    return `<div><span><i style="background:${{a.color}};${{a.color==='#B9B4A6'?'border:1px solid #999':''}}"></i>${{a.name}}${{critBadge}}</span><b>${{a.val}}</b></div>`;
+  }}).join("");
 
 // ===== 六角レーダー =====
 (function() {{
@@ -478,20 +570,58 @@ document.getElementById("hexaLegend").innerHTML =
   }});
   svg.innerHTML = g;
   document.getElementById("bioVals").innerHTML = series.map(s => {{
-    const v = pct(bioVal(s.p));
-    return `<span class="bio-pill" style="background:${{s.c}}">${{s.label}} ${{v}}</span>`;
+    const v = bioStab(s.p);
+    return `<span class="bio-pill" style="background:${{s.c}}">${{s.label}} 安定度${{v}}</span>`;
   }}).join("");
 }})();
 
-// ===== 暦ノート =====
+// ===== バイオリズム状態バッジ & コメント =====
 (function() {{
-  const grid = document.getElementById("koyomiGrid");
+  const C = UNKI_COMMENTS;
+  const cycles = [
+    {{ p:23, label:"身体", overrideKey:"bio_physical_critical",     salt:1 }},
+    {{ p:28, label:"感情", overrideKey:"bio_emotional_critical",    salt:2 }},
+    {{ p:33, label:"知性", overrideKey:"bio_intellectual_critical", salt:3 }},
+  ];
+  const html = cycles.map(cy => {{
+    const st   = bioState(cy.p);
+    const info = STATE_INFO[st];
+    let commentArr;
+    if (st === "critical" && C[cy.overrideKey]) {{
+      commentArr = C[cy.overrideKey];
+    }} else {{
+      commentArr = C.bio[st];
+    }}
+    const comment = seedPick(commentArr, cy.salt);
+    return `<div class="bio-state-row">
+      <span class="bio-state-cycle">${{cy.label}}</span>
+      <span class="state-badge ${{info.cls}}">${{info.icon}} ${{info.label}} · ${{bioStab(cy.p)}}</span>
+      <span class="state-comment">${{comment}}</span>
+    </div>`;
+  }}).join("");
+  document.getElementById("bioStates").innerHTML = html;
+}})();
+
+// ===== 暦ノート（六曜追加・コメント付き）=====
+(function() {{
+  const C = UNKI_COMMENTS;
   const yakuClass = isYaku ? "yaku-warn" : "yaku-ok";
-  grid.innerHTML = `
+  const luck      = rokuyouLuckMap[rokuyou] || "neutral";
+  const luckCls   = luckCssMap[luck] || "";
+  const rokuyouComment  = seedPick(C.rokuyou[rokuyou]?.comments, 10);
+  const zodiacComment   = seedPick(C.zodiac[zodiac], 20);
+  const kyuseiComment   = seedPick(C.kyusei[kyusei],  30);
+
+  document.getElementById("koyomiGrid").innerHTML = `
     <div class="koyomi-item">
       <div class="koyomi-label">星座</div>
       <div class="koyomi-val">${{zodiac}}</div>
-      <div class="koyomi-sub">${{zodiacLuck}}</div>
+      <div class="koyomi-comment">${{zodiacComment}}</div>
+    </div>
+    <div class="koyomi-item ${{luckCls}}">
+      <div class="koyomi-label">六曜</div>
+      <div class="koyomi-val">${{rokuyou}}</div>
+      <div class="koyomi-comment">${{rokuyouComment}}</div>
     </div>
     <div class="koyomi-item ${{yakuClass}}">
       <div class="koyomi-label">厄年</div>
@@ -501,12 +631,36 @@ document.getElementById("hexaLegend").innerHTML =
     <div class="koyomi-item">
       <div class="koyomi-label">九星</div>
       <div class="koyomi-val">${{kyusei}}</div>
-      <div class="koyomi-sub">今月の吉方位：${{luckyDirs.join("・")}}</div>
+      <div class="koyomi-comment">${{kyuseiComment}}</div>
+    </div>
+  `;
+}})();
+
+// ===== 月齢と潮 =====
+(function() {{
+  const C = UNKI_COMMENTS;
+  const {{ age, phase, emoji, tide, isSpecial }} = moonData;
+  const moonCardCls  = isSpecial ? "koyomi-item moon-special" : "koyomi-item";
+  const moonCommentArr = C.moon[phase] || C.moon_generic;
+  const moonComment  = seedPick(moonCommentArr, 40);
+  const tideComment  = seedPick(C.tide[tide],  50);
+
+  document.getElementById("moonTideGrid").innerHTML = `
+    <div class="${{moonCardCls}}">
+      <div class="koyomi-label">月齢・月相${{isSpecial ? " ✦" : ""}}</div>
+      <div class="moon-icon-wrap">
+        <span class="moon-icon">${{emoji}}</span>
+        <div>
+          <div class="moon-phase-name">${{phase}}</div>
+          <div class="moon-age-text">月齢 ${{age}}</div>
+        </div>
+      </div>
+      <div class="koyomi-comment">${{moonComment}}</div>
     </div>
     <div class="koyomi-item">
-      <div class="koyomi-label">身体リズム</div>
-      <div class="koyomi-val">${{pct(bio.phy)}}<small style="font-size:11px;font-weight:400">/100</small></div>
-      <div class="koyomi-sub">感情${{pct(bio.emo)}} / 知性${{pct(bio.int)}}</div>
+      <div class="koyomi-label">潮回り</div>
+      <div class="koyomi-val">${{tide}}</div>
+      <div class="koyomi-comment">${{tideComment}}</div>
     </div>
   `;
 }})();
@@ -523,16 +677,13 @@ document.getElementById("hexaLegend").innerHTML =
     const isLucky = luckyDirs.includes(d);
     g += `<text x="${{x}}" y="${{y}}" text-anchor="middle" dominant-baseline="middle" font-size="10" font-weight="700" fill="${{isLucky ? '#2FA65A' : '#6B7280'}}">${{d}}</text>`;
   }});
-
   // 吉方位ハイライト扇形
   const mainRad = dirToRad(luckyDirMain);
   const a1 = mainRad - Math.PI/8, a2 = mainRad + Math.PI/8;
-  g += `<path d="M${{C}} ${{C}} L${{C+R*Math.cos(a1).toFixed(2)}} ${{C+R*Math.sin(a1).toFixed(2)}} A${{R}} ${{R}} 0 0 1 ${{C+R*Math.cos(a2).toFixed(2)}} ${{C+R*Math.sin(a2).toFixed(2)}} Z" fill="rgba(47,166,90,.25)"/>`;
-
-  // 吉方位の方向に矢印を描く
+  g += `<path d="M${{C}} ${{C}} L${{(C+R*Math.cos(a1)).toFixed(2)}} ${{(C+R*Math.sin(a1)).toFixed(2)}} A${{R}} ${{R}} 0 0 1 ${{(C+R*Math.cos(a2)).toFixed(2)}} ${{(C+R*Math.sin(a2)).toFixed(2)}} Z" fill="rgba(47,166,90,.25)"/>`;
+  // 吉方位矢印
   const arrowRad = dirToRad(luckyDirMain);
   g += `<line x1="${{C}}" y1="${{C}}" x2="${{(C+(R-8)*Math.cos(arrowRad)).toFixed(2)}}" y2="${{(C+(R-8)*Math.sin(arrowRad)).toFixed(2)}}" stroke="#2FA65A" stroke-width="3" stroke-linecap="round"/>`;
-  // 矢印の先端（±0.45ラジアン≒26°）
   const ax = C + (R-8)*Math.cos(arrowRad), ay = C + (R-8)*Math.sin(arrowRad);
   const a1r = arrowRad + Math.PI - 0.45, a2r = arrowRad + Math.PI + 0.45;
   g += `<line x1="${{ax.toFixed(2)}}" y1="${{ay.toFixed(2)}}" x2="${{(ax+10*Math.cos(a1r)).toFixed(2)}}" y2="${{(ay+10*Math.sin(a1r)).toFixed(2)}}" stroke="#2FA65A" stroke-width="2" stroke-linecap="round"/>`;
@@ -540,10 +691,12 @@ document.getElementById("hexaLegend").innerHTML =
   g += `<circle cx="${{C}}" cy="${{C}}" r="4" fill="#0E2A3C"/>`;
   svg.innerHTML = g;
 
-  // 方位テキスト
-  const houiEl = document.getElementById("houiText");
   const venueStr = venueName ? `<b>${{venueName}}</b>` : "（艇場データなし）";
-  houiEl.innerHTML = `${{venueStr}}<br>九星：<b style="color:var(--navy)">${{kyusei}}</b><br>今月の<span class="kichi">吉方位は${{luckyDirs.join("・")}}</span><br><span style="font-size:11px;color:var(--muted)">※九星気学に基づくエンタメ表示です</span>`;
+  document.getElementById("houiText").innerHTML = `
+    ${{venueStr}}<br>
+    九星：<b style="color:var(--navy)">${{kyusei}}</b><br>
+    今月の<span class="kichi">吉方位は${{luckyDirs.join("・")}}</span><br>
+    <span style="font-size:11px;color:var(--muted)">※九星気学に基づくエンタメ表示です（年運）</span>`;
 }})();
 </script>
 
@@ -578,8 +731,6 @@ def main():
 
     print(f"[完了] 生成: {ok} 件 / スキップ（生年月日なし）: {skip} 件")
     print(f"出力先: {OUT_DIR}")
-    if ok > 0:
-        print(f"ブラウザで確認: {OUT_DIR}/<登録番号>.html")
 
 
 if __name__ == "__main__":

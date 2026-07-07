@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>今日の艇運｜片岡大地（4911）｜舟☆探</title>
-<script src="../../js/comments.js"></script>
+<script src="../js/comments.js"></script>
 <style>
   :root{
     --ink:#1C2530; --paper:#F7F5F0; --navy:#0E2A3C;
@@ -240,6 +240,8 @@ const daysSinceBirth = Math.floor((today - birth) / 86400000);
 const bioVal  = p => Math.sin(2 * Math.PI * daysSinceBirth / p);
 const bioAt   = (p, off) => Math.sin(2 * Math.PI * (daysSinceBirth + off) / p);
 const pct     = v => Math.round((v + 1) * 50);
+// 安定度スコア：ゼロ線からの距離。山でも谷でも遠いほど高く、臨界日（ゼロ交差）に近いほど低い
+const bioStab = p => Math.round(Math.abs(bioVal(p)) * 100);
 
 const bio = {
   phy: bioVal(23),
@@ -259,11 +261,11 @@ function bioState(p) {
 }
 
 const STATE_INFO = {
-  high:     { label:"高調期",   cls:"state-high",     icon:"▲" },
-  rising:   { label:"上昇中",   cls:"state-rising",   icon:"↑" },
-  falling:  { label:"下降中",   cls:"state-falling",  icon:"↓" },
-  low:      { label:"低調期",   cls:"state-low",      icon:"▼" },
-  critical: { label:"⚡ 臨界日", cls:"state-critical", icon:"⚡" },
+  high:     { label:"高調期",        cls:"state-high",     icon:"▲" },
+  rising:   { label:"上昇中",        cls:"state-rising",   icon:"↑" },
+  falling:  { label:"下降中",        cls:"state-falling",  icon:"↓" },
+  low:      { label:"低調期（充電）", cls:"state-low",      icon:"▼" },
+  critical: { label:"⚡ 臨界日",     cls:"state-critical", icon:"⚡" },
 };
 
 // ===== 六曜計算（旧暦月日から算出）=====
@@ -390,9 +392,9 @@ const houiScore = 78;
 
 // ===== 6軸データ =====
 const axes = [
-  {name:"① 身体",  color:"#B9B4A6", val:pct(bio.phy)},
-  {name:"② 感情",  color:"#222222", val:pct(bio.emo)},
-  {name:"③ 知性",  color:"#E33A2E", val:pct(bio.int)},
+  {name:"① 身体",  color:"#B9B4A6", val:bioStab(23)},
+  {name:"② 感情",  color:"#222222", val:bioStab(28)},
+  {name:"③ 知性",  color:"#E33A2E", val:bioStab(33)},
   {name:"④ 星回り", color:"#2E5FE3", val:kyuseiMonthScore},
   {name:"⑤ 方位",  color:"#F2C21F", val:houiScore},
   {name:"⑥ 巡り",  color:"#2FA65A", val: isYaku ? 35 : 70},
@@ -410,7 +412,12 @@ document.getElementById("scoreDesc").textContent =
 
 // ===== 凡例 =====
 document.getElementById("hexaLegend").innerHTML =
-  axes.map(a => `<div><span><i style="background:${a.color};${a.color==='#B9B4A6'?'border:1px solid #999':''}"></i>${a.name}</span><b>${a.val}</b></div>`).join("");
+  axes.map((a, i) => {
+    const critBadge = (i < 3 && bioState([23,28,33][i]) === "critical")
+      ? `<span style="font-size:9px;background:#FEE2E2;color:#B91C1C;padding:1px 4px;border-radius:7px;margin-left:3px">転調注意日</span>`
+      : "";
+    return `<div><span><i style="background:${a.color};${a.color==='#B9B4A6'?'border:1px solid #999':''}"></i>${a.name}${critBadge}</span><b>${a.val}</b></div>`;
+  }).join("");
 
 // ===== 六角レーダー =====
 (function() {
@@ -461,8 +468,8 @@ document.getElementById("hexaLegend").innerHTML =
   });
   svg.innerHTML = g;
   document.getElementById("bioVals").innerHTML = series.map(s => {
-    const v = pct(bioVal(s.p));
-    return `<span class="bio-pill" style="background:${s.c}">${s.label} ${v}</span>`;
+    const v = bioStab(s.p);
+    return `<span class="bio-pill" style="background:${s.c}">${s.label} 安定度${v}</span>`;
   }).join("");
 })();
 
@@ -486,7 +493,7 @@ document.getElementById("hexaLegend").innerHTML =
     const comment = seedPick(commentArr, cy.salt);
     return `<div class="bio-state-row">
       <span class="bio-state-cycle">${cy.label}</span>
-      <span class="state-badge ${info.cls}">${info.icon} ${info.label}</span>
+      <span class="state-badge ${info.cls}">${info.icon} ${info.label} · ${bioStab(cy.p)}</span>
       <span class="state-comment">${comment}</span>
     </div>`;
   }).join("");
