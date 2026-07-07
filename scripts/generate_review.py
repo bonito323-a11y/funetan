@@ -93,6 +93,10 @@ def generate(candidates, racers):
         # 改姓警告
         name_warning = c.get("name_warning", "")
         warning_html = f'<div class="name-warning">⚠️ 改姓の可能性あり: {name_warning}</div>' if name_warning else ''
+        # 証拠文（根拠となった原文一文）
+        evidence = c.get("evidence_sentence", snippet).replace("<", "&lt;").replace(">", "&gt;")
+        headline  = c.get("headline", "").replace("<", "&lt;").replace(">", "&gt;")
+        headline_html = f'<div class="headline">📰 {headline}</div>' if headline else ''
 
         cards.append(f'''
     <div class="card" id="card-{i}">
@@ -104,7 +108,11 @@ def generate(candidates, racers):
 
       <div class="card-body">
         {warning_html}
-        <div class="snippet">📄 {snippet}</div>
+        {headline_html}
+        <div class="evidence-box">
+          <div class="evidence-label">▼ 判定根拠となった原文</div>
+          <div class="evidence-text">{evidence}</div>
+        </div>
         <div class="src-link">
           <a href="{src_url}" target="_blank" rel="noopener">🔗 出典を確認する（新しいタブ）</a>
         </div>
@@ -217,6 +225,10 @@ def generate(candidates, racers):
   .badge-kari{{background:#FFF3CD;color:#856404;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;border:1px solid #FFDA6A;margin-left:8px}}
   .badge-quote{{background:#D1ECF1;color:#0C5460;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;border:1px solid #BEE5EB;margin-left:6px}}
   .name-warning{{background:#FFF3CD;border:1px solid #FFDA6A;border-radius:4px;padding:8px 12px;font-size:12px;color:#856404;margin-bottom:10px;font-weight:bold}}
+  .headline{{font-size:12px;color:var(--muted);margin-bottom:6px;font-style:italic}}
+  .evidence-box{{background:#1C2530;border-radius:4px;padding:10px 14px;margin-bottom:10px}}
+  .evidence-label{{font-size:10px;color:#8DA0B3;font-weight:bold;margin-bottom:4px;letter-spacing:.05em}}
+  .evidence-text{{color:#E8F0F7;font-size:13px;line-height:1.8;word-break:break-all}}
 </style>
 </head>
 <body>
