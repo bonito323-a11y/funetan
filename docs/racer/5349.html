@@ -86,6 +86,20 @@
   .cta .lane-strip{position:absolute;top:0;left:0;right:0}
   .cta h3{font-family:var(--serif);font-weight:900;font-size:22px;letter-spacing:.05em}
   .cta p{margin-top:8px;font-size:13px;color:rgba(255,255,255,.8)}
+  /* 同期・同支部チップ */
+  .peer-wrap{margin-top:10px}
+  .peer-group-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.1em;margin-bottom:6px}
+  .peer-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .peer-chip{font-size:12px;font-weight:700;padding:5px 11px;border-radius:14px;background:#fff;border:1px solid var(--line);text-decoration:none;color:var(--navy);white-space:nowrap}
+  .peer-chip:hover{border-color:var(--navy)}
+  .peer-chip.same-branch{border-color:var(--blue);color:var(--blue)}
+  .peer-chip.same-branch:hover{background:var(--blue);color:#fff}
+  .peer-toban{font-family:var(--mono);font-size:10px;opacity:.55;font-weight:400}
+  .peer-count{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--muted);margin-left:6px}
+  .peer-more-btn{font-size:12px;font-weight:700;margin-top:8px;padding:5px 14px;border-radius:14px;background:#EFEBE2;color:var(--navy);border:1px solid var(--line);cursor:pointer;display:block}
+  .peer-more-btn:hover{background:var(--navy);color:#fff}
+  .peer-hidden{display:none!important}
+
   .unki-btn{display:block;margin:24px 0 4px;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 20px;border-radius:6px;letter-spacing:.05em}
   .unki-btn:hover{opacity:.88}
   .cta-btn{display:inline-block;margin-top:16px;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 28px;border-radius:4px;letter-spacing:.05em}
@@ -111,7 +125,7 @@
       <div class="badges">
         <span class="badge grade">B2</span>
         <span class="badge">静岡支部</span>
-        <span class="badge">期</span>
+        <span class="badge">134期</span>
         <span class="badge">現役</span>
       </div>
       <div class="checked">最終確認：2026年7月6日</div>
@@ -127,12 +141,27 @@
   </section>
 
   <section>
+    <h2>134期 同期の仲間 <span class="en">CLASSMATES</span><span class="peer-count">全24人</span></h2>
+    <div class="peer-wrap"><div class="peer-group-label">同支部（静岡）</div><div class="peer-chips"><a class="peer-chip same-branch" href="5362.html">中嶋世奈 <span class="peer-toban">5362</span></a></div>
+<div class="peer-group-label" style="margin-top:10px">他支部の同期</div><div class="peer-chips"><a class="peer-chip " href="5338.html">香月大輝 <span class="peer-toban">5338</span></a><a class="peer-chip " href="5339.html">石井伸長 <span class="peer-toban">5339</span></a><a class="peer-chip " href="5340.html">樋江井舞 <span class="peer-toban">5340</span></a><a class="peer-chip " href="5341.html">山道諄也 <span class="peer-toban">5341</span></a><a class="peer-chip " href="5342.html">原村百那 <span class="peer-toban">5342</span></a><a class="peer-chip " href="5343.html">小林礼央 <span class="peer-toban">5343</span></a><a class="peer-chip " href="5344.html">谷口丞 <span class="peer-toban">5344</span></a><a class="peer-chip " href="5345.html">牧村俊輝 <span class="peer-toban">5345</span></a></div>
+<div class="peer-chips peer-hidden" id="douki-hidden"><a class="peer-chip " href="5346.html">中村紋夕梨 <span class="peer-toban">5346</span></a><a class="peer-chip " href="5347.html">井澤聖奈 <span class="peer-toban">5347</span></a><a class="peer-chip " href="5348.html">小林甘寧 <span class="peer-toban">5348</span></a><a class="peer-chip " href="5350.html">網代良芽 <span class="peer-toban">5350</span></a><a class="peer-chip " href="5351.html">齊藤廉 <span class="peer-toban">5351</span></a><a class="peer-chip " href="5352.html">西岡蒼志 <span class="peer-toban">5352</span></a><a class="peer-chip " href="5353.html">草川壮良 <span class="peer-toban">5353</span></a><a class="peer-chip " href="5354.html">渡邊雄斗 <span class="peer-toban">5354</span></a><a class="peer-chip " href="5355.html">萩原丈太朗 <span class="peer-toban">5355</span></a><a class="peer-chip " href="5356.html">長谷川暖 <span class="peer-toban">5356</span></a><a class="peer-chip " href="5357.html">田中瀬里奈 <span class="peer-toban">5357</span></a><a class="peer-chip " href="5358.html">増本杏珠 <span class="peer-toban">5358</span></a><a class="peer-chip " href="5359.html">佐藤世那 <span class="peer-toban">5359</span></a><a class="peer-chip " href="5360.html">高木茉白 <span class="peer-toban">5360</span></a><a class="peer-chip " href="5361.html">植竹玲奈 <span class="peer-toban">5361</span></a></div><button class="peer-more-btn" onclick="showPeers('douki-hidden',this)">他の同期を見る（あと15人）</button></div>
+  </section>
+
+  <section>
+    <h2>静岡支部の選手 <span class="en">BRANCH MATES</span><span class="peer-count">全92人</span></h2>
+    <div class="peer-wrap">
+      <div class="peer-chips" id="branch-shown"><a class="peer-chip " href="3156.html">金子良昭 <span class="peer-toban">3156</span></a><a class="peer-chip " href="3286.html">坂東満 <span class="peer-toban">3286</span></a><a class="peer-chip " href="3294.html">野中義生 <span class="peer-toban">3294</span></a><a class="peer-chip " href="3327.html">野長瀬正孝 <span class="peer-toban">3327</span></a><a class="peer-chip " href="3422.html">服部幸男 <span class="peer-toban">3422</span></a><a class="peer-chip " href="3461.html">渡邊哲也 <span class="peer-toban">3461</span></a><a class="peer-chip " href="3474.html">松瀬弘美 <span class="peer-toban">3474</span></a><a class="peer-chip " href="3489.html">大場敏 <span class="peer-toban">3489</span></a><a class="peer-chip " href="3502.html">渡邉英児 <span class="peer-toban">3502</span></a><a class="peer-chip " href="3518.html">倉田郁美 <span class="peer-toban">3518</span></a><a class="peer-chip " href="3544.html">豊田訓靖 <span class="peer-toban">3544</span></a><a class="peer-chip " href="3563.html">堤昇 <span class="peer-toban">3563</span></a></div>
+      <div class="peer-chips peer-hidden" id="branch-hidden"><a class="peer-chip " href="3591.html">後藤孝義 <span class="peer-toban">3591</span></a><a class="peer-chip " href="3630.html">黒田誠司 <span class="peer-toban">3630</span></a><a class="peer-chip " href="3642.html">大塚浩二 <span class="peer-toban">3642</span></a><a class="peer-chip " href="3718.html">伊達正利 <span class="peer-toban">3718</span></a><a class="peer-chip " href="3744.html">徳増秀樹 <span class="peer-toban">3744</span></a><a class="peer-chip " href="3796.html">長野道臣 <span class="peer-toban">3796</span></a><a class="peer-chip " href="3811.html">石田章央 <span class="peer-toban">3811</span></a><a class="peer-chip " href="3839.html">川合理司 <span class="peer-toban">3839</span></a><a class="peer-chip " href="3909.html">佐々木康幸 <span class="peer-toban">3909</span></a><a class="peer-chip " href="3932.html">池田浩美 <span class="peer-toban">3932</span></a><a class="peer-chip " href="3956.html">横澤剛治 <span class="peer-toban">3956</span></a><a class="peer-chip " href="3959.html">坪井康晴 <span class="peer-toban">3959</span></a><a class="peer-chip " href="3960.html">菊地孝平 <span class="peer-toban">3960</span></a><a class="peer-chip " href="3981.html">今坂晃広 <span class="peer-toban">3981</span></a><a class="peer-chip " href="3987.html">後藤正宗 <span class="peer-toban">3987</span></a><a class="peer-chip " href="3990.html">芹澤克彦 <span class="peer-toban">3990</span></a><a class="peer-chip " href="3995.html">重野哲之 <span class="peer-toban">3995</span></a><a class="peer-chip " href="4019.html">笠原亮 <span class="peer-toban">4019</span></a><a class="peer-chip " href="4033.html">伊藤将吉 <span class="peer-toban">4033</span></a><a class="peer-chip " href="4058.html">野末智一 <span class="peer-toban">4058</span></a><a class="peer-chip " href="4068.html">幸田智裕 <span class="peer-toban">4068</span></a><a class="peer-chip " href="4073.html">大橋純一郎 <span class="peer-toban">4073</span></a><a class="peer-chip " href="4076.html">杉田篤光 <span class="peer-toban">4076</span></a><a class="peer-chip " href="4124.html">池田雄一 <span class="peer-toban">4124</span></a><a class="peer-chip " href="4131.html">原豊土 <span class="peer-toban">4131</span></a><a class="peer-chip " href="4150.html">山田雄太 <span class="peer-toban">4150</span></a><a class="peer-chip " href="4190.html">長嶋万記 <span class="peer-toban">4190</span></a><a class="peer-chip " href="4197.html">渥美卓郎 <span class="peer-toban">4197</span></a><a class="peer-chip " href="4207.html">松下一也 <span class="peer-toban">4207</span></a><a class="peer-chip " href="4208.html">三浦永理 <span class="peer-toban">4208</span></a><a class="peer-chip " href="4209.html">藤田竜弘 <span class="peer-toban">4209</span></a><a class="peer-chip " href="4216.html">星栄爾 <span class="peer-toban">4216</span></a><a class="peer-chip " href="4229.html">市川美宏 <span class="peer-toban">4229</span></a><a class="peer-chip " href="4244.html">鈴木成美 <span class="peer-toban">4244</span></a><a class="peer-chip " href="4246.html">喜多那由夏 <span class="peer-toban">4246</span></a><a class="peer-chip " href="4273.html">佐藤旭 <span class="peer-toban">4273</span></a><a class="peer-chip " href="4317.html">木村紗友希 <span class="peer-toban">4317</span></a><a class="peer-chip " href="4327.html">加藤翔 <span class="peer-toban">4327</span></a><a class="peer-chip " href="4342.html">谷野錬志 <span class="peer-toban">4342</span></a><a class="peer-chip " href="4360.html">庄司孝輔 <span class="peer-toban">4360</span></a><a class="peer-chip " href="4376.html">藤田靖弘 <span class="peer-toban">4376</span></a><a class="peer-chip " href="4380.html">鈴木峻佑 <span class="peer-toban">4380</span></a><a class="peer-chip " href="4417.html">服部剛 <span class="peer-toban">4417</span></a><a class="peer-chip " href="4464.html">山下友貴 <span class="peer-toban">4464</span></a><a class="peer-chip " href="4494.html">河合佑樹 <span class="peer-toban">4494</span></a><a class="peer-chip " href="4524.html">深谷知博 <span class="peer-toban">4524</span></a><a class="peer-chip " href="4581.html">吉村誠 <span class="peer-toban">4581</span></a><a class="peer-chip " href="4625.html">渡邊裕貴 <span class="peer-toban">4625</span></a><a class="peer-chip " href="4689.html">豊田結 <span class="peer-toban">4689</span></a><a class="peer-chip " href="4730.html">土屋実沙希 <span class="peer-toban">4730</span></a><a class="peer-chip " href="4740.html">齋藤達希 <span class="peer-toban">4740</span></a><a class="peer-chip " href="4756.html">渡邉昌成 <span class="peer-toban">4756</span></a><a class="peer-chip " href="4775.html">千葉真弥 <span class="peer-toban">4775</span></a><a class="peer-chip " href="4793.html">金子萌 <span class="peer-toban">4793</span></a><a class="peer-chip " href="4840.html">鈴木秀茉 <span class="peer-toban">4840</span></a><a class="peer-chip " href="4843.html">深尾巴恵 <span class="peer-toban">4843</span></a><a class="peer-chip " href="4918.html">川島拓郎 <span class="peer-toban">4918</span></a><a class="peer-chip " href="4933.html">板橋侑我 <span class="peer-toban">4933</span></a><a class="peer-chip " href="4984.html">森下愛梨 <span class="peer-toban">4984</span></a><a class="peer-chip " href="4988.html">牟田奨太 <span class="peer-toban">4988</span></a><a class="peer-chip " href="4989.html">石原翼 <span class="peer-toban">4989</span></a><a class="peer-chip " href="5019.html">柴田百恵 <span class="peer-toban">5019</span></a><a class="peer-chip " href="5034.html">若林義人 <span class="peer-toban">5034</span></a><a class="peer-chip " href="5076.html">石原光 <span class="peer-toban">5076</span></a><a class="peer-chip " href="5079.html">大石真央 <span class="peer-toban">5079</span></a><a class="peer-chip " href="5110.html">杉山喜一 <span class="peer-toban">5110</span></a><a class="peer-chip " href="5140.html">吉田彩乃 <span class="peer-toban">5140</span></a><a class="peer-chip " href="5174.html">川井萌 <span class="peer-toban">5174</span></a><a class="peer-chip " href="5205.html">刑部亜里紗 <span class="peer-toban">5205</span></a><a class="peer-chip " href="5248.html">本田愛 <span class="peer-toban">5248</span></a><a class="peer-chip " href="5269.html">山口晃朋 <span class="peer-toban">5269</span></a><a class="peer-chip " href="5293.html">眞崎武蔵 <span class="peer-toban">5293</span></a><a class="peer-chip " href="5294.html">豊田祥生 <span class="peer-toban">5294</span></a><a class="peer-chip " href="5316.html">村松将平 <span class="peer-toban">5316</span></a><a class="peer-chip " href="5332.html">村松遥輝 <span class="peer-toban">5332</span></a><a class="peer-chip " href="5362.html">中嶋世奈 <span class="peer-toban">5362</span></a><a class="peer-chip " href="5378.html">鈴木結平太 <span class="peer-toban">5378</span></a><a class="peer-chip " href="5385.html">鈴木柊介 <span class="peer-toban">5385</span></a><a class="peer-chip " href="5432.html">安藤瑠希 <span class="peer-toban">5432</span></a><a class="peer-chip " href="5434.html">藤田康生 <span class="peer-toban">5434</span></a></div><button class="peer-more-btn" onclick="showPeers('branch-hidden',this)">もっと見る（あと80人）</button>
+    </div>
+  </section>
+
+  <section>
     <h2>基本情報 <span class="en">PROFILE</span></h2>
     <table>
       <tr><th>生年月日</th><td>2004年2月29日</td></tr>
       <tr><th>出身地</th><td>静岡</td></tr>
       <tr><th>支部</th><td>静岡支部</td></tr>
-      <tr><th>期別</th><td>—期</td></tr>
+      <tr><th>期別</th><td>134期</td></tr>
       <tr><th>級別</th><td>B2</td></tr>
       <tr><th>現況</th><td>現役</td></tr>
       <tr><th>趣味</th><td>—</td></tr>
@@ -162,5 +191,11 @@
   舟☆探 選手名鑑 ｜ 掲載情報にはすべて出典を明記しています。訂正のご連絡はこちら
 </footer>
 
+<script>
+function showPeers(hiddenId, btn) {
+  document.getElementById(hiddenId).classList.remove('peer-hidden');
+  btn.style.display = 'none';
+}
+</script>
 </body>
 </html>

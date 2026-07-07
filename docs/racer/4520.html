@@ -86,6 +86,20 @@
   .cta .lane-strip{position:absolute;top:0;left:0;right:0}
   .cta h3{font-family:var(--serif);font-weight:900;font-size:22px;letter-spacing:.05em}
   .cta p{margin-top:8px;font-size:13px;color:rgba(255,255,255,.8)}
+  /* 同期・同支部チップ */
+  .peer-wrap{margin-top:10px}
+  .peer-group-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.1em;margin-bottom:6px}
+  .peer-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .peer-chip{font-size:12px;font-weight:700;padding:5px 11px;border-radius:14px;background:#fff;border:1px solid var(--line);text-decoration:none;color:var(--navy);white-space:nowrap}
+  .peer-chip:hover{border-color:var(--navy)}
+  .peer-chip.same-branch{border-color:var(--blue);color:var(--blue)}
+  .peer-chip.same-branch:hover{background:var(--blue);color:#fff}
+  .peer-toban{font-family:var(--mono);font-size:10px;opacity:.55;font-weight:400}
+  .peer-count{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--muted);margin-left:6px}
+  .peer-more-btn{font-size:12px;font-weight:700;margin-top:8px;padding:5px 14px;border-radius:14px;background:#EFEBE2;color:var(--navy);border:1px solid var(--line);cursor:pointer;display:block}
+  .peer-more-btn:hover{background:var(--navy);color:#fff}
+  .peer-hidden{display:none!important}
+
   .unki-btn{display:block;margin:24px 0 4px;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 20px;border-radius:6px;letter-spacing:.05em}
   .unki-btn:hover{opacity:.88}
   .cta-btn{display:inline-block;margin-top:16px;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 28px;border-radius:4px;letter-spacing:.05em}
@@ -127,6 +141,20 @@
   </section>
 
   <section>
+    <h2>103期 同期の仲間 <span class="en">CLASSMATES</span><span class="peer-count">全22人</span></h2>
+    <div class="peer-wrap"><div class="peer-chips"><a class="peer-chip " href="4516.html">野口勝弘 <span class="peer-toban">4516</span></a><a class="peer-chip " href="4518.html">大須賀友 <span class="peer-toban">4518</span></a><a class="peer-chip " href="4519.html">清水沙樹 <span class="peer-toban">4519</span></a><a class="peer-chip " href="4521.html">小池公生 <span class="peer-toban">4521</span></a><a class="peer-chip " href="4522.html">古澤光紀 <span class="peer-toban">4522</span></a><a class="peer-chip " href="4523.html">中村辰也 <span class="peer-toban">4523</span></a><a class="peer-chip " href="4524.html">深谷知博 <span class="peer-toban">4524</span></a><a class="peer-chip " href="4525.html">真子奈津実 <span class="peer-toban">4525</span></a></div>
+<div class="peer-chips peer-hidden" id="douki-hidden"><a class="peer-chip " href="4526.html">池田雄祐 <span class="peer-toban">4526</span></a><a class="peer-chip " href="4527.html">高野心吾 <span class="peer-toban">4527</span></a><a class="peer-chip " href="4528.html">黒井達矢 <span class="peer-toban">4528</span></a><a class="peer-chip " href="4529.html">嶋義信 <span class="peer-toban">4529</span></a><a class="peer-chip " href="4530.html">小野生奈 <span class="peer-toban">4530</span></a><a class="peer-chip " href="4531.html">武富智亮 <span class="peer-toban">4531</span></a><a class="peer-chip " href="4532.html">秋元哲 <span class="peer-toban">4532</span></a><a class="peer-chip " href="4533.html">峰重侑治 <span class="peer-toban">4533</span></a><a class="peer-chip " href="4534.html">坂咲友理 <span class="peer-toban">4534</span></a><a class="peer-chip " href="4535.html">北山康介 <span class="peer-toban">4535</span></a><a class="peer-chip " href="4536.html">喜井つかさ <span class="peer-toban">4536</span></a><a class="peer-chip " href="4537.html">渡邉和将 <span class="peer-toban">4537</span></a><a class="peer-chip " href="4538.html">笠置博之 <span class="peer-toban">4538</span></a><a class="peer-chip " href="4539.html">金子賢志 <span class="peer-toban">4539</span></a></div><button class="peer-more-btn" onclick="showPeers('douki-hidden',this)">他の同期を見る（あと14人）</button></div>
+  </section>
+
+  <section>
+    <h2>福井支部の選手 <span class="en">BRANCH MATES</span><span class="peer-count">全43人</span></h2>
+    <div class="peer-wrap">
+      <div class="peer-chips" id="branch-shown"><a class="peer-chip " href="3388.html">今垣光太郎 <span class="peer-toban">3388</span></a><a class="peer-chip " href="3548.html">室田泰史 <span class="peer-toban">3548</span></a><a class="peer-chip " href="3620.html">信濃由行 <span class="peer-toban">3620</span></a><a class="peer-chip " href="3635.html">石田政吾 <span class="peer-toban">3635</span></a><a class="peer-chip " href="3654.html">武田光史 <span class="peer-toban">3654</span></a><a class="peer-chip " href="3692.html">竹腰正樹 <span class="peer-toban">3692</span></a><a class="peer-chip " href="3814.html">金子貴志 <span class="peer-toban">3814</span></a><a class="peer-chip " href="3833.html">中辻博訓 <span class="peer-toban">3833</span></a><a class="peer-chip " href="3870.html">寺嶋雄 <span class="peer-toban">3870</span></a><a class="peer-chip " href="3891.html">谷口健一 <span class="peer-toban">3891</span></a><a class="peer-chip " href="3912.html">川原正明 <span class="peer-toban">3912</span></a><a class="peer-chip " href="3921.html">川村正輝 <span class="peer-toban">3921</span></a></div>
+      <div class="peer-chips peer-hidden" id="branch-hidden"><a class="peer-chip " href="4003.html">表憲一 <span class="peer-toban">4003</span></a><a class="peer-chip " href="4013.html">中島孝平 <span class="peer-toban">4013</span></a><a class="peer-chip " href="4061.html">萩原秀人 <span class="peer-toban">4061</span></a><a class="peer-chip " href="4210.html">松村康太 <span class="peer-toban">4210</span></a><a class="peer-chip " href="4339.html">平瀬城啓 <span class="peer-toban">4339</span></a><a class="peer-chip " href="4391.html">松田祐季 <span class="peer-toban">4391</span></a><a class="peer-chip " href="4400.html">加藤奈月 <span class="peer-toban">4400</span></a><a class="peer-chip " href="4405.html">南野利騰 <span class="peer-toban">4405</span></a><a class="peer-chip " href="4415.html">下出卓矢 <span class="peer-toban">4415</span></a><a class="peer-chip " href="4469.html">土山卓也 <span class="peer-toban">4469</span></a><a class="peer-chip " href="4473.html">藤堂里香 <span class="peer-toban">4473</span></a><a class="peer-chip " href="4587.html">木田峰由季 <span class="peer-toban">4587</span></a><a class="peer-chip " href="4611.html">今井美亜 <span class="peer-toban">4611</span></a><a class="peer-chip " href="4664.html">東口晃 <span class="peer-toban">4664</span></a><a class="peer-chip " href="4692.html">酒井俊弘 <span class="peer-toban">4692</span></a><a class="peer-chip " href="4711.html">前出達吉 <span class="peer-toban">4711</span></a><a class="peer-chip " href="4876.html">梅木敬太 <span class="peer-toban">4876</span></a><a class="peer-chip " href="4930.html">佐藤悠 <span class="peer-toban">4930</span></a><a class="peer-chip " href="4961.html">西橋奈未 <span class="peer-toban">4961</span></a><a class="peer-chip " href="5038.html">金田智博 <span class="peer-toban">5038</span></a><a class="peer-chip " href="5085.html">中村栄治 <span class="peer-toban">5085</span></a><a class="peer-chip " href="5091.html">為本智也 <span class="peer-toban">5091</span></a><a class="peer-chip " href="5114.html">小林孝彰 <span class="peer-toban">5114</span></a><a class="peer-chip " href="5156.html">坂野さくら <span class="peer-toban">5156</span></a><a class="peer-chip " href="5185.html">加藤優弥 <span class="peer-toban">5185</span></a><a class="peer-chip " href="5187.html">小坂風太 <span class="peer-toban">5187</span></a><a class="peer-chip " href="5251.html">沼田七華 <span class="peer-toban">5251</span></a><a class="peer-chip " href="5282.html">中本大樹 <span class="peer-toban">5282</span></a><a class="peer-chip " href="5355.html">萩原丈太朗 <span class="peer-toban">5355</span></a><a class="peer-chip " href="5366.html">塩嶋泰空 <span class="peer-toban">5366</span></a><a class="peer-chip " href="5465.html">直江健成 <span class="peer-toban">5465</span></a></div><button class="peer-more-btn" onclick="showPeers('branch-hidden',this)">もっと見る（あと31人）</button>
+    </div>
+  </section>
+
+  <section>
     <h2>基本情報 <span class="en">PROFILE</span></h2>
     <table>
       <tr><th>生年月日</th><td>1987年3月21日</td></tr>
@@ -162,5 +190,11 @@
   舟☆探 選手名鑑 ｜ 掲載情報にはすべて出典を明記しています。訂正のご連絡はこちら
 </footer>
 
+<script>
+function showPeers(hiddenId, btn) {
+  document.getElementById(hiddenId).classList.remove('peer-hidden');
+  btn.style.display = 'none';
+}
+</script>
 </body>
 </html>

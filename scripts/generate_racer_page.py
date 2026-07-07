@@ -8,6 +8,7 @@ usage: python scripts/generate_racer_page.py [toban]
 import csv
 import os
 import sys
+from collections import defaultdict
 from datetime import date
 
 # パス設定
@@ -37,6 +38,32 @@ def load_relations():
                 print(f"[警告] 出典URL なし: id={row['id']}")
             relations.append(row)
     return relations
+
+# --------- インデックス構築 ---------
+
+def build_ki_map(racers):
+    """ki → [(toban, name, branch), ...] 登録番号順"""
+    result = defaultdict(list)
+    for toban, r in racers.items():
+        ki = r.get("ki", "").strip()
+        if ki:
+            result[ki].append((toban, r["name"], r.get("branch", "")))
+    for ki in result:
+        result[ki].sort(key=lambda x: x[0])
+    return result
+
+
+def build_branch_map(racers):
+    """branch → [(toban, name, ki), ...] 登録番号順"""
+    result = defaultdict(list)
+    for toban, r in racers.items():
+        branch = r.get("branch", "").strip()
+        if branch:
+            result[branch].append((toban, r["name"], r.get("ki", "")))
+    for branch in result:
+        result[branch].sort(key=lambda x: x[0])
+    return result
+
 
 # --------- ヘルパー ---------
 
@@ -142,13 +169,102 @@ def rel_card_html(rel, other_toban, other_name, conf, source_url, racers):
       </a>'''
 
 
-def generate_page(toban, racers, relations):
+def _peer_chip(toban, name, extra_class=""):
+    return (f'<a class="peer-chip {extra_class}" href="{toban}.html">'
+            f'{name} <span class="peer-toban">{toban}</span></a>')
+
+
+def douki_section_html(toban, r, ki_map):
+    """同期の仲間セクション HTML（ki が空なら空文字を返す）"""
+    ki = r.get("ki", "").strip()
+    if not ki:
+        return ""
+    all_peers = [(t, n, b) for t, n, b in ki_map.get(ki, []) if t != toban]
+    if not all_peers:
+        return ""
+
+    my_branch = r.get("branch", "")
+    same_branch = [(t, n) for t, n, b in all_peers if b == my_branch]
+    others      = [(t, n) for t, n, b in all_peers if b != my_branch]
+    total = len(all_peers)
+
+    parts = []
+
+    if same_branch:
+        chips = "".join(_peer_chip(t, n, "same-branch") for t, n in same_branch)
+        parts.append(
+            f'<div class="peer-group-label">同支部（{my_branch}）</div>'
+            f'<div class="peer-chips">{chips}</div>'
+        )
+
+    SHOW_N = 8
+    shown  = others[:SHOW_N]
+    hidden = others[SHOW_N:]
+
+    if shown:
+        label = '<div class="peer-group-label" style="margin-top:10px">他支部の同期</div>' if same_branch else ""
+        chips_shown = "".join(_peer_chip(t, n) for t, n in shown)
+        parts.append(f'{label}<div class="peer-chips">{chips_shown}</div>')
+
+    if hidden:
+        chips_hidden = "".join(_peer_chip(t, n) for t, n in hidden)
+        parts.append(
+            f'<div class="peer-chips peer-hidden" id="douki-hidden">{chips_hidden}</div>'
+            f'<button class="peer-more-btn" onclick="showPeers(\'douki-hidden\',this)">'
+            f'他の同期を見る（あと{len(hidden)}人）</button>'
+        )
+
+    inner = "\n".join(parts)
+    return f'''  <section>
+    <h2>{ki}期 同期の仲間 <span class="en">CLASSMATES</span><span class="peer-count">全{total}人</span></h2>
+    <div class="peer-wrap">{inner}</div>
+  </section>'''
+
+
+def branch_section_html(toban, r, branch_map):
+    """同支部の選手セクション HTML"""
+    branch = r.get("branch", "").strip()
+    if not branch:
+        return ""
+    all_peers = [(t, n, k) for t, n, k in branch_map.get(branch, []) if t != toban]
+    if not all_peers:
+        return ""
+
+    total  = len(all_peers)
+    SHOW_N = 12
+    shown  = all_peers[:SHOW_N]
+    hidden = all_peers[SHOW_N:]
+
+    chips_shown  = "".join(_peer_chip(t, n) for t, n, k in shown)
+    hidden_block = ""
+    if hidden:
+        chips_hidden = "".join(_peer_chip(t, n) for t, n, k in hidden)
+        hidden_block = (
+            f'<div class="peer-chips peer-hidden" id="branch-hidden">{chips_hidden}</div>'
+            f'<button class="peer-more-btn" onclick="showPeers(\'branch-hidden\',this)">'
+            f'もっと見る（あと{len(hidden)}人）</button>'
+        )
+
+    return f'''  <section>
+    <h2>{branch}支部の選手 <span class="en">BRANCH MATES</span><span class="peer-count">全{total}人</span></h2>
+    <div class="peer-wrap">
+      <div class="peer-chips" id="branch-shown">{chips_shown}</div>
+      {hidden_block}
+    </div>
+  </section>'''
+
+
+def generate_page(toban, racers, relations, ki_map, branch_map):
     r = racers.get(toban)
     if not r:
         print(f"[エラー] 登録番号 {toban} が racers.csv に見つかりません")
         return
 
     rel_rows = get_relations_for(toban, relations, racers)
+
+    # 同期・同支部セクション
+    douki_section  = douki_section_html(toban, r, ki_map)
+    branch_section = branch_section_html(toban, r, branch_map)
 
     # 人間関係カード HTML
     if rel_rows:
@@ -287,6 +403,20 @@ def generate_page(toban, racers, relations):
   .cta .lane-strip{{position:absolute;top:0;left:0;right:0}}
   .cta h3{{font-family:var(--serif);font-weight:900;font-size:22px;letter-spacing:.05em}}
   .cta p{{margin-top:8px;font-size:13px;color:rgba(255,255,255,.8)}}
+  /* 同期・同支部チップ */
+  .peer-wrap{{margin-top:10px}}
+  .peer-group-label{{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.1em;margin-bottom:6px}}
+  .peer-chips{{display:flex;flex-wrap:wrap;gap:6px}}
+  .peer-chip{{font-size:12px;font-weight:700;padding:5px 11px;border-radius:14px;background:#fff;border:1px solid var(--line);text-decoration:none;color:var(--navy);white-space:nowrap}}
+  .peer-chip:hover{{border-color:var(--navy)}}
+  .peer-chip.same-branch{{border-color:var(--blue);color:var(--blue)}}
+  .peer-chip.same-branch:hover{{background:var(--blue);color:#fff}}
+  .peer-toban{{font-family:var(--mono);font-size:10px;opacity:.55;font-weight:400}}
+  .peer-count{{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--muted);margin-left:6px}}
+  .peer-more-btn{{font-size:12px;font-weight:700;margin-top:8px;padding:5px 14px;border-radius:14px;background:#EFEBE2;color:var(--navy);border:1px solid var(--line);cursor:pointer;display:block}}
+  .peer-more-btn:hover{{background:var(--navy);color:#fff}}
+  .peer-hidden{{display:none!important}}
+
   .unki-btn{{display:block;margin:24px 0 4px;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 20px;border-radius:6px;letter-spacing:.05em}}
   .unki-btn:hover{{opacity:.88}}
   .cta-btn{{display:inline-block;margin-top:16px;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 28px;border-radius:4px;letter-spacing:.05em}}
@@ -312,7 +442,7 @@ def generate_page(toban, racers, relations):
       <div class="badges">
         <span class="badge grade">{r["grade"]}</span>
         <span class="badge">{r["branch"]}支部</span>
-        <span class="badge">{r["ki"]}期</span>
+        {'<span class="badge">' + r["ki"] + '期</span>' if r.get("ki") else ''}
         <span class="badge">{status_str}</span>
       </div>
       <div class="checked">最終確認：{checked_str}</div>
@@ -323,6 +453,10 @@ def generate_page(toban, racers, relations):
 <main>
 
 {rel_section}
+
+{douki_section}
+
+{branch_section}
 
   <section>
     <h2>基本情報 <span class="en">PROFILE</span></h2>
@@ -352,6 +486,12 @@ def generate_page(toban, racers, relations):
   舟☆探 選手名鑑 ｜ 掲載情報にはすべて出典を明記しています。訂正のご連絡はこちら
 </footer>
 
+<script>
+function showPeers(hiddenId, btn) {{
+  document.getElementById(hiddenId).classList.remove('peer-hidden');
+  btn.style.display = 'none';
+}}
+</script>
 </body>
 </html>
 '''
@@ -365,8 +505,10 @@ def generate_page(toban, racers, relations):
 # --------- エントリポイント ---------
 
 if __name__ == "__main__":
-    racers = load_racers()
+    racers    = load_racers()
     relations = load_relations()
+    ki_map    = build_ki_map(racers)
+    branch_map = build_branch_map(racers)
 
     if len(sys.argv) >= 2:
         targets = sys.argv[1:]
@@ -374,6 +516,6 @@ if __name__ == "__main__":
         targets = list(racers.keys())
 
     for t in targets:
-        generate_page(t, racers, relations)
+        generate_page(t, racers, relations, ki_map, branch_map)
 
     print("完了")

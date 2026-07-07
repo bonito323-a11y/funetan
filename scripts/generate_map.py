@@ -52,8 +52,11 @@ def build_graph(racers, relations):
     - confidence=C の関係は除外
     - source_url なしは除外
     - 片方向記録を双方向リンクとして1本に統一
+    - 同期リンク: グラフ内ノード間だけ追加（細い薄色線で表示）
     """
-    # リンクを (small_toban, large_toban) のペアでユニーク化して重複を防ぐ
+    from collections import defaultdict
+
+    # --- relations.csv から明示関係リンクを構築 ---
     seen_links = set()
     links = []
 
@@ -96,10 +99,32 @@ def build_graph(racers, relations):
             "name": r["name"],
             "branch": r["branch"],
             "grade": r["grade"],
+            "ki": r.get("ki", ""),
             "hobby": r["hobby"] or "",
             "status": STATUS_LABEL.get(r["status"], r["status"]),
             "retired": r["status"] == "retired",
         })
+
+    # --- 同期リンク: グラフ内ノード同士で ki が一致するペアだけ追加 ---
+    ki_to_nodes = defaultdict(list)
+    for n in nodes:
+        if n["ki"]:
+            ki_to_nodes[n["ki"]].append(n["id"])
+
+    for ki, tobans in ki_to_nodes.items():
+        if len(tobans) < 2:
+            continue
+        for i in range(len(tobans)):
+            for j in range(i + 1, len(tobans)):
+                key = tuple(sorted([tobans[i], tobans[j]]))
+                if key not in seen_links:
+                    seen_links.add(key)
+                    links.append({
+                        "source": tobans[i],
+                        "target": tobans[j],
+                        "type": "douki",
+                        "label": f"{ki}期 同期",
+                    })
 
     return nodes, links
 
@@ -217,9 +242,9 @@ const sim = d3.forceSimulation(nodes)
 
 const link = g.selectAll("line").data(links).join("line")
   .attr("stroke", d => colors[d.type] || "#7B8794")
-  .attr("stroke-width", 2.5)
-  .attr("stroke-dasharray", d => d.type === "douki" ? "4 4" : null)
-  .attr("stroke-opacity", 0.75);
+  .attr("stroke-width", d => d.type === "douki" ? 1.2 : 2.5)
+  .attr("stroke-dasharray", d => d.type === "douki" ? "5 4" : null)
+  .attr("stroke-opacity", d => d.type === "douki" ? 0.28 : 0.80);
 
 const node = g.selectAll("g.n").data(nodes).join("g")
   .attr("class", "n")
@@ -275,8 +300,16 @@ function focusNode(d) {{
   node.selectAll("text").attr("opacity", n => nbrs.has(n.id) ? 1 : 0.12);
 
   link
-    .attr("stroke-opacity", l => (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.06)
-    .attr("stroke-width",   l => (l.source.id === d.id || l.target.id === d.id) ? 4 : 2.5);
+    .attr("stroke-opacity", l => {{
+      const active = l.source.id === d.id || l.target.id === d.id;
+      if (!active) return 0.05;
+      return l.type === "douki" ? 0.45 : 1;
+    }})
+    .attr("stroke-width", l => {{
+      const active = l.source.id === d.id || l.target.id === d.id;
+      if (!active) return l.type === "douki" ? 1.2 : 2.5;
+      return l.type === "douki" ? 1.8 : 4;
+    }});
 
   const rels = (adj[d.id] || []).map(x => {{
     const n2 = nodes.find(n => n.id === x.to);
@@ -298,7 +331,9 @@ function reset() {{
     .attr("fill", d => d.retired ? "#3E4C59" : "#173B52")
     .attr("r", 18);
   node.selectAll("text").attr("opacity", 1);
-  link.attr("stroke-opacity", 0.75).attr("stroke-width", 2.5);
+  link
+    .attr("stroke-opacity", l => l.type === "douki" ? 0.28 : 0.80)
+    .attr("stroke-width",   l => l.type === "douki" ? 1.2 : 2.5);
   setPanel("関係マップ", "選手をタップすると、その選手の人間関係をハイライトします。", null);
 }}
 
