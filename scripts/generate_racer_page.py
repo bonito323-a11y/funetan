@@ -287,6 +287,8 @@ def generate_page(toban, racers, relations):
   .cta .lane-strip{{position:absolute;top:0;left:0;right:0}}
   .cta h3{{font-family:var(--serif);font-weight:900;font-size:22px;letter-spacing:.05em}}
   .cta p{{margin-top:8px;font-size:13px;color:rgba(255,255,255,.8)}}
+  .unki-btn{{display:block;margin:24px 0 4px;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 20px;border-radius:6px;letter-spacing:.05em}}
+  .unki-btn:hover{{opacity:.88}}
   .cta-btn{{display:inline-block;margin-top:16px;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 28px;border-radius:4px;letter-spacing:.05em}}
   .cta-btn:hover{{opacity:.9}}
 
@@ -334,6 +336,8 @@ def generate_page(toban, racers, relations):
     <div class="links">
 {links_html}    </div>
   </section>
+
+  {'<a class="unki-btn" href="../unki/' + toban + '.html">🔮 ' + r["name"] + 'の今日の艇運を見る</a>' if r.get("birth") else ''}
 
   <div class="cta">
     <div class="lane-strip"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span><span class="l5"></span><span class="l6"></span></div>
