@@ -104,19 +104,24 @@ id, from_toban, rel_type, to_toban, to_name, confidence, source_url, source_date
 
 relations.csv への登録作業中に登録番号不明の選手が出た場合は、**人間に確認を求めず**以下の順で自己解決すること：
 
-1. **艇国データバンクで検索**（第一優先）
-   ```
-   https://boatrace-db.net/racer/search/?name=選手名
-   ```
-   例：「遠藤ゆみ」で検索 → 登録番号4629を取得
-
-2. **それでも見つからない場合は Wikipedia「競艇選手一覧」を確認**
+1. **Wikipedia「競艇選手一覧」で確認**（第一優先）
    ```
    https://ja.wikipedia.org/wiki/競艇選手一覧
    ```
+   ※ 艇国データバンク（boatrace-db.net）はアクセス不可（403エラー）のため使用禁止
+
+2. **ボートレース公式選手検索**（引退選手は出ない場合あり）
+   ```
+   https://www.boatrace.jp/owpc/pc/data/racersearch/frame
+   ```
+
+3. **それでも見つからない場合は to_toban を `0` として仮登録**
+   - to_name に選手名を記載
+   - memo に「登録番号不明（引退）・ダシオさんが手動補完予定」と明記
+   - 後でダシオさんが登録番号を確認し補完する
 
 - 引退選手でも登録番号が確定すれば to_toban に記載してよい（racers.csv非登録であることを memo に明記する）
-- どちらでも見つからない場合のみ、その旨をダシオさんに報告する
+- `to_toban=0` の行は生成スクリプトで名前のみ表示・リンクなしとなる（仕様上問題なし）
 
 ## 選手追加フロー（M2以降いつでも使える）
 
