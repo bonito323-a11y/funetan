@@ -100,6 +100,24 @@ id, from_toban, rel_type, to_toban, to_name, confidence, source_url, source_date
 
 各マイルストーン完了時に必ず：commit → 作業ログ.md 更新 → ダシオさんに確認ポイントを提示。
 
+## 引退選手の登録番号調査手順
+
+relations.csv への登録作業中に登録番号不明の選手が出た場合は、**人間に確認を求めず**以下の順で自己解決すること：
+
+1. **艇国データバンクで検索**（第一優先）
+   ```
+   https://boatrace-db.net/racer/search/?name=選手名
+   ```
+   例：「遠藤ゆみ」で検索 → 登録番号4629を取得
+
+2. **それでも見つからない場合は Wikipedia「競艇選手一覧」を確認**
+   ```
+   https://ja.wikipedia.org/wiki/競艇選手一覧
+   ```
+
+- 引退選手でも登録番号が確定すれば to_toban に記載してよい（racers.csv非登録であることを memo に明記する）
+- どちらでも見つからない場合のみ、その旨をダシオさんに報告する
+
 ## 選手追加フロー（M2以降いつでも使える）
 
 ダシオさんが「〇〇（登録番号XXXX）を追加して」と言ったら：
