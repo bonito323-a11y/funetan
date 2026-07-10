@@ -84,6 +84,10 @@ def build_graph(racers, relations):
                 "label": rel_type,
             })
 
+    # 両端ともracers.csvに登録されているリンクのみ残す
+    # （引退選手・to_toban=0 など未登録は除外 → D3クラッシュ防止）
+    links = [l for l in links if l["source"] in racers and l["target"] in racers]
+
     # グラフに登場するノードだけを nodes に含める
     involved = set()
     for l in links:
