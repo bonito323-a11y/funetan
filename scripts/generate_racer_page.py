@@ -155,8 +155,8 @@ def rel_card_html(rel, other_toban, other_name, conf, source_url, racers):
         meta_parts.append(STATUS_LABEL.get(other["status"], other["status"]))
     meta_str = "・".join(meta_parts)
 
-    is_unknown = (other_toban == "0" or not other_toban)
-    if not is_unknown:
+    in_db = (other_toban and other_toban != "0" and other_toban in racers)
+    if in_db:
         href = f"{other_toban}.html"
         name_html = f'{other_name} <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">{other_toban}</span>'
     else:
