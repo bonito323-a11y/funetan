@@ -155,12 +155,13 @@ def rel_card_html(rel, other_toban, other_name, conf, source_url, racers):
         meta_parts.append(STATUS_LABEL.get(other["status"], other["status"]))
     meta_str = "・".join(meta_parts)
 
-    if other_toban:
+    is_unknown = (other_toban == "0" or not other_toban)
+    if not is_unknown:
         href = f"{other_toban}.html"
         name_html = f'{other_name} <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">{other_toban}</span>'
     else:
         href = source_url
-        name_html = other_name
+        name_html = f'{other_name} <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">引退</span>'
 
     return f'''      <a class="rel-card {card_class}" href="{href}">
         <div class="rel-type">{rel}</div>
