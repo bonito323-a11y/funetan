@@ -103,12 +103,13 @@ def fmt_checked(checked_str):
     except Exception:
         return checked_str
 
-def get_relations_for(toban, relations, racers):
+def get_relations_for(toban, relations, racers, retired_names=None):
     """
     toban の選手に関係する行を取得。
     - confidence=C は除外
     - source_url なしは除外
     - 片方向記録なので逆方向も補完する
+    - retired_names: racers.csv未登録の引退選手名キャッシュ
     """
     REVERSE = {
         "父": "子", "母": "子", "子": "父/母",
@@ -117,6 +118,8 @@ def get_relations_for(toban, relations, racers):
         "配偶者": "配偶者", "元配偶者": "元配偶者",
         "親族": "親族", "友人": "友人", "同期": "同期", "仲良し": "仲良し",
     }
+    if retired_names is None:
+        retired_names = {}
 
     result = []
     for r in relations:
@@ -133,7 +136,8 @@ def get_relations_for(toban, relations, racers):
 
         elif r["to_toban"] == toban:
             other_toban = r["from_toban"]
-            other_name = racers.get(other_toban, {}).get("name", "")
+            # racers.csvに存在しない引退選手はretired_namesから名前を補完
+            other_name = racers.get(other_toban, {}).get("name", "") or retired_names.get(other_toban, "")
             rev_rel = REVERSE.get(r["rel_type"], r["rel_type"])
             result.append((rev_rel, other_toban, other_name, r["confidence"], r["source_url"]))
 
@@ -168,6 +172,99 @@ def rel_card_html(rel, other_toban, other_name, conf, source_url, racers):
         <div class="rel-name">{name_html}</div>
         <div class="rel-meta"><span>{meta_str}</span><span class="conf {conf_cls}">{conf_label}</span></div>
       </a>'''
+
+
+def mini_graph_section_html(center_toban, center_name, rel_rows, racers):
+    """人間関係ミニグラフ（vis-network）。関係がなければ空文字を返す。"""
+    import json
+
+    if not rel_rows:
+        return ""
+
+    EDGE_LABEL = {
+        "師匠": "師弟", "弟子": "師弟",
+        "配偶者": "夫婦", "元配偶者": "夫婦",
+        "父": "親子", "母": "親子", "子": "親子",
+        "兄": "兄弟", "姉": "兄弟", "弟": "兄弟", "妹": "兄弟",
+        "親族": "親族",
+        "仲良し": "仲間", "友人": "仲間", "同期": "仲間",
+    }
+
+    nodes = [{"id": center_toban, "label": center_name, "group": "center"}]
+    seen  = {center_toban}
+    edges = []
+
+    for i, (rel, other_toban, other_name, conf, src) in enumerate(rel_rows):
+        if not other_name:
+            continue
+        node_id   = other_toban if (other_toban and other_toban != "0") else f"_r{i}"
+        navigable = bool(other_toban and other_toban != "0" and other_toban in racers)
+
+        if node_id not in seen:
+            nd = {"id": node_id, "label": other_name,
+                  "group": "active" if navigable else "retired"}
+            if navigable:
+                nd["toban"] = other_toban
+            nodes.append(nd)
+            seen.add(node_id)
+
+        has_arrow = rel in ("師匠", "弟子")
+        ef = node_id        if rel == "師匠" else center_toban
+        et = center_toban   if rel == "師匠" else node_id
+
+        edges.append({
+            "id": i, "from": ef, "to": et,
+            "label": EDGE_LABEL.get(rel, rel),
+            "arrows": {"to": {"enabled": has_arrow, "scaleFactor": 0.7}}
+        })
+
+    nodes_json = json.dumps(nodes, ensure_ascii=False)
+    edges_json = json.dumps(edges, ensure_ascii=False)
+
+    return f'''  <section>
+    <h2>関係グラフ <span class="en">NETWORK</span></h2>
+    <div id="mini-graph" style="height:260px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff"></div>
+    <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
+    <script>
+    (function(){{
+      var N={nodes_json};
+      var E={edges_json};
+      var el=document.getElementById('mini-graph');
+      var net=new vis.Network(el,
+        {{nodes:new vis.DataSet(N),edges:new vis.DataSet(E)}},
+        {{
+          physics:{{stabilization:{{iterations:80}},barnesHut:{{gravitationalConstant:-3000}}}},
+          interaction:{{hover:true,tooltipDelay:100}},
+          nodes:{{shape:'box',font:{{size:13,face:'sans-serif'}},borderWidth:1.5,margin:8,
+                 shadow:{{enabled:true,size:4,x:2,y:2}}}},
+          edges:{{font:{{size:10,align:'middle',vadjust:-3}},
+                 smooth:{{type:'curvedCW',roundness:0.1}},
+                 color:{{color:'#9CA3AF',highlight:'#4B5563',hover:'#4B5563'}}}},
+          groups:{{
+            center:{{color:{{background:'#0E2A3C',border:'#0E2A3C',
+                           highlight:{{background:'#173B52',border:'#173B52'}}}},
+                   font:{{color:'#fff',bold:true}}}},
+            active:{{color:{{background:'#E7F3EB',border:'#1E7A41',
+                           highlight:{{background:'#D1FAE5',border:'#065F46'}}}},
+                   font:{{color:'#0E2A3C'}}}},
+            retired:{{color:{{background:'#F3F4F6',border:'#9CA3AF',
+                            highlight:{{background:'#E5E7EB',border:'#6B7280'}}}},
+                    font:{{color:'#6B7280'}}}}
+          }}
+        }});
+      net.on('click',function(p){{
+        if(!p.nodes.length)return;
+        var nd=N.find(function(n){{return n.id===p.nodes[0];}});
+        if(nd&&nd.toban)window.location.href=nd.toban+'.html';
+      }});
+      net.on('hoverNode',function(p){{
+        var nd=N.find(function(n){{return n.id===p.node;}});
+        el.style.cursor=(nd&&nd.toban)?'pointer':'default';
+      }});
+      net.on('blurNode',function(){{el.style.cursor='default';}});
+    }})();
+    </script>
+  </section>'''
 
 
 def _peer_chip(toban, name, extra_class=""):
@@ -255,13 +352,16 @@ def branch_section_html(toban, r, branch_map):
   </section>'''
 
 
-def generate_page(toban, racers, relations, ki_map, branch_map):
+def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=None):
     r = racers.get(toban)
     if not r:
         print(f"[エラー] 登録番号 {toban} が racers.csv に見つかりません")
         return
 
-    rel_rows = get_relations_for(toban, relations, racers)
+    rel_rows = get_relations_for(toban, relations, racers, retired_names)
+    mini_graph = mini_graph_section_html(toban, r["name"], rel_rows, racers)
+    vis_tag = ('<script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js">'
+               '</script>') if mini_graph else ''
 
     # 同期・同支部セクション
     douki_section  = douki_section_html(toban, r, ki_map)
@@ -323,6 +423,7 @@ def generate_page(toban, racers, relations, ki_map, branch_map):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{r["name"]}（{toban}・{r["branch"]}）｜舟☆探 選手名鑑</title>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+{vis_tag}
 <style>
   :root{{
     --ink:#1C2530;
@@ -455,6 +556,8 @@ def generate_page(toban, racers, relations, ki_map, branch_map):
 
 {rel_section}
 
+{mini_graph}
+
 {douki_section}
 
 {branch_section}
@@ -508,6 +611,14 @@ function showPeers(hiddenId, btn) {{
 if __name__ == "__main__":
     racers    = load_racers()
     relations = load_relations()
+
+    # racers.csv未登録（引退等）の選手名をrelations.csvのto_nameから補完するキャッシュ
+    # ※ racers には追加しない（ページ生成対象に含めないため）
+    retired_names = {}
+    for r in relations:
+        if r["to_toban"] and r["to_toban"] != "0" and r["to_toban"] not in racers and r["to_name"]:
+            retired_names[r["to_toban"]] = r["to_name"]
+
     ki_map    = build_ki_map(racers)
     branch_map = build_branch_map(racers)
 
@@ -517,6 +628,6 @@ if __name__ == "__main__":
         targets = list(racers.keys())
 
     for t in targets:
-        generate_page(t, racers, relations, ki_map, branch_map)
+        generate_page(t, racers, relations, ki_map, branch_map, retired_names)
 
     print("完了")
