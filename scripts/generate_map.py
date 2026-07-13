@@ -51,7 +51,9 @@ def build_graph(racers, relations):
     nodes と links を構築する。
     - confidence=C の関係は除外
     - source_url なしは除外
-    - 片方向記録を双方向リンクとして1本に統一
+    - 師弟リンク: 師匠→弟子の方向を正規化して directed=True を付与
+    - 夫婦・家族など: 無向（directed=False）
+    - 同一ペアでも師弟+配偶者など複数タイプを許容（typeを含むキーで重複排除）
     - 同期リンク: グラフ内ノード間だけ追加（細い薄色線で表示）
     """
     from collections import defaultdict
@@ -72,17 +74,29 @@ def build_graph(racers, relations):
             continue
 
         rel_type = r["rel_type"]
-        d3type = REL_TYPE_MAP.get(rel_type, "friend")
-        key = tuple(sorted([src, tgt]))
 
-        if key not in seen_links:
-            seen_links.add(key)
-            links.append({
-                "source": src,
-                "target": tgt,
-                "type": d3type,
-                "label": rel_type,
-            })
+        if rel_type in ("師匠", "弟子"):
+            # 方向を正規化：常に source=師匠, target=弟子
+            if rel_type == "弟子":
+                mentor, apprentice = src, tgt   # from=師匠, to=弟子
+            else:
+                mentor, apprentice = tgt, src   # from=弟子, to=師匠 → 逆転
+            key = (min(mentor, apprentice), max(mentor, apprentice), "mentor")
+            if key not in seen_links:
+                seen_links.add(key)
+                links.append({
+                    "source": mentor, "target": apprentice,
+                    "type": "mentor", "directed": True, "label": "師弟",
+                })
+        else:
+            d3type = REL_TYPE_MAP.get(rel_type, "friend")
+            key = (min(src, tgt), max(src, tgt), d3type)   # 同ペアの異なるtype（夫婦＋師弟等）を許容
+            if key not in seen_links:
+                seen_links.add(key)
+                links.append({
+                    "source": src, "target": tgt,
+                    "type": d3type, "directed": False, "label": rel_type,
+                })
 
     # 両端ともracers.csvに登録されているリンクのみ残す
     # （引退選手・to_toban=0 など未登録は除外 → D3クラッシュ防止）
@@ -200,12 +214,12 @@ def generate_map(racers, relations):
   <div class="brand">舟☆探<small>関係マップ</small></div>
   <div class="header-right"><a href="index.html">← 選手一覧に戻る</a></div>
 </header>
-<div class="sub">選手をタップ → 繋がりをハイライト。ドラッグで動かせます。ピンチ／スクロールで拡縮。</div>
+<div class="sub">ノードをタップ → 選手ページへ移動。ドラッグで動かせます。ピンチ／スクロールで拡縮。</div>
 
 <div class="legend">
   <span><i style="background:var(--red)"></i>夫婦・元配偶者</span>
   <span><i style="background:var(--blue)"></i>家族・親族</span>
-  <span><i style="background:var(--green)"></i>師弟</span>
+  <span><i style="background:var(--green)"></i>師弟（矢印：師匠→弟子）</span>
   <span><i style="background:var(--yellow)"></i>友人・仲良し</span>
   <span><i style="background:#7B8794"></i>同期</span>
 </div>
@@ -228,11 +242,24 @@ def generate_map(racers, relations):
 const nodes = {nodes_json};
 const links = {links_json};
 const colors = {{spouse:"#E33A2E",family:"#2E5FE3",mentor:"#2FA65A",friend:"#F2C21F",douki:"#7B8794"}};
+const NODE_R = 18;        // ノード半径
+const ARROW_GAP = 4;      // 矢印と円の隙間
 
 const svg = d3.select("#graph");
 const W = () => svg.node().clientWidth;
 const H = () => svg.node().clientHeight;
 const g = svg.append("g");
+
+// ── 矢印マーカー定義（師弟エッジ専用） ──
+svg.append("defs").append("marker")
+  .attr("id", "arrow-mentor")
+  .attr("markerWidth", 8).attr("markerHeight", 8)
+  .attr("refX", 8).attr("refY", 4)          // tip を line 終端に合わせる
+  .attr("orient", "auto")
+  .attr("markerUnits", "userSpaceOnUse")     // px 固定（stroke-width に依存しない）
+  .append("path")
+  .attr("d", "M0,0 L0,8 L8,4 z")
+  .attr("fill", colors.mentor);
 
 svg.call(
   d3.zoom().scaleExtent([0.3, 3]).on("zoom", e => g.attr("transform", e.transform))
@@ -248,20 +275,34 @@ const link = g.selectAll("line").data(links).join("line")
   .attr("stroke", d => colors[d.type] || "#7B8794")
   .attr("stroke-width", d => d.type === "douki" ? 1.2 : 2.5)
   .attr("stroke-dasharray", d => d.type === "douki" ? "5 4" : null)
-  .attr("stroke-opacity", d => d.type === "douki" ? 0.28 : 0.80);
+  .attr("stroke-opacity", d => d.type === "douki" ? 0.28 : 0.80)
+  .attr("marker-end", d => d.directed ? "url(#arrow-mentor)" : null);
+
+// ── ドラッグ中フラグ（クリックと区別するため） ──
+let wasDragged = false;
 
 const node = g.selectAll("g.n").data(nodes).join("g")
   .attr("class", "n")
   .style("cursor", "pointer")
   .call(
     d3.drag()
-      .on("start", (e, d) => {{ if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; }})
-      .on("drag",  (e, d) => {{ d.fx = e.x; d.fy = e.y; }})
-      .on("end",   (e, d) => {{ if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }})
+      .on("start", (e, d) => {{
+        wasDragged = false;
+        if (!e.active) sim.alphaTarget(0.3).restart();
+        d.fx = d.x; d.fy = d.y;
+      }})
+      .on("drag", (e, d) => {{
+        wasDragged = true;
+        d.fx = e.x; d.fy = e.y;
+      }})
+      .on("end", (e, d) => {{
+        if (!e.active) sim.alphaTarget(0);
+        d.fx = null; d.fy = null;
+      }})
   );
 
 node.append("circle")
-  .attr("r", 18)
+  .attr("r", NODE_R)
   .attr("fill", d => d.retired ? "#3E4C59" : "#173B52")
   .attr("stroke", "#fff")
   .attr("stroke-width", 1.5);
@@ -269,13 +310,20 @@ node.append("circle")
 node.append("text").attr("class", "node-label").attr("dy", -26).text(d => d.name);
 node.append("text").attr("class", "node-toban").attr("dy", 36).text(d => d.id);
 
-// 隣接マップ
-const adj = {{}};
-links.forEach(l => {{
-  const s = l.source.id || l.source;
-  const t = l.target.id || l.target;
-  (adj[s] = adj[s] || []).push({{ to: t, label: l.label }});
-  (adj[t] = adj[t] || []).push({{ to: s, label: l.label }});
+// ── クリック → 選手ページへ遷移（ドラッグ後は無視） ──
+node.on("click", (e, d) => {{
+  e.stopPropagation();
+  if (wasDragged) {{ wasDragged = false; return; }}
+  // 引退選手はページなし → パネル表示のみ
+  if (d.retired) {{
+    setPanel(
+      `${{d.name}}<span>${{d.id}}・${{d.branch}}支部・引退</span>`,
+      "引退選手のため選手ページはありません。",
+      null
+    );
+    return;
+  }}
+  window.location.href = "racer/" + d.id + ".html";
 }});
 
 const panel    = document.getElementById("panel");
@@ -284,70 +332,41 @@ const panelLink = document.getElementById("panelLink");
 function setPanel(title, body, toban) {{
   panel.querySelector(".p-name").innerHTML = title;
   panel.querySelector(".p-body").innerHTML = body;
-  if (toban) {{
-    panelLink.href = "racer/" + toban + ".html";
-    panelLink.textContent = "選手ページを開く →";
-    panelLink.style.display = "inline";
-  }} else {{
-    panelLink.style.display = "none";
-  }}
+  panelLink.style.display = "none";
 }}
-
-function focusNode(d) {{
-  const nbrs = new Set([d.id, ...(adj[d.id] || []).map(x => x.to)]);
-
-  node.select("circle")
-    .attr("opacity", n => nbrs.has(n.id) ? 1 : 0.12)
-    .attr("fill", n => n.id === d.id ? "#E33A2E" : (n.retired ? "#3E4C59" : "#173B52"))
-    .attr("r", n => n.id === d.id ? 22 : 18);
-
-  node.selectAll("text").attr("opacity", n => nbrs.has(n.id) ? 1 : 0.12);
-
-  link
-    .attr("stroke-opacity", l => {{
-      const active = l.source.id === d.id || l.target.id === d.id;
-      if (!active) return 0.05;
-      return l.type === "douki" ? 0.45 : 1;
-    }})
-    .attr("stroke-width", l => {{
-      const active = l.source.id === d.id || l.target.id === d.id;
-      if (!active) return l.type === "douki" ? 1.2 : 2.5;
-      return l.type === "douki" ? 1.8 : 4;
-    }});
-
-  const rels = (adj[d.id] || []).map(x => {{
-    const n2 = nodes.find(n => n.id === x.to);
-    return `<b>${{x.label}}</b>：${{n2 ? n2.name : x.to}}`;
-  }}).join("　");
-
-  setPanel(
-    `${{d.name}}<span>${{d.id}}・${{d.branch}}支部・${{d.status}}</span>`,
-    (d.hobby ? `趣味：${{d.hobby}}　` : "") + (rels || "掲載できる関係情報なし"),
-    d.id
-  );
-}}
-
-node.on("click", (e, d) => {{ e.stopPropagation(); focusNode(d); }});
 
 function reset() {{
   node.select("circle")
     .attr("opacity", 1)
     .attr("fill", d => d.retired ? "#3E4C59" : "#173B52")
-    .attr("r", 18);
+    .attr("r", NODE_R);
   node.selectAll("text").attr("opacity", 1);
   link
     .attr("stroke-opacity", l => l.type === "douki" ? 0.28 : 0.80)
     .attr("stroke-width",   l => l.type === "douki" ? 1.2 : 2.5);
-  setPanel("関係マップ", "選手をタップすると、その選手の人間関係をハイライトします。", null);
+  setPanel("関係マップ", "ノードをタップすると選手ページへ移動します。ドラッグでノードを動かせます。", null);
 }}
 
 document.getElementById("resetBtn").onclick = reset;
 svg.on("click", reset);
 
+// ── tick: 有向エッジは target 手前（NODE_R + ARROW_GAP px）で終端 ──
 sim.on("tick", () => {{
   link
-    .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
-    .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+    .attr("x1", d => d.source.x)
+    .attr("y1", d => d.source.y)
+    .attr("x2", d => {{
+      if (!d.directed) return d.target.x;
+      const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
+      const l = Math.sqrt(dx*dx + dy*dy) || 1;
+      return d.target.x - dx/l * (NODE_R + ARROW_GAP);
+    }})
+    .attr("y2", d => {{
+      if (!d.directed) return d.target.y;
+      const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
+      const l = Math.sqrt(dx*dx + dy*dy) || 1;
+      return d.target.y - dy/l * (NODE_R + ARROW_GAP);
+    }});
   node.attr("transform", d => `translate(${{d.x}},${{d.y}})`);
 }});
 
