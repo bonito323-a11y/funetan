@@ -164,6 +164,11 @@
         <div class="rel-name">森高一真 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4030</span></div>
         <div class="rel-meta"><span>香川支部・85期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card friend" href="4044.html">
+        <div class="rel-type">仲良し</div>
+        <div class="rel-name">湯川浩司 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4044</span></div>
+        <div class="rel-meta"><span>大阪支部・85期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -174,8 +179,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4024", "label": "井口佳典", "group": "center"}, {"id": "4344", "label": "新田雄史", "group": "active", "toban": "4344"}, {"id": "3262", "label": "森岡正博", "group": "retired"}, {"id": "4470", "label": "平田健之佑", "group": "active", "toban": "4470"}, {"id": "4178", "label": "井口真弓", "group": "retired"}, {"id": "4030", "label": "森高一真", "group": "active", "toban": "4030"}];
-      var E=[{"id": 0, "from": "4024", "to": "4344", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "3262", "to": "4024", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4024", "to": "4470", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 3, "from": "4024", "to": "4178", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 4, "from": "4024", "to": "4030", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4024", "label": "井口佳典", "group": "center"}, {"id": "4344", "label": "新田雄史", "group": "active", "toban": "4344"}, {"id": "3262", "label": "森岡正博", "group": "retired"}, {"id": "4470", "label": "平田健之佑", "group": "active", "toban": "4470"}, {"id": "4178", "label": "井口真弓", "group": "retired"}, {"id": "4030", "label": "森高一真", "group": "active", "toban": "4030"}, {"id": "4044", "label": "湯川浩司", "group": "active", "toban": "4044"}];
+      var E=[{"id": 0, "from": "4024", "to": "4344", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "3262", "to": "4024", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4024", "to": "4470", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 3, "from": "4024", "to": "4178", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 4, "from": "4024", "to": "4030", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 5, "from": "4024", "to": "4044", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
