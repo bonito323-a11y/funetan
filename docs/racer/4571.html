@@ -144,6 +144,16 @@
         <div class="rel-name">井上遥妃 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5281</span></div>
         <div class="rel-meta"><span>徳島支部・131期・現役</span><span class="conf b">○ 報道</span></div>
       </a>
+      <a class="rel-card mentor" href="3477.html">
+        <div class="rel-type">師匠</div>
+        <div class="rel-name">近藤稔也 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">3477</span></div>
+        <div class="rel-meta"><span>徳島支部・66期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
+      <a class="rel-card mentor" href="5056.html">
+        <div class="rel-type">弟子</div>
+        <div class="rel-name">西岡成美 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5056</span></div>
+        <div class="rel-meta"><span>徳島支部・123期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -154,8 +164,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4571", "label": "菅章哉", "group": "center"}, {"id": "5281", "label": "井上遥妃", "group": "active", "toban": "5281"}];
-      var E=[{"id": 0, "from": "4571", "to": "5281", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4571", "label": "菅章哉", "group": "center"}, {"id": "5281", "label": "井上遥妃", "group": "active", "toban": "5281"}, {"id": "3477", "label": "近藤稔也", "group": "active", "toban": "3477"}, {"id": "5056", "label": "西岡成美", "group": "active", "toban": "5056"}];
+      var E=[{"id": 0, "from": "4571", "to": "5281", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "3477", "to": "4571", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4571", "to": "5056", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},

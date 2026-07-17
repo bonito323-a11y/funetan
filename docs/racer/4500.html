@@ -149,6 +149,21 @@
         <div class="rel-name">遠藤エミ <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4502</span></div>
         <div class="rel-meta"><span>滋賀支部・102期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card mentor" href="4981.html">
+        <div class="rel-type">弟子</div>
+        <div class="rel-name">牧山敦也 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4981</span></div>
+        <div class="rel-meta"><span>佐賀支部・120期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
+      <a class="rel-card mentor" href="5142.html">
+        <div class="rel-type">弟子</div>
+        <div class="rel-name">常住蓮 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5142</span></div>
+        <div class="rel-meta"><span>佐賀支部・126期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
+      <a class="rel-card mentor" href="5270.html">
+        <div class="rel-type">弟子</div>
+        <div class="rel-name">小玉啓太 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5270</span></div>
+        <div class="rel-meta"><span>佐賀支部・131期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -159,8 +174,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4500", "label": "山田康二", "group": "center"}, {"id": "4320", "label": "峰竜太", "group": "active", "toban": "4320"}, {"id": "4502", "label": "遠藤エミ", "group": "active", "toban": "4502"}];
-      var E=[{"id": 0, "from": "4320", "to": "4500", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "4500", "to": "4502", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4500", "label": "山田康二", "group": "center"}, {"id": "4320", "label": "峰竜太", "group": "active", "toban": "4320"}, {"id": "4502", "label": "遠藤エミ", "group": "active", "toban": "4502"}, {"id": "4981", "label": "牧山敦也", "group": "active", "toban": "4981"}, {"id": "5142", "label": "常住蓮", "group": "active", "toban": "5142"}, {"id": "5270", "label": "小玉啓太", "group": "active", "toban": "5270"}];
+      var E=[{"id": 0, "from": "4320", "to": "4500", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "4500", "to": "4502", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 2, "from": "4500", "to": "4981", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 3, "from": "4500", "to": "5142", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 4, "from": "4500", "to": "5270", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
