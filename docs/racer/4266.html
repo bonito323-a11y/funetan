@@ -149,6 +149,11 @@
         <div class="rel-name">佐藤隆太郎 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4847</span></div>
         <div class="rel-meta"><span>東京支部・115期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card friend" href="4256.html">
+        <div class="rel-type">仲良し</div>
+        <div class="rel-name">渡辺浩司 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4256</span></div>
+        <div class="rel-meta"><span>福岡支部・93期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -159,8 +164,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4266", "label": "長田頼宗", "group": "center"}, {"id": "4262", "label": "馬場貴也", "group": "active", "toban": "4262"}, {"id": "4847", "label": "佐藤隆太郎", "group": "active", "toban": "4847"}];
-      var E=[{"id": 0, "from": "4266", "to": "4262", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "4266", "to": "4847", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4266", "label": "長田頼宗", "group": "center"}, {"id": "4262", "label": "馬場貴也", "group": "active", "toban": "4262"}, {"id": "4847", "label": "佐藤隆太郎", "group": "active", "toban": "4847"}, {"id": "4256", "label": "渡辺浩司", "group": "active", "toban": "4256"}];
+      var E=[{"id": 0, "from": "4266", "to": "4262", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "4266", "to": "4847", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4266", "to": "4256", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
