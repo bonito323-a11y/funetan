@@ -144,6 +144,21 @@
         <div class="rel-name">新田雄史 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4344</span></div>
         <div class="rel-meta"><span>三重支部・96期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card mentor" href="https://ja.wikipedia.org/wiki/井口佳典">
+        <div class="rel-type">師匠</div>
+        <div class="rel-name">森岡正博 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">引退</span></div>
+        <div class="rel-meta"><span></span><span class="conf a">◎ 本人公表</span></div>
+      </a>
+      <a class="rel-card mentor" href="4470.html">
+        <div class="rel-type">弟子</div>
+        <div class="rel-name">平田健之佑 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4470</span></div>
+        <div class="rel-meta"><span>三重支部・101期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
+      <a class="rel-card spouse" href="https://ja.wikipedia.org/wiki/井口佳典">
+        <div class="rel-type">配偶者</div>
+        <div class="rel-name">井口真弓 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">引退</span></div>
+        <div class="rel-meta"><span></span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -154,8 +169,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4024", "label": "井口佳典", "group": "center"}, {"id": "4344", "label": "新田雄史", "group": "active", "toban": "4344"}];
-      var E=[{"id": 0, "from": "4024", "to": "4344", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4024", "label": "井口佳典", "group": "center"}, {"id": "4344", "label": "新田雄史", "group": "active", "toban": "4344"}, {"id": "3262", "label": "森岡正博", "group": "retired"}, {"id": "4470", "label": "平田健之佑", "group": "active", "toban": "4470"}, {"id": "4178", "label": "井口真弓", "group": "retired"}];
+      var E=[{"id": 0, "from": "4024", "to": "4344", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "3262", "to": "4024", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4024", "to": "4470", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 3, "from": "4024", "to": "4178", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
