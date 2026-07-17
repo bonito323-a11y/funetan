@@ -144,6 +144,11 @@
         <div class="rel-name">遠藤エミ <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4502</span></div>
         <div class="rel-meta"><span>滋賀支部・102期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card family" href="4346.html">
+        <div class="rel-type">兄</div>
+        <div class="rel-name">前田健太郎 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4346</span></div>
+        <div class="rel-meta"><span>福岡支部・96期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -154,8 +159,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4504", "label": "前田将太", "group": "center"}, {"id": "4502", "label": "遠藤エミ", "group": "active", "toban": "4502"}];
-      var E=[{"id": 0, "from": "4504", "to": "4502", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4504", "label": "前田将太", "group": "center"}, {"id": "4502", "label": "遠藤エミ", "group": "active", "toban": "4502"}, {"id": "4346", "label": "前田健太郎", "group": "active", "toban": "4346"}];
+      var E=[{"id": 0, "from": "4504", "to": "4502", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "4504", "to": "4346", "label": "兄弟", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
