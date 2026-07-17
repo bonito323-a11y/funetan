@@ -164,8 +164,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4831", "label": "羽野直也", "group": "center"}, {"id": "5008", "label": "羽野諒", "group": "active", "toban": "5008"}, {"id": "_r1", "label": "別府正幸", "group": "retired"}, {"id": "3783", "label": "瓜生正義", "group": "active", "toban": "3783"}];
-      var E=[{"id": 0, "from": "4831", "to": "5008", "label": "兄弟", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "_r1", "to": "4831", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4831", "to": "3783", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4831", "label": "羽野直也", "group": "center"}, {"id": "5008", "label": "羽野諒", "group": "active", "toban": "5008"}, {"id": "4037", "label": "別府正幸", "group": "retired"}, {"id": "3783", "label": "瓜生正義", "group": "active", "toban": "3783"}];
+      var E=[{"id": 0, "from": "4831", "to": "5008", "label": "兄弟", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "4037", "to": "4831", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4831", "to": "3783", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
