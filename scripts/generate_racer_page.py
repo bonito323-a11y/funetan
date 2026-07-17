@@ -103,6 +103,76 @@ def fmt_checked(checked_str):
     except Exception:
         return checked_str
 
+def get_episodes_for(toban, relations):
+    """
+    toban の選手に関係する全レコードからmemo（エピソード）を収集する。
+    - confidence=C は除外
+    - source_url なしは除外
+    - memo が空のものは除外
+    - 同一memoは1件のみ（重複排除）
+    Returns: list of (rel_display, memo, confidence)
+    """
+    REVERSE = {
+        "父": "子", "母": "子", "子": "父/母",
+        "兄": "弟/妹", "姉": "弟/妹", "弟": "兄/姉", "妹": "兄/姉",
+        "師匠": "弟子", "弟子": "師匠",
+        "配偶者": "配偶者", "元配偶者": "元配偶者",
+        "親族": "親族", "友人": "友人", "同期": "同期", "仲良し": "仲良し",
+    }
+    seen = set()
+    result = []
+    for r in relations:
+        if r["confidence"] == "C":
+            continue
+        if not r["source_url"].strip():
+            continue
+        memo = r.get("memo", "").strip()
+        if not memo:
+            continue
+        if r["from_toban"] == toban:
+            rel_display = r["rel_type"]
+        elif r["to_toban"] == toban:
+            rel_display = REVERSE.get(r["rel_type"], r["rel_type"])
+        else:
+            continue
+        if memo in seen:
+            continue
+        seen.add(memo)
+        result.append((rel_display, memo, r["confidence"]))
+    return result
+
+
+def episode_section_html(episodes):
+    """エピソードセクションHTML。エピソードがなければ空文字を返す。"""
+    if not episodes:
+        return ""
+    EP_CLASS = {
+        "配偶者": "spouse", "元配偶者": "spouse",
+        "父": "family", "母": "family", "子": "family",
+        "父/母": "family", "兄/姉": "family", "弟/妹": "family",
+        "兄": "family", "姉": "family", "弟": "family", "妹": "family", "親族": "family",
+        "師匠": "mentor", "弟子": "mentor",
+        "友人": "friend", "同期": "friend", "仲良し": "friend",
+    }
+    cards = []
+    for rel, memo, conf in episodes:
+        cls = EP_CLASS.get(rel, "")
+        unconfirmed = ' <span class="ep-unconfirmed">※情報確認中</span>' if conf == "B" else ""
+        cards.append(
+            f'    <div class="ep-card {cls}">'
+            f'<span class="ep-badge">{rel}</span>'
+            f'<span class="ep-text">{memo}{unconfirmed}</span>'
+            f'</div>'
+        )
+    inner = "\n".join(cards)
+    return f'''  <section>
+    <h2>エピソード <span class="en">EPISODES</span></h2>
+    <div class="ep-list">
+{inner}
+    </div>
+  </section>'''
+
+
 def get_relations_for(toban, relations, racers, retired_names=None):
     """
     toban の選手に関係する行を取得。
@@ -363,6 +433,10 @@ def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=No
     vis_tag = ('<script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js">'
                '</script>') if mini_graph else ''
 
+    # エピソードセクション
+    episodes = get_episodes_for(toban, relations)
+    episode_section = episode_section_html(episodes)
+
     # 同期・同支部セクション
     douki_section  = douki_section_html(toban, r, ki_map)
     branch_section = branch_section_html(toban, r, branch_map)
@@ -519,6 +593,18 @@ def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=No
   .peer-more-btn:hover{{background:var(--navy);color:#fff}}
   .peer-hidden{{display:none!important}}
 
+  .ep-list{{margin-top:14px;display:flex;flex-direction:column;gap:8px}}
+  .ep-card{{background:#fff;border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:4px;padding:10px 14px;display:flex;gap:10px;align-items:flex-start;line-height:1.6}}
+  .ep-card.family{{border-left-color:var(--blue)}}
+  .ep-card.spouse{{border-left-color:var(--red)}}
+  .ep-card.mentor{{border-left-color:var(--green)}}
+  .ep-badge{{flex-shrink:0;font-size:10px;font-weight:700;letter-spacing:.12em;padding:2px 8px;border-radius:10px;background:var(--navy);color:#fff;margin-top:3px}}
+  .ep-card.family .ep-badge{{background:var(--blue)}}
+  .ep-card.spouse .ep-badge{{background:var(--red)}}
+  .ep-card.mentor .ep-badge{{background:var(--green)}}
+  .ep-text{{font-size:13px;color:var(--ink)}}
+  .ep-unconfirmed{{font-size:11px;color:var(--muted);margin-left:6px}}
+
   .unki-btn{{display:block;margin:24px 0 4px;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 20px;border-radius:6px;letter-spacing:.05em}}
   .unki-btn:hover{{opacity:.88}}
   .cta-btn{{display:inline-block;margin-top:16px;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 28px;border-radius:4px;letter-spacing:.05em}}
@@ -555,6 +641,8 @@ def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=No
 <main>
 
 {rel_section}
+
+{episode_section}
 
 {mini_graph}
 

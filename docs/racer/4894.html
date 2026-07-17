@@ -101,6 +101,18 @@
   .peer-more-btn:hover{background:var(--navy);color:#fff}
   .peer-hidden{display:none!important}
 
+  .ep-list{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+  .ep-card{background:#fff;border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:4px;padding:10px 14px;display:flex;gap:10px;align-items:flex-start;line-height:1.6}
+  .ep-card.family{border-left-color:var(--blue)}
+  .ep-card.spouse{border-left-color:var(--red)}
+  .ep-card.mentor{border-left-color:var(--green)}
+  .ep-badge{flex-shrink:0;font-size:10px;font-weight:700;letter-spacing:.12em;padding:2px 8px;border-radius:10px;background:var(--navy);color:#fff;margin-top:3px}
+  .ep-card.family .ep-badge{background:var(--blue)}
+  .ep-card.spouse .ep-badge{background:var(--red)}
+  .ep-card.mentor .ep-badge{background:var(--green)}
+  .ep-text{font-size:13px;color:var(--ink)}
+  .ep-unconfirmed{font-size:11px;color:var(--muted);margin-left:6px}
+
   .unki-btn{display:block;margin:24px 0 4px;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 20px;border-radius:6px;letter-spacing:.05em}
   .unki-btn:hover{opacity:.88}
   .cta-btn{display:inline-block;margin-top:16px;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 28px;border-radius:4px;letter-spacing:.05em}
@@ -146,6 +158,13 @@
       </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
+  </section>
+
+  <section>
+    <h2>エピソード <span class="en">EPISODES</span></h2>
+    <div class="ep-list">
+    <div class="ep-card mentor"><span class="ep-badge">師匠</span><span class="ep-text">117期・香川支部</span></div>
+    </div>
   </section>
 
   <section>
