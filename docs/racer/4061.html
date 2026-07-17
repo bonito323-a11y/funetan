@@ -159,8 +159,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4061", "label": "萩原秀人", "group": "center"}, {"id": "_r0", "label": "三上陽子", "group": "retired"}, {"id": "4075", "label": "中野次郎", "group": "active", "toban": "4075"}];
-      var E=[{"id": 0, "from": "4061", "to": "_r0", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "4061", "to": "4075", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4061", "label": "萩原秀人", "group": "center"}, {"id": "3816", "label": "三上陽子", "group": "retired"}, {"id": "4075", "label": "中野次郎", "group": "active", "toban": "4075"}];
+      var E=[{"id": 0, "from": "4061", "to": "3816", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "4061", "to": "4075", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},

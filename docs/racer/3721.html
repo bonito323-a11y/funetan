@@ -144,6 +144,16 @@
         <div class="rel-name">石間徹 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">引退</span></div>
         <div class="rel-meta"><span></span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card spouse" href="https://ja.wikipedia.org/wiki/守田俊介">
+        <div class="rel-type">元配偶者</div>
+        <div class="rel-name">三上陽子 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">引退</span></div>
+        <div class="rel-meta"><span></span><span class="conf a">◎ 本人公表</span></div>
+      </a>
+      <a class="rel-card spouse" href="https://ja.wikipedia.org/wiki/守田俊介">
+        <div class="rel-type">配偶者</div>
+        <div class="rel-name">森田太陽 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">引退</span></div>
+        <div class="rel-meta"><span></span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -154,8 +164,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "3721", "label": "守田俊介", "group": "center"}, {"id": "_r0", "label": "石間徹", "group": "retired"}];
-      var E=[{"id": 0, "from": "_r0", "to": "3721", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "3721", "label": "守田俊介", "group": "center"}, {"id": "_r0", "label": "石間徹", "group": "retired"}, {"id": "3816", "label": "三上陽子", "group": "retired"}, {"id": "4849", "label": "森田太陽", "group": "retired"}];
+      var E=[{"id": 0, "from": "_r0", "to": "3721", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "3721", "to": "3816", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 2, "from": "3721", "to": "4849", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
