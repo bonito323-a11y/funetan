@@ -104,25 +104,37 @@ id, from_toban, rel_type, to_toban, to_name, confidence, source_url, source_date
 
 relations.csv への登録作業中に登録番号不明の選手が出た場合は、**人間に確認を求めず**以下の順で自己解決すること：
 
-1. **Wikipedia「競艇選手一覧」で確認**（第一優先）
+1. **マクール選手名鑑（登録番号がわかっている場合）**（最速）
+   ```
+   https://sp.macour.jp/boatracer/{toban}/
+   ```
+   WebFetch で直接アクセス可能。現役・引退問わず掲載あり。登録番号がわかっていれば即確認できる。
+
+2. **マクール選手一覧（名前から検索する場合）**
+   ```
+   https://sp.macour.jp/boatracer/?name={選手名}
+   ```
+   WebFetch でアクセス可能。ただし引退選手は掲載されていない場合あり。
+
+3. **Wikipedia「競艇選手一覧」で確認**
    ```
    https://ja.wikipedia.org/wiki/競艇選手一覧
    ```
    ※ 艇国データバンク（boatrace-db.net）はアクセス不可（403エラー）のため使用禁止
 
-2. **ボートレーサー名鑑 teimon（引退選手も掲載あり）**
+4. **ボートレーサー名鑑 teimon（引退選手も掲載あり）**
    ```
    https://boatracer.teimon.jp/
    ```
    ※ このサイトはスクリプトから403エラーが出るため**ダシオさんのブラウザで検索**してもらう。
      登録番号が判明したら「R0XXXの登みつよのtobanはYYYYです」と教えてもらいCSVを更新する。
 
-3. **ボートレース公式選手検索**（引退選手は出ない場合あり）
+5. **ボートレース公式選手検索**（引退選手は出ない場合あり）
    ```
    https://www.boatrace.jp/owpc/pc/data/racersearch/frame
    ```
 
-4. **それでも見つからない場合は to_toban を `0` として仮登録**
+6. **それでも見つからない場合は to_toban を `0` として仮登録**
    - to_name に選手名を記載
    - memo に「登録番号不明（引退）・ダシオさんが手動補完予定」と明記
    - 後でダシオさんが登録番号を確認し補完する
