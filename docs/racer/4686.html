@@ -161,6 +161,11 @@
         <div class="rel-name">藤原仙二 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5255</span></div>
         <div class="rel-meta"><span>滋賀支部・130期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card friend" href="4590.html">
+        <div class="rel-type">仲良し</div>
+        <div class="rel-name">渡邉優美 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4590</span></div>
+        <div class="rel-meta"><span>福岡支部・105期・現役</span><span class="conf b">○ 報道</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -170,6 +175,7 @@
     <div class="ep-list">
     <div class="ep-card mentor"><span class="ep-badge">師匠</span><span class="ep-text">18歳年上ながらプライベートでも酒を交わす仲。70期・滋賀支部</span></div>
     <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">130期・滋賀支部。藤原碧生（實森美祐の夫・5217）とは別人</span></div>
+    <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">渡邉が丸野のトレーニングジム「マルトレ」に新幹線で通うほどの信頼関係 <span class="ep-unconfirmed">※情報確認中</span></span></div>
     </div>
   </section>
 
@@ -179,8 +185,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4686", "label": "丸野一樹", "group": "center"}, {"id": "3582", "label": "吉川昭男", "group": "active", "toban": "3582"}, {"id": "5255", "label": "藤原仙二", "group": "active", "toban": "5255"}];
-      var E=[{"id": 0, "from": "3582", "to": "4686", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "4686", "to": "5255", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4686", "label": "丸野一樹", "group": "center"}, {"id": "3582", "label": "吉川昭男", "group": "active", "toban": "3582"}, {"id": "5255", "label": "藤原仙二", "group": "active", "toban": "5255"}, {"id": "4590", "label": "渡邉優美", "group": "active", "toban": "4590"}];
+      var E=[{"id": 0, "from": "3582", "to": "4686", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "4686", "to": "5255", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4686", "to": "4590", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
