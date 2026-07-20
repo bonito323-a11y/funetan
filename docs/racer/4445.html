@@ -156,6 +156,11 @@
         <div class="rel-name">冨成謙児 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">3998</span></div>
         <div class="rel-meta"><span>佐賀支部・83期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card mentor" href="4938.html">
+        <div class="rel-type">弟子</div>
+        <div class="rel-name">小芦るり華 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4938</span></div>
+        <div class="rel-meta"><span>佐賀支部・118期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -164,6 +169,7 @@
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
     <div class="ep-card mentor"><span class="ep-badge">師匠</span><span class="ep-text">83期・佐賀支部。どん底のデビュー期に一人でペラを叩いていた宮地を救った師匠。ユーザー記載は「冨成謙治」だが正しくは「冨成謙児」</span></div>
+    <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">100期・佐賀支部。グランプリシリーズ優勝後「弟子の小芦のおかげ」と師匠が語り、小芦も「師匠の指導のおかげ」と涙した師弟関係</span></div>
     </div>
   </section>
 
@@ -173,8 +179,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4445", "label": "宮地元輝", "group": "center"}, {"id": "3998", "label": "冨成謙児", "group": "active", "toban": "3998"}];
-      var E=[{"id": 0, "from": "3998", "to": "4445", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4445", "label": "宮地元輝", "group": "center"}, {"id": "3998", "label": "冨成謙児", "group": "active", "toban": "3998"}, {"id": "4938", "label": "小芦るり華", "group": "active", "toban": "4938"}];
+      var E=[{"id": 0, "from": "3998", "to": "4445", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "4445", "to": "4938", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},

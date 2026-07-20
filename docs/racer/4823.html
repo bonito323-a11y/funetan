@@ -156,6 +156,16 @@
         <div class="rel-name">平山智加 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4387</span></div>
         <div class="rel-meta"><span>香川支部・98期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card family" href="4739.html">
+        <div class="rel-type">兄</div>
+        <div class="rel-name">中村晃朋 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4739</span></div>
+        <div class="rel-meta"><span>香川支部・111期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
+      <a class="rel-card spouse" href="4776.html">
+        <div class="rel-type">配偶者</div>
+        <div class="rel-name">竹田和哉 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4776</span></div>
+        <div class="rel-meta"><span>香川支部・112期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -164,6 +174,8 @@
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
     <div class="ep-card mentor"><span class="ep-badge">師匠</span><span class="ep-text">香川支部114期</span></div>
+    <div class="ep-card family"><span class="ep-badge">兄</span><span class="ep-text">111期・香川支部。妹より3期先輩で重成一人の弟子でもある。「家族として純粋にうれしい」と兄が語る温かい兄妹関係</span></div>
+    <div class="ep-card spouse"><span class="ep-badge">配偶者</span><span class="ep-text">112期・愛媛支部（香川支部所属）。同じ香川支部の同僚ボートレーサー</span></div>
     </div>
   </section>
 
@@ -173,8 +185,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4823", "label": "中村桃佳", "group": "center"}, {"id": "4387", "label": "平山智加", "group": "active", "toban": "4387"}];
-      var E=[{"id": 0, "from": "4387", "to": "4823", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4823", "label": "中村桃佳", "group": "center"}, {"id": "4387", "label": "平山智加", "group": "active", "toban": "4387"}, {"id": "4739", "label": "中村晃朋", "group": "active", "toban": "4739"}, {"id": "4776", "label": "竹田和哉", "group": "active", "toban": "4776"}];
+      var E=[{"id": 0, "from": "4387", "to": "4823", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "4823", "to": "4739", "label": "兄弟", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 2, "from": "4823", "to": "4776", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},

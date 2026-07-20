@@ -156,6 +156,11 @@
         <div class="rel-name">深谷知博 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4524</span></div>
         <div class="rel-meta"><span>静岡支部・103期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card mentor" href="4208.html">
+        <div class="rel-type">弟子</div>
+        <div class="rel-name">三浦永理 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4208</span></div>
+        <div class="rel-meta"><span>静岡支部・91期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -164,6 +169,7 @@
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
     <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">64期・静岡支部。21歳SG初優勝という史上最年少記録を持つまくり差しの名手</span></div>
+    <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">64期・静岡支部。深谷知博(4524)も同師匠で三浦永理と兄弟弟子関係</span></div>
     </div>
   </section>
 
@@ -173,8 +179,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "3422", "label": "服部幸男", "group": "center"}, {"id": "4524", "label": "深谷知博", "group": "active", "toban": "4524"}];
-      var E=[{"id": 0, "from": "3422", "to": "4524", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "3422", "label": "服部幸男", "group": "center"}, {"id": "4524", "label": "深谷知博", "group": "active", "toban": "4524"}, {"id": "4208", "label": "三浦永理", "group": "active", "toban": "4208"}];
+      var E=[{"id": 0, "from": "3422", "to": "4524", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "3422", "to": "4208", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
