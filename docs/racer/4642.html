@@ -156,6 +156,11 @@
         <div class="rel-name">松尾祭 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4452</span></div>
         <div class="rel-meta"><span>香川支部・100期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card mentor" href="4627.html">
+        <div class="rel-type">弟子</div>
+        <div class="rel-name">藤原菜希 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4627</span></div>
+        <div class="rel-meta"><span>東京支部・107期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -164,6 +169,7 @@
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
     <div class="ep-card family"><span class="ep-badge">兄</span><span class="ep-text">100期・愛媛支部（香川所属）。兄がデビューして3年後に妹もデビューした香川支部の兄妹競艇選手</span></div>
+    <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">107期同期の松尾夏海が師匠という珍しい同期師弟関係。藤原は空手世界チャンピオン（2008年）「偉才童子」の異名を持つ異色の経歴</span></div>
     </div>
   </section>
 
@@ -173,8 +179,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4642", "label": "松尾夏海", "group": "center"}, {"id": "4452", "label": "松尾祭", "group": "active", "toban": "4452"}];
-      var E=[{"id": 0, "from": "4642", "to": "4452", "label": "兄弟", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4642", "label": "松尾夏海", "group": "center"}, {"id": "4452", "label": "松尾祭", "group": "active", "toban": "4452"}, {"id": "4627", "label": "藤原菜希", "group": "active", "toban": "4627"}];
+      var E=[{"id": 0, "from": "4642", "to": "4452", "label": "兄弟", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "4642", "to": "4627", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
