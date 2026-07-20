@@ -156,6 +156,11 @@
         <div class="rel-name">桐生順平 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4444</span></div>
         <div class="rel-meta"><span>埼玉支部・100期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card spouse" href="4419.html">
+        <div class="rel-type">配偶者</div>
+        <div class="rel-name">原加央理 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4419</span></div>
+        <div class="rel-meta"><span>埼玉支部・99期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -164,6 +169,7 @@
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
     <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">埼玉支部師弟。2024年ダービーは師匠・西村以来21年ぶり埼玉勢地元SG制覇</span></div>
+    <div class="ep-card spouse"><span class="ep-badge">配偶者</span><span class="ep-text">桐生順平(4444)の師匠と同一人物（R0017）。競艇選手同士の夫婦。埼玉支部70期</span></div>
     </div>
   </section>
 
@@ -173,8 +179,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "3589", "label": "西村勝", "group": "center"}, {"id": "4444", "label": "桐生順平", "group": "active", "toban": "4444"}];
-      var E=[{"id": 0, "from": "3589", "to": "4444", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "3589", "label": "西村勝", "group": "center"}, {"id": "4444", "label": "桐生順平", "group": "active", "toban": "4444"}, {"id": "4419", "label": "原加央理", "group": "active", "toban": "4419"}];
+      var E=[{"id": 0, "from": "3589", "to": "4444", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "3589", "to": "4419", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},

@@ -176,6 +176,11 @@
         <div class="rel-name">山本稔太朗 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5120</span></div>
         <div class="rel-meta"><span>愛知支部・125期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card friend" href="3993.html">
+        <div class="rel-type">仲良し</div>
+        <div class="rel-name">永井聖美 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">3993</span></div>
+        <div class="rel-meta"><span>東京支部・83期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -188,6 +193,7 @@
     <div class="ep-card spouse"><span class="ep-badge">配偶者</span><span class="ep-text">旧姓：栃原。引退済み。racers.csv非登録</span></div>
     <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">119期・愛知支部</span></div>
     <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">125期・愛知支部。racers.csvの表記は「山本稔太朗」</span></div>
+    <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">共通師匠・上島久男(2447)門下の兄弟弟子。男女の差を超えた師匠の門下生として繋がる</span></div>
     </div>
   </section>
 
@@ -197,8 +203,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4337", "label": "平本真之", "group": "center"}, {"id": "4586", "label": "磯部誠", "group": "active", "toban": "4586"}, {"id": "2447", "label": "上島久男", "group": "retired"}, {"id": "4455", "label": "平本さやか", "group": "retired"}, {"id": "4960", "label": "黒野元基", "group": "active", "toban": "4960"}, {"id": "5120", "label": "山本稔太朗", "group": "active", "toban": "5120"}];
-      var E=[{"id": 0, "from": "4337", "to": "4586", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "2447", "to": "4337", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4337", "to": "4455", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 3, "from": "4337", "to": "4960", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 4, "from": "4337", "to": "5120", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4337", "label": "平本真之", "group": "center"}, {"id": "4586", "label": "磯部誠", "group": "active", "toban": "4586"}, {"id": "2447", "label": "上島久男", "group": "retired"}, {"id": "4455", "label": "平本さやか", "group": "retired"}, {"id": "4960", "label": "黒野元基", "group": "active", "toban": "4960"}, {"id": "5120", "label": "山本稔太朗", "group": "active", "toban": "5120"}, {"id": "3993", "label": "永井聖美", "group": "active", "toban": "3993"}];
+      var E=[{"id": 0, "from": "4337", "to": "4586", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "2447", "to": "4337", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4337", "to": "4455", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 3, "from": "4337", "to": "4960", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 4, "from": "4337", "to": "5120", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 5, "from": "4337", "to": "3993", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},

@@ -156,6 +156,11 @@
         <div class="rel-name">高憧四季 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5088</span></div>
         <div class="rel-meta"><span>大阪支部・124期・現役</span><span class="conf b">○ 報道</span></div>
       </a>
+      <a class="rel-card mentor" href="5295.html">
+        <div class="rel-type">弟子</div>
+        <div class="rel-name">田上凜 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5295</span></div>
+        <div class="rel-meta"><span>大阪支部・132期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -164,6 +169,7 @@
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
     <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">デビュー当初の師匠。2024年に師匠変更の可能性あり（W師匠の可能性も） <span class="ep-unconfirmed">※情報確認中</span></span></div>
+    <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">Wikipedia明記。101期・大阪支部。高憧四季(5088)の最初の師匠と同一人物</span></div>
     </div>
   </section>
 
@@ -173,8 +179,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4462", "label": "夏山亮平", "group": "center"}, {"id": "5088", "label": "高憧四季", "group": "active", "toban": "5088"}];
-      var E=[{"id": 0, "from": "4462", "to": "5088", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4462", "label": "夏山亮平", "group": "center"}, {"id": "5088", "label": "高憧四季", "group": "active", "toban": "5088"}, {"id": "5295", "label": "田上凜", "group": "active", "toban": "5295"}];
+      var E=[{"id": 0, "from": "4462", "to": "5088", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "4462", "to": "5295", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
