@@ -161,6 +161,11 @@
         <div class="rel-name">中田竜太 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4547</span></div>
         <div class="rel-meta"><span>埼玉支部・104期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card mentor" href="4900.html">
+        <div class="rel-type">弟子</div>
+        <div class="rel-name">中田夕貴 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4900</span></div>
+        <div class="rel-meta"><span>埼玉支部・117期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -170,6 +175,7 @@
     <div class="ep-list">
     <div class="ep-card mentor"><span class="ep-badge">師匠</span><span class="ep-text">104期。2023年クイーンズクライマックスG1初制覇。師・海野が果たせなかったG1を弟子が先取した感動の師弟ドラマ</span></div>
     <div class="ep-card spouse"><span class="ep-badge">配偶者</span><span class="ep-text">104期同期婚。2023年クイーンズクライマックス制覇。海野ゆかり(3618)の弟子</span></div>
+    <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">中田が4年越しの思いで師事を願い出た師弟。「女豹のようなレーススタイル」に憧れた中田が「一緒に優勝戦に乗りたい」と目標を語る</span></div>
     </div>
   </section>
 
@@ -179,8 +185,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4546", "label": "浜田亜理沙", "group": "center"}, {"id": "3618", "label": "海野ゆかり", "group": "active", "toban": "3618"}, {"id": "4547", "label": "中田竜太", "group": "active", "toban": "4547"}];
-      var E=[{"id": 0, "from": "3618", "to": "4546", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "4546", "to": "4547", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4546", "label": "浜田亜理沙", "group": "center"}, {"id": "3618", "label": "海野ゆかり", "group": "active", "toban": "3618"}, {"id": "4547", "label": "中田竜太", "group": "active", "toban": "4547"}, {"id": "4900", "label": "中田夕貴", "group": "active", "toban": "4900"}];
+      var E=[{"id": 0, "from": "3618", "to": "4546", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "4546", "to": "4547", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 2, "from": "4546", "to": "4900", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
