@@ -163,7 +163,7 @@
   <section>
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
-    <div class="ep-card mentor"><span class="ep-badge">師匠</span><span class="ep-text">2024年5月1日引退。デビュー当時からお世話になっていた師匠。登録番号不明・racers.csv非登録</span></div>
+    <div class="ep-card mentor"><span class="ep-badge">師匠</span><span class="ep-text">2024年5月1日引退。デビュー当時からお世話になっていた師匠。racers.csv非登録</span></div>
     </div>
   </section>
 
@@ -173,8 +173,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4874", "label": "池田奈津美", "group": "center"}, {"id": "_r0", "label": "村上純", "group": "retired"}];
-      var E=[{"id": 0, "from": "_r0", "to": "4874", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4874", "label": "池田奈津美", "group": "center"}, {"id": "3919", "label": "村上純", "group": "retired"}];
+      var E=[{"id": 0, "from": "3919", "to": "4874", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
