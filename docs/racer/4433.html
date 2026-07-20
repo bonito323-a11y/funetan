@@ -156,6 +156,11 @@
         <div class="rel-name">桐生順平 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4444</span></div>
         <div class="rel-meta"><span>埼玉支部・100期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card mentor" href="4885.html">
+        <div class="rel-type">弟子</div>
+        <div class="rel-name">大山千広 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4885</span></div>
+        <div class="rel-meta"><span>福岡支部・116期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -164,6 +169,7 @@
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
     <div class="ep-card friend"><span class="ep-badge">同期</span><span class="ep-text">華の100期生・黄金世代</span></div>
+    <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">116期・福岡支部。師匠の母・博美と同じペラグループに所属していた縁で親しくなり4年の時を経て正式な師弟に。「お姉さん的な存在」と大山が語る</span></div>
     </div>
   </section>
 
@@ -173,8 +179,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4433", "label": "川野芽唯", "group": "center"}, {"id": "4444", "label": "桐生順平", "group": "active", "toban": "4444"}];
-      var E=[{"id": 0, "from": "4433", "to": "4444", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4433", "label": "川野芽唯", "group": "center"}, {"id": "4444", "label": "桐生順平", "group": "active", "toban": "4444"}, {"id": "4885", "label": "大山千広", "group": "active", "toban": "4885"}];
+      var E=[{"id": 0, "from": "4433", "to": "4444", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "4433", "to": "4885", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
