@@ -156,6 +156,16 @@
         <div class="rel-name">清水愛海 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5163</span></div>
         <div class="rel-meta"><span>山口支部・127期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card mentor" href="4347.html">
+        <div class="rel-type">弟子</div>
+        <div class="rel-name">魚谷香織 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4347</span></div>
+        <div class="rel-meta"><span>福岡支部・96期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
+      <a class="rel-card friend" href="4075.html">
+        <div class="rel-type">仲良し</div>
+        <div class="rel-name">中野次郎 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4075</span></div>
+        <div class="rel-meta"><span>東京支部・86期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -164,6 +174,8 @@
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
     <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">86期・山口支部。「A1になったら師弟卒業」という取り決めで2025年前期A1昇格を機に円満解消。メンタル面とペラの作り方を指導した先輩</span></div>
+    <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">魚谷が評判を聞いて直談判で弟子入り。「じゃがいも」と呼んでいじっていた仲良し師弟。「技術だけでなく精神面もフォローしてくれる心の支え」と魚谷が語る</span></div>
+    <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">86期同期。吉田俊彦・大橋純一郎も同期</span></div>
     </div>
   </section>
 
@@ -173,8 +185,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4064", "label": "原田篤志", "group": "center"}, {"id": "5163", "label": "清水愛海", "group": "active", "toban": "5163"}];
-      var E=[{"id": 0, "from": "4064", "to": "5163", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4064", "label": "原田篤志", "group": "center"}, {"id": "5163", "label": "清水愛海", "group": "active", "toban": "5163"}, {"id": "4347", "label": "魚谷香織", "group": "active", "toban": "4347"}, {"id": "4075", "label": "中野次郎", "group": "active", "toban": "4075"}];
+      var E=[{"id": 0, "from": "4064", "to": "5163", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "4064", "to": "4347", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4064", "to": "4075", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},

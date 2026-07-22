@@ -166,6 +166,11 @@
         <div class="rel-name">永井彪也 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4688</span></div>
         <div class="rel-meta"><span>東京支部・109期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card friend" href="4064.html">
+        <div class="rel-type">仲良し</div>
+        <div class="rel-name">原田篤志 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4064</span></div>
+        <div class="rel-meta"><span>山口支部・86期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -176,6 +181,7 @@
     <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">86期同期</span></div>
     <div class="ep-card spouse"><span class="ep-badge">配偶者</span><span class="ep-text">元タレント・現大阪市会議員。競艇選手と大阪市議会議員という異色の夫婦。to_toban=0（競艇選手ではないため）</span></div>
     <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">東京支部の師弟。Wikipedia明記</span></div>
+    <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">86期同期。吉田俊彦・大橋純一郎も同期</span></div>
     </div>
   </section>
 
@@ -185,8 +191,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4075", "label": "中野次郎", "group": "center"}, {"id": "4061", "label": "萩原秀人", "group": "active", "toban": "4061"}, {"id": "_r1", "label": "佐々木りえ", "group": "retired"}, {"id": "4688", "label": "永井彪也", "group": "active", "toban": "4688"}];
-      var E=[{"id": 0, "from": "4075", "to": "4061", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "4075", "to": "_r1", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 2, "from": "4075", "to": "4688", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4075", "label": "中野次郎", "group": "center"}, {"id": "4061", "label": "萩原秀人", "group": "active", "toban": "4061"}, {"id": "_r1", "label": "佐々木りえ", "group": "retired"}, {"id": "4688", "label": "永井彪也", "group": "active", "toban": "4688"}, {"id": "4064", "label": "原田篤志", "group": "active", "toban": "4064"}];
+      var E=[{"id": 0, "from": "4075", "to": "4061", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "4075", "to": "_r1", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 2, "from": "4075", "to": "4688", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 3, "from": "4075", "to": "4064", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
