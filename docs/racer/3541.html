@@ -156,6 +156,16 @@
         <div class="rel-name">三嶌さらら <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5326</span></div>
         <div class="rel-meta"><span>香川支部・133期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card family" href="5291.html">
+        <div class="rel-type">子</div>
+        <div class="rel-name">三嶌こころ <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5291</span></div>
+        <div class="rel-meta"><span>香川支部・132期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
+      <a class="rel-card friend" href="3557.html">
+        <div class="rel-type">仲良し</div>
+        <div class="rel-name">太田和美 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">3557</span></div>
+        <div class="rel-meta"><span>大阪支部・69期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -164,6 +174,8 @@
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
     <div class="ep-card family"><span class="ep-badge">子</span><span class="ep-text">2006年グランプリシリーズ優勝のSGウイナー。「お父さんと一緒に地区選を走りたい」と本人がコメント。香川支部69期</span></div>
+    <div class="ep-card family"><span class="ep-badge">子</span><span class="ep-text">132期・香川支部。長女。妹・さらら(5326)より先に養成所合格も一足先に水神祭達成された</span></div>
+    <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">69期「華の69期」同期。田中信一郎(3556)・野添貴裕・福田雅一（平山智加の夫師匠）も同期</span></div>
     </div>
   </section>
 
@@ -173,8 +185,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "3541", "label": "三嶌誠司", "group": "center"}, {"id": "5326", "label": "三嶌さらら", "group": "active", "toban": "5326"}];
-      var E=[{"id": 0, "from": "3541", "to": "5326", "label": "親子", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "3541", "label": "三嶌誠司", "group": "center"}, {"id": "5326", "label": "三嶌さらら", "group": "active", "toban": "5326"}, {"id": "5291", "label": "三嶌こころ", "group": "active", "toban": "5291"}, {"id": "3557", "label": "太田和美", "group": "active", "toban": "3557"}];
+      var E=[{"id": 0, "from": "3541", "to": "5326", "label": "親子", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "3541", "to": "5291", "label": "親子", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 2, "from": "3541", "to": "3557", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},

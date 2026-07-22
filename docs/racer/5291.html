@@ -156,6 +156,11 @@
         <div class="rel-name">三嶌さらら <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5326</span></div>
         <div class="rel-meta"><span>香川支部・133期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card " href="3541.html">
+        <div class="rel-type">父/母</div>
+        <div class="rel-name">三嶌誠司 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">3541</span></div>
+        <div class="rel-meta"><span>香川支部・69期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -164,6 +169,7 @@
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
     <div class="ep-card family"><span class="ep-badge">弟/妹</span><span class="ep-text">132期・香川支部。1回目の受験で姉と一緒に不合格→さらが133期で合格して先にデビュー。姉より先に水神祭も達成。「姉に負けたくない」と語る</span></div>
+    <div class="ep-card family"><span class="ep-badge">父/母</span><span class="ep-text">132期・香川支部。長女。妹・さらら(5326)より先に養成所合格も一足先に水神祭達成された</span></div>
     </div>
   </section>
 
@@ -173,8 +179,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "5291", "label": "三嶌こころ", "group": "center"}, {"id": "5326", "label": "三嶌さらら", "group": "active", "toban": "5326"}];
-      var E=[{"id": 0, "from": "5291", "to": "5326", "label": "弟/妹", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "5291", "label": "三嶌こころ", "group": "center"}, {"id": "5326", "label": "三嶌さらら", "group": "active", "toban": "5326"}, {"id": "3541", "label": "三嶌誠司", "group": "active", "toban": "3541"}];
+      var E=[{"id": 0, "from": "5291", "to": "5326", "label": "弟/妹", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "5291", "to": "3541", "label": "父/母", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
