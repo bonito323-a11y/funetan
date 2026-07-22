@@ -156,6 +156,11 @@
         <div class="rel-name">寺田祥 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">3942</span></div>
         <div class="rel-meta"><span>山口支部・81期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card friend" href="4347.html">
+        <div class="rel-type">仲良し</div>
+        <div class="rel-name">魚谷香織 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4347</span></div>
+        <div class="rel-meta"><span>福岡支部・96期・現役</span><span class="conf b">○ 報道</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -164,6 +169,7 @@
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
     <div class="ep-card family"><span class="ep-badge">父/母</span><span class="ep-text">129期・山口支部。父が「自分の力で卒業してこい」と激励。父娘が同じ節に出走する場面も実現。師匠は持たず魚谷香織に面倒を見てもらっている</span></div>
+    <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">正式な師匠ではないが面倒を見ている関係。父・寺田祥には「質問したら答えてくれる」程度で師匠にしなかった経緯あり <span class="ep-unconfirmed">※情報確認中</span></span></div>
     </div>
   </section>
 
@@ -173,8 +179,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "5231", "label": "寺田空詩", "group": "center"}, {"id": "3942", "label": "寺田祥", "group": "active", "toban": "3942"}];
-      var E=[{"id": 0, "from": "5231", "to": "3942", "label": "父/母", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "5231", "label": "寺田空詩", "group": "center"}, {"id": "3942", "label": "寺田祥", "group": "active", "toban": "3942"}, {"id": "4347", "label": "魚谷香織", "group": "active", "toban": "4347"}];
+      var E=[{"id": 0, "from": "5231", "to": "3942", "label": "父/母", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "5231", "to": "4347", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},

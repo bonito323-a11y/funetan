@@ -161,6 +161,11 @@
         <div class="rel-name">清水愛海 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5163</span></div>
         <div class="rel-meta"><span>山口支部・127期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card friend" href="5231.html">
+        <div class="rel-type">仲良し</div>
+        <div class="rel-name">寺田空詩 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5231</span></div>
+        <div class="rel-meta"><span>山口支部・129期・現役</span><span class="conf b">○ 報道</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -170,6 +175,7 @@
     <div class="ep-list">
     <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">96期同期特記。平本真之・篠崎元志も同じ96期という強烈な世代。Wikipedia明記の同期仲間</span></div>
     <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">同師匠・原田篤志(4064)門下の兄弟弟子。魚谷は96期・山口支部</span></div>
+    <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">正式な師匠ではないが面倒を見ている関係。父・寺田祥には「質問したら答えてくれる」程度で師匠にしなかった経緯あり <span class="ep-unconfirmed">※情報確認中</span></span></div>
     </div>
   </section>
 
@@ -179,8 +185,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4347", "label": "魚谷香織", "group": "center"}, {"id": "4344", "label": "新田雄史", "group": "active", "toban": "4344"}, {"id": "5163", "label": "清水愛海", "group": "active", "toban": "5163"}];
-      var E=[{"id": 0, "from": "4347", "to": "4344", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "4347", "to": "5163", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4347", "label": "魚谷香織", "group": "center"}, {"id": "4344", "label": "新田雄史", "group": "active", "toban": "4344"}, {"id": "5163", "label": "清水愛海", "group": "active", "toban": "5163"}, {"id": "5231", "label": "寺田空詩", "group": "active", "toban": "5231"}];
+      var E=[{"id": 0, "from": "4347", "to": "4344", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "4347", "to": "5163", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 2, "from": "4347", "to": "5231", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
