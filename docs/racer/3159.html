@@ -156,6 +156,11 @@
         <div class="rel-name">毒島誠 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4238</span></div>
         <div class="rel-meta"><span>群馬支部・92期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card family" href="5065.html">
+        <div class="rel-type">親族</div>
+        <div class="rel-name">伊久間陽優 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">5065</span></div>
+        <div class="rel-meta"><span>群馬支部・123期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -164,6 +169,7 @@
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
     <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">「レース後ノートを書く習慣」を師から授かる。2019ダービーで師弟対決</span></div>
+    <div class="ep-card family"><span class="ep-badge">親族</span><span class="ep-text">伊久間陽優は江口晃生の従甥。伊久間の師匠は毒島誠（江口の弟子）という江口→毒島→伊久間の3世代師弟連鎖が成立。血縁と師弟が交差する群馬支部の人間ドラマ</span></div>
     </div>
   </section>
 
@@ -173,8 +179,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "3159", "label": "江口晃生", "group": "center"}, {"id": "4238", "label": "毒島誠", "group": "active", "toban": "4238"}];
-      var E=[{"id": 0, "from": "3159", "to": "4238", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}];
+      var N=[{"id": "3159", "label": "江口晃生", "group": "center"}, {"id": "4238", "label": "毒島誠", "group": "active", "toban": "4238"}, {"id": "5065", "label": "伊久間陽優", "group": "active", "toban": "5065"}];
+      var E=[{"id": 0, "from": "3159", "to": "4238", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "3159", "to": "5065", "label": "親族", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
