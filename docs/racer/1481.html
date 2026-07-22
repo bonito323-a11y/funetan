@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北原友次（1481・岡山）｜舟☆探 選手名鑑</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#1C2530;
+    --paper:#F7F5F0;
+    --navy:#0E2A3C;
+    --navy-2:#173B52;
+    --red:#E33A2E;
+    --blue:#2E5FE3;
+    --yellow:#F2C21F;
+    --green:#2FA65A;
+    --line:#D8D3C8;
+    --muted:#6B7280;
+    --serif:'Zen Old Mincho',serif;
+    --sans:'Zen Kaku Gothic New',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.7;font-size:15px}
+  a{color:inherit}
+
+  .lane-strip{display:flex;height:6px}
+  .lane-strip span{flex:1}
+  .lane-strip .l1{background:#fff;border-bottom:1px solid var(--line)}
+  .lane-strip .l2{background:#222}
+  .lane-strip .l3{background:var(--red)}
+  .lane-strip .l4{background:var(--blue)}
+  .lane-strip .l5{background:var(--yellow)}
+  .lane-strip .l6{background:var(--green)}
+
+  header{background:var(--navy);color:#fff}
+  .topbar{max-width:720px;margin:0 auto;padding:14px 20px;display:flex;justify-content:space-between;align-items:baseline}
+  .brand{font-family:var(--serif);font-weight:900;font-size:18px;letter-spacing:.08em}
+  .brand small{font-family:var(--sans);font-weight:500;font-size:11px;opacity:.7;margin-left:8px;letter-spacing:.15em}
+  .brand a{text-decoration:none}
+  .topbar nav{font-size:12px;opacity:.85}
+  .topbar nav a{text-decoration:none;margin-left:14px}
+
+  .hero{background:var(--navy);color:#fff;padding:28px 20px 34px}
+  .hero-in{max-width:720px;margin:0 auto}
+  .toban{font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:.2em;color:var(--yellow)}
+  .toban::before{content:"登録番号 ";font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.55)}
+  h1{font-family:var(--serif);font-weight:900;font-size:44px;line-height:1.15;margin:6px 0 2px;letter-spacing:.04em}
+  .kana{font-size:13px;letter-spacing:.35em;color:rgba(255,255,255,.65)}
+  .nickname{font-size:13px;letter-spacing:.05em;color:rgba(255,255,255,.80);margin-top:5px;font-style:italic}
+  .badges{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  .badge{font-size:12px;font-weight:700;padding:4px 12px;border-radius:3px;background:var(--navy-2);border:1px solid rgba(255,255,255,.18)}
+  .badge.grade{background:var(--red);border-color:var(--red);font-family:var(--mono)}
+  .checked{margin-top:14px;font-size:11px;color:rgba(255,255,255,.5)}
+
+  main{max-width:720px;margin:0 auto;padding:8px 20px 40px}
+  section{margin-top:34px}
+  h2{font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:.06em;padding-bottom:8px;border-bottom:2px solid var(--ink);display:flex;align-items:baseline;justify-content:space-between}
+  h2 .en{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);font-weight:500}
+
+  .rel-grid{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:480px){.rel-grid{grid-template-columns:1fr}}
+  .rel-card{background:#fff;border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:4px;padding:12px 14px;text-decoration:none;display:block;transition:transform .12s ease}
+  .rel-card:hover{transform:translateY(-2px)}
+  .rel-card.family{border-left-color:var(--blue)}
+  .rel-card.spouse{border-left-color:var(--red)}
+  .rel-card.mentor{border-left-color:var(--green)}
+  .rel-type{font-size:11px;font-weight:700;letter-spacing:.15em;color:var(--muted)}
+  .rel-name{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:2px}
+  .rel-meta{margin-top:6px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+  .conf{font-weight:700;padding:1px 8px;border-radius:10px;font-size:10px}
+  .conf.a{background:#E7F3EB;color:#1E7A41}
+  .conf.b{background:#FDF3D7;color:#9A7208}
+  .rel-note{margin-top:14px;font-size:11px;color:var(--muted)}
+
+  table{width:100%;margin-top:14px;border-collapse:collapse;background:#fff;border:1px solid var(--line);font-size:14px}
+  th,td{padding:10px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{width:110px;background:#EFEBE2;font-weight:700;font-size:12px;letter-spacing:.05em}
+  tr:last-child th,tr:last-child td{border-bottom:none}
+
+  .links{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .chip{font-size:12px;font-weight:500;padding:7px 14px;background:#fff;border:1px solid var(--line);border-radius:20px;text-decoration:none}
+  .chip:hover{border-color:var(--navy)}
+
+  .cta{margin-top:40px;background:var(--navy);color:#fff;border-radius:6px;padding:26px 22px;position:relative;overflow:hidden}
+  .cta .lane-strip{position:absolute;top:0;left:0;right:0}
+  .cta h3{font-family:var(--serif);font-weight:900;font-size:22px;letter-spacing:.05em}
+  .cta p{margin-top:8px;font-size:13px;color:rgba(255,255,255,.8)}
+  /* 同期・同支部チップ */
+  .peer-wrap{margin-top:10px}
+  .peer-group-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.1em;margin-bottom:6px}
+  .peer-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .peer-chip{font-size:12px;font-weight:700;padding:5px 11px;border-radius:14px;background:#fff;border:1px solid var(--line);text-decoration:none;color:var(--navy);white-space:nowrap}
+  .peer-chip:hover{border-color:var(--navy)}
+  .peer-chip.same-branch{border-color:var(--blue);color:var(--blue)}
+  .peer-chip.same-branch:hover{background:var(--blue);color:#fff}
+  .peer-toban{font-family:var(--mono);font-size:10px;opacity:.55;font-weight:400}
+  .peer-count{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--muted);margin-left:6px}
+  .peer-more-btn{font-size:12px;font-weight:700;margin-top:8px;padding:5px 14px;border-radius:14px;background:#EFEBE2;color:var(--navy);border:1px solid var(--line);cursor:pointer;display:block}
+  .peer-more-btn:hover{background:var(--navy);color:#fff}
+  .peer-hidden{display:none!important}
+
+  .ep-list{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+  .ep-card{background:#fff;border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:4px;padding:10px 14px;display:flex;gap:10px;align-items:flex-start;line-height:1.6}
+  .ep-card.family{border-left-color:var(--blue)}
+  .ep-card.spouse{border-left-color:var(--red)}
+  .ep-card.mentor{border-left-color:var(--green)}
+  .ep-badge{flex-shrink:0;font-size:10px;font-weight:700;letter-spacing:.12em;padding:2px 8px;border-radius:10px;background:var(--navy);color:#fff;margin-top:3px}
+  .ep-card.family .ep-badge{background:var(--blue)}
+  .ep-card.spouse .ep-badge{background:var(--red)}
+  .ep-card.mentor .ep-badge{background:var(--green)}
+  .ep-text{font-size:13px;color:var(--ink)}
+  .ep-unconfirmed{font-size:11px;color:var(--muted);margin-left:6px}
+
+  .unki-btn{display:block;margin:24px 0 4px;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 20px;border-radius:6px;letter-spacing:.05em}
+  .unki-btn:hover{opacity:.88}
+  .cta-btn{display:inline-block;margin-top:16px;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 28px;border-radius:4px;letter-spacing:.05em}
+  .cta-btn:hover{opacity:.9}
+
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:20px;text-align:center;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="brand"><a href="../index.html">舟☆探<small>選手名鑑</small></a></div>
+    <nav><a href="../couples.html">夫婦一覧</a><a href="../siblings.html">兄弟一覧</a><a href="../shitei.html">師弟一覧</a></nav>
+  </div>
+  <div class="lane-strip"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span><span class="l5"></span><span class="l6"></span></div>
+
+  <div class="hero">
+    <div class="hero-in">
+      <div class="toban">1481</div>
+      <h1>北原友次</h1>
+      <div class="kana">きたはらともじ</div>
+      
+      <div class="badges">
+        <span class="badge grade"></span>
+        <span class="badge">岡山支部</span>
+        <span class="badge">5期</span>
+        <span class="badge">引退</span>
+      </div>
+      <div class="checked">最終確認：2026年7月22日</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <h2>人間関係 <span class="en">RELATIONS</span></h2>
+    <p style="margin-top:14px;color:var(--muted)">現在、掲載できる人間関係情報はありません。</p>
+  </section>
+
+
+
+
+
+
+
+  <section>
+    <h2>岡山支部の選手 <span class="en">BRANCH MATES</span><span class="peer-count">全87人</span></h2>
+    <div class="peer-wrap">
+      <div class="peer-chips" id="branch-shown"><a class="peer-chip " href="2090.html">黒明良光 <span class="peer-toban">2090</span></a><a class="peer-chip " href="3070.html">山室展弘 <span class="peer-toban">3070</span></a><a class="peer-chip " href="3233.html">小畑実成 <span class="peer-toban">3233</span></a><a class="peer-chip " href="3300.html">川崎智幸 <span class="peer-toban">3300</span></a><a class="peer-chip " href="3305.html">小野信樹 <span class="peer-toban">3305</span></a><a class="peer-chip " href="3357.html">福島陽子 <span class="peer-toban">3357</span></a><a class="peer-chip " href="3435.html">寺田千恵 <span class="peer-toban">3435</span></a><a class="peer-chip " href="3436.html">柏野幸二 <span class="peer-toban">3436</span></a><a class="peer-chip " href="3454.html">井川大作 <span class="peer-toban">3454</span></a><a class="peer-chip " href="3458.html">東健介 <span class="peer-toban">3458</span></a><a class="peer-chip " href="3558.html">山本浩次 <span class="peer-toban">3558</span></a><a class="peer-chip " href="3643.html">米田隆弘 <span class="peer-toban">3643</span></a></div>
+      <div class="peer-chips peer-hidden" id="branch-hidden"><a class="peer-chip " href="3685.html">荒井輝年 <span class="peer-toban">3685</span></a><a class="peer-chip " href="3708.html">岡部貴司 <span class="peer-toban">3708</span></a><a class="peer-chip " href="3717.html">立間充宏 <span class="peer-toban">3717</span></a><a class="peer-chip " href="3746.html">岡瀬正人 <span class="peer-toban">3746</span></a><a class="peer-chip " href="3775.html">泉啓文 <span class="peer-toban">3775</span></a><a class="peer-chip " href="3787.html">天野誠 <span class="peer-toban">3787</span></a><a class="peer-chip " href="3822.html">平尾崇典 <span class="peer-toban">3822</span></a><a class="peer-chip " href="3834.html">細川明人 <span class="peer-toban">3834</span></a><a class="peer-chip " href="3866.html">木山誠一 <span class="peer-toban">3866</span></a><a class="peer-chip " href="3874.html">山本寛久 <span class="peer-toban">3874</span></a><a class="peer-chip " href="3930.html">岸本隆 <span class="peer-toban">3930</span></a><a class="peer-chip " href="3933.html">山地正樹 <span class="peer-toban">3933</span></a><a class="peer-chip " href="3935.html">岩津徹郎 <span class="peer-toban">3935</span></a><a class="peer-chip " href="3943.html">三松直美 <span class="peer-toban">3943</span></a><a class="peer-chip " href="3949.html">今出晋二 <span class="peer-toban">3949</span></a><a class="peer-chip " href="3982.html">福田理 <span class="peer-toban">3982</span></a><a class="peer-chip " href="4011.html">堀之内紀代子 <span class="peer-toban">4011</span></a><a class="peer-chip " href="4050.html">田口節子 <span class="peer-toban">4050</span></a><a class="peer-chip " href="4051.html">清水敦揮 <span class="peer-toban">4051</span></a><a class="peer-chip " href="4054.html">福嶋智之 <span class="peer-toban">4054</span></a><a class="peer-chip " href="4065.html">金田幸子 <span class="peer-toban">4065</span></a><a class="peer-chip " href="4069.html">山本修一 <span class="peer-toban">4069</span></a><a class="peer-chip " href="4089.html">妹尾忠幸 <span class="peer-toban">4089</span></a><a class="peer-chip " href="4098.html">赤澤文香 <span class="peer-toban">4098</span></a><a class="peer-chip " href="4166.html">吉田拡郎 <span class="peer-toban">4166</span></a><a class="peer-chip " href="4172.html">森定晃史 <span class="peer-toban">4172</span></a><a class="peer-chip " href="4202.html">浮田圭浩 <span class="peer-toban">4202</span></a><a class="peer-chip " href="4214.html">林祐介 <span class="peer-toban">4214</span></a><a class="peer-chip " href="4277.html">金田大輔 <span class="peer-toban">4277</span></a><a class="peer-chip " href="4323.html">山田佑樹 <span class="peer-toban">4323</span></a><a class="peer-chip " href="4370.html">山口達也 <span class="peer-toban">4370</span></a><a class="peer-chip " href="4373.html">若狭奈美子 <span class="peer-toban">4373</span></a><a class="peer-chip " href="4410.html">井上大輔 <span class="peer-toban">4410</span></a><a class="peer-chip " href="4418.html">茅原悠紀 <span class="peer-toban">4418</span></a><a class="peer-chip " href="4423.html">坂口貴彦 <span class="peer-toban">4423</span></a><a class="peer-chip " href="4441.html">末永由楽 <span class="peer-toban">4441</span></a><a class="peer-chip " href="4482.html">守屋美穂 <span class="peer-toban">4482</span></a><a class="peer-chip " href="4501.html">樋口由加里 <span class="peer-toban">4501</span></a><a class="peer-chip " href="4533.html">峰重侑治 <span class="peer-toban">4533</span></a><a class="peer-chip " href="4536.html">喜井つかさ <span class="peer-toban">4536</span></a><a class="peer-chip " href="4537.html">渡邉和将 <span class="peer-toban">4537</span></a><a class="peer-chip " href="4557.html">松尾光広 <span class="peer-toban">4557</span></a><a class="peer-chip " href="4558.html">宮野仁 <span class="peer-toban">4558</span></a><a class="peer-chip " href="4562.html">阪本勇介 <span class="peer-toban">4562</span></a><a class="peer-chip " href="4563.html">齋藤真之 <span class="peer-toban">4563</span></a><a class="peer-chip " href="4580.html">長谷川雅和 <span class="peer-toban">4580</span></a><a class="peer-chip " href="4584.html">村岡賢人 <span class="peer-toban">4584</span></a><a class="peer-chip " href="4635.html">峰重力也 <span class="peer-toban">4635</span></a><a class="peer-chip " href="4672.html">守屋大地 <span class="peer-toban">4672</span></a><a class="peer-chip " href="4713.html">白神優 <span class="peer-toban">4713</span></a><a class="peer-chip " href="4762.html">藤原啓史朗 <span class="peer-toban">4762</span></a><a class="peer-chip " href="4782.html">浜崎準也 <span class="peer-toban">4782</span></a><a class="peer-chip " href="4842.html">山下昂大 <span class="peer-toban">4842</span></a><a class="peer-chip " href="4853.html">前原哉 <span class="peer-toban">4853</span></a><a class="peer-chip " href="4884.html">勝浦真帆 <span class="peer-toban">4884</span></a><a class="peer-chip " href="4886.html">入海馨 <span class="peer-toban">4886</span></a><a class="peer-chip " href="4909.html">薮内瑞希 <span class="peer-toban">4909</span></a><a class="peer-chip " href="4964.html">土屋南 <span class="peer-toban">4964</span></a><a class="peer-chip " href="4974.html">安井瑞紀 <span class="peer-toban">4974</span></a><a class="peer-chip " href="5058.html">前原大道 <span class="peer-toban">5058</span></a><a class="peer-chip " href="5109.html">川崎智稔 <span class="peer-toban">5109</span></a><a class="peer-chip " href="5111.html">三村岳人 <span class="peer-toban">5111</span></a><a class="peer-chip " href="5113.html">黒明花夢 <span class="peer-toban">5113</span></a><a class="peer-chip " href="5165.html">小林愛実 <span class="peer-toban">5165</span></a><a class="peer-chip " href="5170.html">佐藤太亮 <span class="peer-toban">5170</span></a><a class="peer-chip " href="5181.html">森智哉 <span class="peer-toban">5181</span></a><a class="peer-chip " href="5189.html">藤原早菜 <span class="peer-toban">5189</span></a><a class="peer-chip " href="5206.html">梅原祥平 <span class="peer-toban">5206</span></a><a class="peer-chip " href="5217.html">藤原碧生 <span class="peer-toban">5217</span></a><a class="peer-chip " href="5310.html">土屋蘭 <span class="peer-toban">5310</span></a><a class="peer-chip " href="5317.html">長尾萌加 <span class="peer-toban">5317</span></a><a class="peer-chip " href="5356.html">長谷川暖 <span class="peer-toban">5356</span></a><a class="peer-chip " href="5373.html">諏訪玲奈 <span class="peer-toban">5373</span></a><a class="peer-chip " href="5374.html">木山大聖 <span class="peer-toban">5374</span></a><a class="peer-chip " href="5447.html">岡本亜子 <span class="peer-toban">5447</span></a></div><button class="peer-more-btn" onclick="showPeers('branch-hidden',this)">もっと見る（あと75人）</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>基本情報 <span class="en">PROFILE</span></h2>
+    <table>
+      <tr><th>生年月日</th><td>1940年5月2日</td></tr>
+      <tr><th>出身地</th><td>岡山</td></tr>
+      <tr><th>支部</th><td>岡山支部</td></tr>
+      <tr><th>期別</th><td>5期</td></tr>
+      <tr><th>級別</th><td>—</td></tr>
+      <tr><th>現況</th><td>引退</td></tr>
+      <tr><th>趣味</th><td>—</td></tr>
+      <tr><th>備考</th><td>5期・岡山支部・2005年引退。46年間の現役生活。3000勝達成・グランドスラム達成のレジェンド。孫に坂口貴彦(4423)</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>公式・外部リンク <span class="en">LINKS</span></h2>
+    <div class="links">
+      <a class="chip" href="https://boatrace.jp/owpc/pc/data/racersearch/profile?toban=1481" target="_blank" rel="noopener">BOAT RACE公式プロフィール</a>
+      <a class="chip" href="https://boatrace-db.net/racer/index2/regno/1481" target="_blank" rel="noopener">艇国データバンク（成績）</a>
+    </div>
+  </section>
+
+  <a class="unki-btn" href="../unki/1481.html">🔮 北原友次の今日の艇運を見る</a>
+
+  <div class="cta">
+    <div class="lane-strip"><span class="l1"></span><span class="l2"></span><span class="l3"></span><span class="l4"></span><span class="l5"></span><span class="l6"></span></div>
+    <h3>北原友次の今節の狙い目は？</h3>
+    <p>AI予想エンジン「舟☆探」が、データと人間関係の両面からレースを読む。<br>LINE登録で無料予想と選手の最新ニュースが届きます。</p>
+    <a class="cta-btn" href="#">舟☆探の無料予想を見る</a>
+  </div>
+
+</main>
+
+<footer>
+  舟☆探 選手名鑑 ｜ 掲載情報にはすべて出典を明記しています。訂正のご連絡はこちら
+</footer>
+
+<script>
+function showPeers(hiddenId, btn) {
+  document.getElementById(hiddenId).classList.remove('peer-hidden');
+  btn.style.display = 'none';
+}
+</script>
+</body>
+</html>
