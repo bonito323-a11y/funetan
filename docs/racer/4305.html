@@ -156,6 +156,11 @@
         <div class="rel-name">倉持莉々 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4825</span></div>
         <div class="rel-meta"><span>東京支部・114期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card friend" href="4320.html">
+        <div class="rel-type">仲良し</div>
+        <div class="rel-name">峰竜太 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4320</span></div>
+        <div class="rel-meta"><span>佐賀支部・95期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -164,6 +169,7 @@
     <h2>エピソード <span class="en">EPISODES</span></h2>
     <div class="ep-list">
     <div class="ep-card spouse"><span class="ep-badge">配偶者</span><span class="ep-text">95期・栃木支部。10歳年上。2023年10月1日入籍。2024年3月に第1子（男児）誕生</span></div>
+    <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">95期「95期四天王世代」同期。岡村仁(4311)・山田哲也(4297)も同期</span></div>
     </div>
   </section>
 
@@ -173,8 +179,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4305", "label": "金子拓矢", "group": "center"}, {"id": "4825", "label": "倉持莉々", "group": "active", "toban": "4825"}];
-      var E=[{"id": 0, "from": "4305", "to": "4825", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4305", "label": "金子拓矢", "group": "center"}, {"id": "4825", "label": "倉持莉々", "group": "active", "toban": "4825"}, {"id": "4320", "label": "峰竜太", "group": "active", "toban": "4320"}];
+      var E=[{"id": 0, "from": "4305", "to": "4825", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 1, "from": "4305", "to": "4320", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
