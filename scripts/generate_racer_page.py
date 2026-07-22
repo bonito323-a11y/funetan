@@ -465,6 +465,7 @@ def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=No
     status_str = STATUS_LABEL.get(r["status"], r["status"])
     hobby_str = r["hobby"] if r["hobby"] else "—"
     note_str = r["note"] if r["note"] else ""
+    nickname_str = r.get("nickname", "") or ""
 
     profile_rows = f"""      <tr><th>生年月日</th><td>{birth_str}</td></tr>
       <tr><th>出身地</th><td>{r['hometown'] or '—'}</td></tr>
@@ -473,6 +474,8 @@ def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=No
       <tr><th>級別</th><td>{r['grade'] or '—'}</td></tr>
       <tr><th>現況</th><td>{status_str}</td></tr>
       <tr><th>趣味</th><td>{hobby_str}</td></tr>"""
+    if nickname_str:
+        profile_rows += f"\n      <tr><th>異名</th><td>「{nickname_str}」</td></tr>"
     if note_str:
         profile_rows += f"\n      <tr><th>備考</th><td>{note_str}</td></tr>"
 
@@ -541,6 +544,7 @@ def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=No
   .toban::before{{content:"登録番号 ";font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.55)}}
   h1{{font-family:var(--serif);font-weight:900;font-size:44px;line-height:1.15;margin:6px 0 2px;letter-spacing:.04em}}
   .kana{{font-size:13px;letter-spacing:.35em;color:rgba(255,255,255,.65)}}
+  .nickname{{font-size:13px;letter-spacing:.05em;color:rgba(255,255,255,.80);margin-top:5px;font-style:italic}}
   .badges{{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}}
   .badge{{font-size:12px;font-weight:700;padding:4px 12px;border-radius:3px;background:var(--navy-2);border:1px solid rgba(255,255,255,.18)}}
   .badge.grade{{background:var(--red);border-color:var(--red);font-family:var(--mono)}}
@@ -627,6 +631,7 @@ def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=No
       <div class="toban">{toban}</div>
       <h1>{name_display}</h1>
       <div class="kana">{r["kana"]}</div>
+      {'<div class="nickname">「' + nickname_str + '」</div>' if nickname_str else ''}
       <div class="badges">
         <span class="badge grade">{r["grade"]}</span>
         <span class="badge">{r["branch"]}支部</span>

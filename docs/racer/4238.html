@@ -49,6 +49,7 @@
   .toban::before{content:"登録番号 ";font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.55)}
   h1{font-family:var(--serif);font-weight:900;font-size:44px;line-height:1.15;margin:6px 0 2px;letter-spacing:.04em}
   .kana{font-size:13px;letter-spacing:.35em;color:rgba(255,255,255,.65)}
+  .nickname{font-size:13px;letter-spacing:.05em;color:rgba(255,255,255,.80);margin-top:5px;font-style:italic}
   .badges{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
   .badge{font-size:12px;font-weight:700;padding:4px 12px;border-radius:3px;background:var(--navy-2);border:1px solid rgba(255,255,255,.18)}
   .badge.grade{background:var(--red);border-color:var(--red);font-family:var(--mono)}
@@ -135,6 +136,7 @@
       <div class="toban">4238</div>
       <h1>毒島誠</h1>
       <div class="kana">ぶすじままこと</div>
+      <div class="nickname">「二代目ナイターキング」</div>
       <div class="badges">
         <span class="badge grade">A1</span>
         <span class="badge">群馬支部</span>
@@ -176,6 +178,11 @@
         <div class="rel-name">池田幸美 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">3962</span></div>
         <div class="rel-meta"><span>福井支部・82期・引退</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card friend" href="4218.html">
+        <div class="rel-type">仲良し</div>
+        <div class="rel-name">吉川喜継 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4218</span></div>
+        <div class="rel-meta"><span>滋賀支部・92期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -187,6 +194,7 @@
     <div class="ep-card mentor"><span class="ep-badge">師匠</span><span class="ep-text">「レース後ノートを書く習慣」を師から授かる。2019ダービーで師弟対決</span></div>
     <div class="ep-card mentor"><span class="ep-badge">弟子</span><span class="ep-text">江口晃生の甥でもあり師匠の甥を弟子に取る珍しい三角関係</span></div>
     <div class="ep-card spouse"><span class="ep-badge">配偶者</span><span class="ep-text">元競艇選手（82期・福井支部・2009年引退・通算150勝）。racers.csv非登録</span></div>
+    <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">92期同期。大峯豊(4237)・安達裕樹も同期</span></div>
     </div>
   </section>
 
@@ -196,8 +204,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4238", "label": "毒島誠", "group": "center"}, {"id": "5121", "label": "定松勇樹", "group": "active", "toban": "5121"}, {"id": "3159", "label": "江口晃生", "group": "active", "toban": "3159"}, {"id": "5065", "label": "伊久間陽優", "group": "active", "toban": "5065"}, {"id": "5006", "label": "久保原秀人", "group": "active", "toban": "5006"}, {"id": "3962", "label": "池田幸美", "group": "active", "toban": "3962"}];
-      var E=[{"id": 0, "from": "4238", "to": "5121", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "3159", "to": "4238", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4238", "to": "5065", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 3, "from": "4238", "to": "5006", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 4, "from": "4238", "to": "3962", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4238", "label": "毒島誠", "group": "center"}, {"id": "5121", "label": "定松勇樹", "group": "active", "toban": "5121"}, {"id": "3159", "label": "江口晃生", "group": "active", "toban": "3159"}, {"id": "5065", "label": "伊久間陽優", "group": "active", "toban": "5065"}, {"id": "5006", "label": "久保原秀人", "group": "active", "toban": "5006"}, {"id": "3962", "label": "池田幸美", "group": "active", "toban": "3962"}, {"id": "4218", "label": "吉川喜継", "group": "active", "toban": "4218"}];
+      var E=[{"id": 0, "from": "4238", "to": "5121", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "3159", "to": "4238", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4238", "to": "5065", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 3, "from": "4238", "to": "5006", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 4, "from": "4238", "to": "3962", "label": "夫婦", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 5, "from": "4238", "to": "4218", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
@@ -260,6 +268,7 @@
       <tr><th>級別</th><td>A1</td></tr>
       <tr><th>現況</th><td>現役</td></tr>
       <tr><th>趣味</th><td>—</td></tr>
+      <tr><th>異名</th><td>「二代目ナイターキング」</td></tr>
     </table>
   </section>
 

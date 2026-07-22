@@ -49,6 +49,7 @@
   .toban::before{content:"登録番号 ";font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.55)}
   h1{font-family:var(--serif);font-weight:900;font-size:44px;line-height:1.15;margin:6px 0 2px;letter-spacing:.04em}
   .kana{font-size:13px;letter-spacing:.35em;color:rgba(255,255,255,.65)}
+  .nickname{font-size:13px;letter-spacing:.05em;color:rgba(255,255,255,.80);margin-top:5px;font-style:italic}
   .badges{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
   .badge{font-size:12px;font-weight:700;padding:4px 12px;border-radius:3px;background:var(--navy-2);border:1px solid rgba(255,255,255,.18)}
   .badge.grade{background:var(--red);border-color:var(--red);font-family:var(--mono)}
@@ -135,6 +136,7 @@
       <div class="toban">4320</div>
       <h1>峰竜太</h1>
       <div class="kana">みねりゅうた</div>
+      <div class="nickname">「4カドの峰」</div>
       <div class="badges">
         <span class="badge grade">A1</span>
         <span class="badge">佐賀支部</span>
@@ -211,6 +213,11 @@
         <div class="rel-name">海野康志郎 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4324</span></div>
         <div class="rel-meta"><span>山口支部・95期・現役</span><span class="conf a">◎ 本人公表</span></div>
       </a>
+      <a class="rel-card friend" href="4305.html">
+        <div class="rel-type">仲良し</div>
+        <div class="rel-name">金子拓矢 <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">4305</span></div>
+        <div class="rel-meta"><span>群馬支部・95期・現役</span><span class="conf a">◎ 本人公表</span></div>
+      </a>
     </div>
     <div class="rel-note">確度表示：◎＝本人が公表　○＝メディア報道。各カードをクリックすると選手ページへ移動します。噂レベルの情報は掲載していません。</div>
   </section>
@@ -223,6 +230,7 @@
     <div class="ep-card friend"><span class="ep-badge">同期</span><span class="ep-text">95期四天王</span></div>
     <div class="ep-card friend"><span class="ep-badge">同期</span><span class="ep-text">95期四天王（racers.csv非登録・引退）</span></div>
     <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">95期同期。岡村仁(4311)も同期の95期四天王世代</span></div>
+    <div class="ep-card friend"><span class="ep-badge">仲良し</span><span class="ep-text">95期「95期四天王世代」同期。岡村仁(4311)・山田哲也(4297)も同期</span></div>
     </div>
   </section>
 
@@ -232,8 +240,8 @@
     <p style="font-size:11px;color:var(--muted);margin-top:6px">ノードをクリックすると選手ページへ移動できます（矢印は師匠 → 弟子の方向）</p>
     <script>
     (function(){
-      var N=[{"id": "4320", "label": "峰竜太", "group": "center"}, {"id": "2792", "label": "松尾孝明", "group": "active", "toban": "2792"}, {"id": "4500", "label": "山田康二", "group": "active", "toban": "4500"}, {"id": "4503", "label": "上野真之介", "group": "active", "toban": "4503"}, {"id": "4624", "label": "高田明", "group": "active", "toban": "4624"}, {"id": "4734", "label": "安河内将", "group": "active", "toban": "4734"}, {"id": "5121", "label": "定松勇樹", "group": "active", "toban": "5121"}, {"id": "5084", "label": "末永和也", "group": "active", "toban": "5084"}, {"id": "5395", "label": "日高龍之介", "group": "active", "toban": "5395"}, {"id": "4297", "label": "山田哲也", "group": "active", "toban": "4297"}, {"id": "4311", "label": "岡村仁", "group": "active", "toban": "4311"}, {"id": "4316", "label": "山口裕太", "group": "active", "toban": "4316"}, {"id": "4324", "label": "海野康志郎", "group": "active", "toban": "4324"}];
-      var E=[{"id": 0, "from": "2792", "to": "4320", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "4320", "to": "4500", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4320", "to": "4503", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 3, "from": "4320", "to": "4624", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 4, "from": "4320", "to": "4734", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 5, "from": "4320", "to": "5121", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 6, "from": "4320", "to": "5084", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 7, "from": "4320", "to": "5395", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 8, "from": "4320", "to": "4297", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 9, "from": "4320", "to": "4311", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 10, "from": "4320", "to": "4316", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 11, "from": "4320", "to": "4324", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
+      var N=[{"id": "4320", "label": "峰竜太", "group": "center"}, {"id": "2792", "label": "松尾孝明", "group": "active", "toban": "2792"}, {"id": "4500", "label": "山田康二", "group": "active", "toban": "4500"}, {"id": "4503", "label": "上野真之介", "group": "active", "toban": "4503"}, {"id": "4624", "label": "高田明", "group": "active", "toban": "4624"}, {"id": "4734", "label": "安河内将", "group": "active", "toban": "4734"}, {"id": "5121", "label": "定松勇樹", "group": "active", "toban": "5121"}, {"id": "5084", "label": "末永和也", "group": "active", "toban": "5084"}, {"id": "5395", "label": "日高龍之介", "group": "active", "toban": "5395"}, {"id": "4297", "label": "山田哲也", "group": "active", "toban": "4297"}, {"id": "4311", "label": "岡村仁", "group": "active", "toban": "4311"}, {"id": "4316", "label": "山口裕太", "group": "active", "toban": "4316"}, {"id": "4324", "label": "海野康志郎", "group": "active", "toban": "4324"}, {"id": "4305", "label": "金子拓矢", "group": "active", "toban": "4305"}];
+      var E=[{"id": 0, "from": "2792", "to": "4320", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 1, "from": "4320", "to": "4500", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 2, "from": "4320", "to": "4503", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 3, "from": "4320", "to": "4624", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 4, "from": "4320", "to": "4734", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 5, "from": "4320", "to": "5121", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 6, "from": "4320", "to": "5084", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 7, "from": "4320", "to": "5395", "label": "師弟", "arrows": {"to": {"enabled": true, "scaleFactor": 0.7}}}, {"id": 8, "from": "4320", "to": "4297", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 9, "from": "4320", "to": "4311", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 10, "from": "4320", "to": "4316", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 11, "from": "4320", "to": "4324", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}, {"id": 12, "from": "4320", "to": "4305", "label": "仲間", "arrows": {"to": {"enabled": false, "scaleFactor": 0.7}}}];
       var el=document.getElementById('mini-graph');
       var net=new vis.Network(el,
         {nodes:new vis.DataSet(N),edges:new vis.DataSet(E)},
@@ -295,6 +303,7 @@
       <tr><th>級別</th><td>A1</td></tr>
       <tr><th>現況</th><td>現役</td></tr>
       <tr><th>趣味</th><td>—</td></tr>
+      <tr><th>異名</th><td>「4カドの峰」</td></tr>
     </table>
   </section>
 
