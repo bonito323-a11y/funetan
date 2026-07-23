@@ -140,7 +140,7 @@ const DATA = [
   {
     "toban": "4320",
     "name": "峰竜太",
-    "note": "X:macour掲載 Instagram:macour掲載 YouTube:macour掲載",
+    "note": "X:確認済み Instagram:確認済み YouTube:リンク切れのため削除（要再調査）",
     "sns": [
       {
         "field": "sns_x",
@@ -153,12 +153,6 @@ const DATA = [
         "label": "Instagram",
         "id": "ryuta.4320",
         "url": "https://www.instagram.com/ryuta.4320/"
-      },
-      {
-        "field": "sns_youtube",
-        "label": "YouTube",
-        "id": "ch-zd1pg",
-        "url": "https://www.youtube.com/@ch-zd1pg"
       }
     ]
   },
@@ -411,14 +405,14 @@ function saveJSON() {
   });
 
   const output = {
-    reviewed_at: '2026-07-23',
+    reviewed_at: '2026-07-24',
     results: results
   };
 
   const blob = new Blob([JSON.stringify(output, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'sns_review_2026-07-23.json';
+  a.download = 'sns_review_2026-07-24.json';
   a.click();
 }
 
