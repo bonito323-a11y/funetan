@@ -85,7 +85,17 @@ def apply_results(results, reviewed_at):
 
         for field, verdict in verdicts.items():
             if verdict == "ok":
-                note = note.replace("要本人確認", "確認済み")
+                if "要本人確認" in note:
+                    note = note.replace("要本人確認", "確認済み")
+                else:
+                    # 「macour掲載」→「macour掲載・確認済み」に更新
+                    prefix_map = {
+                        "sns_x": "X:", "sns_instagram": "Instagram:",
+                        "sns_youtube": "YouTube:", "sns_tiktok": "TikTok:",
+                    }
+                    pre = prefix_map.get(field, "")
+                    if pre and pre + "macour掲載" in note and pre + "macour掲載・確認済み" not in note:
+                        note = note.replace(pre + "macour掲載", pre + "macour掲載・確認済み", 1)
             elif verdict == "ng":
                 if row.get(field, "").strip():
                     ng_fields.append(f"{field}={row[field]}")
