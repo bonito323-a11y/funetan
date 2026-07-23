@@ -19,7 +19,7 @@ PROFILES_CSV = os.path.join(DATA_DIR, "profiles.csv")
 os.makedirs(DOCS_DIR, exist_ok=True)
 
 SNS_FIELDS = [
-    ("sns_x",        "𝕏 X",        "https://x.com/{}"),
+    ("sns_x",        "X (Twitter)", "https://x.com/{}"),
     ("sns_instagram","Instagram",   "https://www.instagram.com/{}/"),
     ("sns_youtube",  "YouTube",     "https://www.youtube.com/@{}"),
     ("sns_tiktok",   "TikTok",      "https://www.tiktok.com/@{}"),
@@ -65,7 +65,8 @@ def build_entries(racers, profiles):
     return entries
 
 def generate(entries):
-    data_json = json.dumps(entries, ensure_ascii=False, indent=2)
+    # ensure_ascii=True で補助平面文字（𝕏等）をエスケープし、JSパースエラーを防ぐ
+    data_json = json.dumps(entries, ensure_ascii=True, indent=2)
     today = str(date.today())
 
     html = f'''<!DOCTYPE html>
@@ -167,7 +168,7 @@ function saveState() {{
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }}
 
-function setJudge(toban, field, verdict, btn) {{
+function setJudge(toban, field, verdict) {{
   const key = stateKey(toban, field);
   // 同じボタンをもう一度押したらクリア
   if (state[key] === verdict) {{
@@ -230,15 +231,18 @@ function renderCards() {{
       const key = stateKey(racer.toban, sns.field);
       const row = document.createElement('div');
       row.className = 'sns-row';
+      // onclick は使わず data属性でtoban/field/verdictを持たせる
+      const okId = 'ok-' + key;
+      const ngId = 'ng-' + key;
       row.innerHTML =
         '<span class="platform">' + sns.label + '</span>' +
         '<span class="sns-id">@' + escHtml(sns.id) + '</span>' +
-        '<a class="open-btn" href="' + sns.url + '" target="_blank" rel="noopener">開く ↗</a>' +
+        '<a class="open-btn" href="' + sns.url + '" target="_blank" rel="noopener">開く &#8599;</a>' +
         '<div class="judge-group">' +
-          '<button class="judge-btn ok" id="ok-' + key + '"' +
-            ' onclick="setJudge(\'' + racer.toban + '\',\'' + sns.field + '\',\'ok\',this)">✓ OK</button>' +
-          '<button class="judge-btn ng" id="ng-' + key + '"' +
-            ' onclick="setJudge(\'' + racer.toban + '\',\'' + sns.field + '\',\'ng\',this)">✗ NG</button>' +
+          '<button class="judge-btn ok" id="' + okId + '"' +
+            ' data-toban="' + racer.toban + '" data-field="' + sns.field + '" data-verdict="ok">&#10003; OK</button>' +
+          '<button class="judge-btn ng" id="' + ngId + '"' +
+            ' data-toban="' + racer.toban + '" data-field="' + sns.field + '" data-verdict="ng">&#10007; NG</button>' +
         '</div>';
       card.appendChild(row);
     }});
@@ -278,6 +282,16 @@ function saveJSON() {{
   a.download = 'sns_review_{today}.json';
   a.click();
 }}
+
+// ---- イベント委譲（judge-btnをどこでも受け取る）----
+document.addEventListener('click', function(e) {{
+  const btn = e.target.closest('.judge-btn');
+  if (!btn) return;
+  const toban  = btn.dataset.toban;
+  const field  = btn.dataset.field;
+  const verdict = btn.dataset.verdict;
+  if (toban && field && verdict) setJudge(toban, field, verdict);
+}});
 
 // ---- 初期化 ----
 loadState();
