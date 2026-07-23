@@ -18,6 +18,7 @@ DOCS_DIR = os.path.join(BASE_DIR, "docs", "racer")
 
 RACERS_CSV = os.path.join(DATA_DIR, "racers.csv")
 RELATIONS_CSV = os.path.join(DATA_DIR, "relations.csv")
+PROFILES_CSV = os.path.join(DATA_DIR, "profiles.csv")
 
 os.makedirs(DOCS_DIR, exist_ok=True)
 
@@ -38,6 +39,16 @@ def load_relations():
                 print(f"[警告] 出典URL なし: id={row['id']}")
             relations.append(row)
     return relations
+
+def load_profiles():
+    """profiles.csv を読み込む。ファイルがなければ空 dict を返す。"""
+    if not os.path.exists(PROFILES_CSV):
+        return {}
+    profiles = {}
+    with open(PROFILES_CSV, encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            profiles[row["toban"]] = row
+    return profiles
 
 # --------- インデックス構築 ---------
 
@@ -422,7 +433,7 @@ def branch_section_html(toban, r, branch_map):
   </section>'''
 
 
-def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=None):
+def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=None, profiles=None):
     r = racers.get(toban)
     if not r:
         print(f"[エラー] 登録番号 {toban} が racers.csv に見つかりません")
@@ -460,10 +471,15 @@ def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=No
     <p style="margin-top:14px;color:var(--muted)">現在、掲載できる人間関係情報はありません。</p>
   </section>'''
 
+    # profiles.csv データ取得
+    prof = (profiles or {}).get(toban, {})
+
     # 基本情報テーブル
     birth_str = fmt_birth(r["birth"]) if r["birth"] else "—"
     status_str = STATUS_LABEL.get(r["status"], r["status"])
-    hobby_str = r["hobby"] if r["hobby"] else "—"
+    # 趣味: profiles.csv優先、なければracers.csvのhobby
+    hobby_str = prof.get("hobby", "").strip() or r.get("hobby", "").strip() or ""
+    food_str  = prof.get("food", "").strip()
     note_str = r["note"] if r["note"] else ""
     nickname_str = r.get("nickname", "") or ""
 
@@ -472,22 +488,44 @@ def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=No
       <tr><th>支部</th><td>{r['branch'] or '—'}支部</td></tr>
       <tr><th>期別</th><td>{r['ki'] or '—'}期</td></tr>
       <tr><th>級別</th><td>{r['grade'] or '—'}</td></tr>
-      <tr><th>現況</th><td>{status_str}</td></tr>
-      <tr><th>趣味</th><td>{hobby_str}</td></tr>"""
+      <tr><th>現況</th><td>{status_str}</td></tr>"""
+    if hobby_str:
+        profile_rows += f"\n      <tr><th>趣味</th><td>{hobby_str}</td></tr>"
+    if food_str:
+        profile_rows += f"\n      <tr><th>好きな食べ物</th><td>{food_str}</td></tr>"
     if nickname_str:
         profile_rows += f"\n      <tr><th>異名</th><td>「{nickname_str}」</td></tr>"
     if note_str:
         profile_rows += f"\n      <tr><th>備考</th><td>{note_str}</td></tr>"
 
-    # 外部リンク
+    # 外部リンク（公式・艇国DB）
     links_html = f'      <a class="chip" href="https://boatrace.jp/owpc/pc/data/racersearch/profile?toban={toban}" target="_blank" rel="noopener">BOAT RACE公式プロフィール</a>\n'
     links_html += f'      <a class="chip" href="https://boatrace-db.net/racer/index2/regno/{toban}" target="_blank" rel="noopener">艇国データバンク（成績）</a>\n'
-    if r["x_url"]:
+    if r.get("x_url"):
         links_html += f'      <a class="chip" href="{r["x_url"]}" target="_blank" rel="noopener">X（Twitter）</a>\n'
-    if r["insta_url"]:
+    if r.get("insta_url"):
         links_html += f'      <a class="chip" href="{r["insta_url"]}" target="_blank" rel="noopener">Instagram</a>\n'
-    if r["youtube_url"]:
+    if r.get("youtube_url"):
         links_html += f'      <a class="chip" href="{r["youtube_url"]}" target="_blank" rel="noopener">YouTube</a>\n'
+
+    # SNSボタン（profiles.csvのID登録がある場合のみ表示）
+    sns_btns = []
+    if prof.get("sns_x", "").strip():
+        uid = prof["sns_x"].strip()
+        sns_btns.append(f'      <a class="sns-btn sns-x" href="https://x.com/{uid}" target="_blank" rel="noopener">𝕏&nbsp;X</a>')
+    if prof.get("sns_instagram", "").strip():
+        uid = prof["sns_instagram"].strip()
+        sns_btns.append(f'      <a class="sns-btn sns-ig" href="https://www.instagram.com/{uid}/" target="_blank" rel="noopener">&#9711;&nbsp;Instagram</a>')
+    if prof.get("sns_youtube", "").strip():
+        uid = prof["sns_youtube"].strip()
+        sns_btns.append(f'      <a class="sns-btn sns-yt" href="https://www.youtube.com/@{uid}" target="_blank" rel="noopener">&#9654;&nbsp;YouTube</a>')
+    if prof.get("sns_tiktok", "").strip():
+        uid = prof["sns_tiktok"].strip()
+        sns_btns.append(f'      <a class="sns-btn sns-tt" href="https://www.tiktok.com/@{uid}" target="_blank" rel="noopener">&#9836;&nbsp;TikTok</a>')
+    sns_html = ""
+    if sns_btns:
+        inner_btns = "\n".join(sns_btns)
+        sns_html = f'    <div class="sns-row">\n{inner_btns}\n    </div>'
 
     checked_str = fmt_checked(r["checked"]) if r["checked"] else str(date.today())
     name_parts = r["name"].split() if " " in r["name"] else [r["name"]]
@@ -609,6 +647,14 @@ def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=No
   .ep-text{{font-size:13px;color:var(--ink)}}
   .ep-unconfirmed{{font-size:11px;color:var(--muted);margin-left:6px}}
 
+  .sns-row{{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}}
+  .sns-btn{{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;padding:8px 18px;border-radius:20px;text-decoration:none;letter-spacing:.03em;transition:opacity .15s}}
+  .sns-btn:hover{{opacity:.82}}
+  .sns-x{{background:#000;color:#fff}}
+  .sns-ig{{background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);color:#fff}}
+  .sns-yt{{background:#FF0000;color:#fff}}
+  .sns-tt{{background:#010101;color:#fff}}
+
   .unki-btn{{display:block;margin:24px 0 4px;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 20px;border-radius:6px;letter-spacing:.05em}}
   .unki-btn:hover{{opacity:.88}}
   .cta-btn{{display:inline-block;margin-top:16px;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 28px;border-radius:4px;letter-spacing:.05em}}
@@ -666,6 +712,7 @@ def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=No
     <h2>公式・外部リンク <span class="en">LINKS</span></h2>
     <div class="links">
 {links_html}    </div>
+{sns_html}
   </section>
 
   {'<a class="unki-btn" href="../unki/' + toban + '.html">🔮 ' + r["name"] + 'の今日の艇運を見る</a>' if r.get("birth") else ''}
@@ -704,6 +751,7 @@ function showPeers(hiddenId, btn) {{
 if __name__ == "__main__":
     racers    = load_racers()
     relations = load_relations()
+    profiles  = load_profiles()
 
     # racers.csv未登録（引退等）の選手名をrelations.csvのto_nameから補完するキャッシュ
     # ※ racers には追加しない（ページ生成対象に含めないため）
@@ -721,6 +769,6 @@ if __name__ == "__main__":
         targets = list(racers.keys())
 
     for t in targets:
-        generate_page(t, racers, relations, ki_map, branch_map, retired_names)
+        generate_page(t, racers, relations, ki_map, branch_map, retired_names, profiles=profiles)
 
     print("完了")

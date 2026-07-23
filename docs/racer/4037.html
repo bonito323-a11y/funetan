@@ -114,6 +114,14 @@
   .ep-text{font-size:13px;color:var(--ink)}
   .ep-unconfirmed{font-size:11px;color:var(--muted);margin-left:6px}
 
+  .sns-row{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+  .sns-btn{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;padding:8px 18px;border-radius:20px;text-decoration:none;letter-spacing:.03em;transition:opacity .15s}
+  .sns-btn:hover{opacity:.82}
+  .sns-x{background:#000;color:#fff}
+  .sns-ig{background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);color:#fff}
+  .sns-yt{background:#FF0000;color:#fff}
+  .sns-tt{background:#010101;color:#fff}
+
   .unki-btn{display:block;margin:24px 0 4px;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 20px;border-radius:6px;letter-spacing:.05em}
   .unki-btn:hover{opacity:.88}
   .cta-btn{display:inline-block;margin-top:16px;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 28px;border-radius:4px;letter-spacing:.05em}
@@ -215,10 +223,10 @@
   </section>
 
   <section>
-    <h2>85期 同期の仲間 <span class="en">CLASSMATES</span><span class="peer-count">全23人</span></h2>
+    <h2>85期 同期の仲間 <span class="en">CLASSMATES</span><span class="peer-count">全24人</span></h2>
     <div class="peer-wrap"><div class="peer-group-label">同支部（埼玉）</div><div class="peer-chips"><a class="peer-chip same-branch" href="4031.html">飯島誠 <span class="peer-toban">4031</span></a><a class="peer-chip same-branch" href="4036.html">金田諭 <span class="peer-toban">4036</span></a></div>
 <div class="peer-group-label" style="margin-top:10px">他支部の同期</div><div class="peer-chips"><a class="peer-chip " href="4023.html">柴田友和 <span class="peer-toban">4023</span></a><a class="peer-chip " href="4024.html">井口佳典 <span class="peer-toban">4024</span></a><a class="peer-chip " href="4025.html">山本隆幸 <span class="peer-toban">4025</span></a><a class="peer-chip " href="4027.html">松江秀徳 <span class="peer-toban">4027</span></a><a class="peer-chip " href="4028.html">田村隆信 <span class="peer-toban">4028</span></a><a class="peer-chip " href="4030.html">森高一真 <span class="peer-toban">4030</span></a><a class="peer-chip " href="4033.html">伊藤将吉 <span class="peer-toban">4033</span></a><a class="peer-chip " href="4034.html">西原明生 <span class="peer-toban">4034</span></a></div>
-<div class="peer-chips peer-hidden" id="douki-hidden"><a class="peer-chip " href="4035.html">杉江浩明 <span class="peer-toban">4035</span></a><a class="peer-chip " href="4039.html">村上功祐 <span class="peer-toban">4039</span></a><a class="peer-chip " href="4040.html">廣瀬将亨 <span class="peer-toban">4040</span></a><a class="peer-chip " href="4041.html">小林基樹 <span class="peer-toban">4041</span></a><a class="peer-chip " href="4042.html">丸岡正典 <span class="peer-toban">4042</span></a><a class="peer-chip " href="4043.html">桐本康臣 <span class="peer-toban">4043</span></a><a class="peer-chip " href="4044.html">湯川浩司 <span class="peer-toban">4044</span></a><a class="peer-chip " href="4045.html">佐々木裕美 <span class="peer-toban">4045</span></a><a class="peer-chip " href="4047.html">吉永浩則 <span class="peer-toban">4047</span></a><a class="peer-chip " href="4049.html">荒川健太 <span class="peer-toban">4049</span></a><a class="peer-chip " href="4050.html">田口節子 <span class="peer-toban">4050</span></a><a class="peer-chip " href="4051.html">清水敦揮 <span class="peer-toban">4051</span></a><a class="peer-chip " href="4052.html">興津藍 <span class="peer-toban">4052</span></a></div><button class="peer-more-btn" onclick="showPeers('douki-hidden',this)">他の同期を見る（あと13人）</button></div>
+<div class="peer-chips peer-hidden" id="douki-hidden"><a class="peer-chip " href="4035.html">杉江浩明 <span class="peer-toban">4035</span></a><a class="peer-chip " href="4038.html">田中健太郎 <span class="peer-toban">4038</span></a><a class="peer-chip " href="4039.html">村上功祐 <span class="peer-toban">4039</span></a><a class="peer-chip " href="4040.html">廣瀬将亨 <span class="peer-toban">4040</span></a><a class="peer-chip " href="4041.html">小林基樹 <span class="peer-toban">4041</span></a><a class="peer-chip " href="4042.html">丸岡正典 <span class="peer-toban">4042</span></a><a class="peer-chip " href="4043.html">桐本康臣 <span class="peer-toban">4043</span></a><a class="peer-chip " href="4044.html">湯川浩司 <span class="peer-toban">4044</span></a><a class="peer-chip " href="4045.html">佐々木裕美 <span class="peer-toban">4045</span></a><a class="peer-chip " href="4047.html">吉永浩則 <span class="peer-toban">4047</span></a><a class="peer-chip " href="4049.html">荒川健太 <span class="peer-toban">4049</span></a><a class="peer-chip " href="4050.html">田口節子 <span class="peer-toban">4050</span></a><a class="peer-chip " href="4051.html">清水敦揮 <span class="peer-toban">4051</span></a><a class="peer-chip " href="4052.html">興津藍 <span class="peer-toban">4052</span></a></div><button class="peer-more-btn" onclick="showPeers('douki-hidden',this)">他の同期を見る（あと14人）</button></div>
   </section>
 
   <section>
@@ -238,7 +246,6 @@
       <tr><th>期別</th><td>85期</td></tr>
       <tr><th>級別</th><td>—</td></tr>
       <tr><th>現況</th><td>引退</td></tr>
-      <tr><th>趣味</th><td>—</td></tr>
       <tr><th>備考</th><td>85期・埼玉支部。羽野直也(4831)の師匠</td></tr>
     </table>
   </section>
@@ -249,6 +256,7 @@
       <a class="chip" href="https://boatrace.jp/owpc/pc/data/racersearch/profile?toban=4037" target="_blank" rel="noopener">BOAT RACE公式プロフィール</a>
       <a class="chip" href="https://boatrace-db.net/racer/index2/regno/4037" target="_blank" rel="noopener">艇国データバンク（成績）</a>
     </div>
+
   </section>
 
   
