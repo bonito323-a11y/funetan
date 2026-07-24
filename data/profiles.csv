@@ -28,7 +28,7 @@ toban,hobby,food,sns_x,sns_instagram,sns_youtube,sns_tiktok,note
 4061,,,,,,,Instagram:macour掲載・要本人確認 NG削除(2026-07-24):sns_instagram=hagiwara36
 4075,,,,jiro4075,,,Instagram:macour掲載・確認済み
 4166,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
-4168,釣り・酒飲み・オンラインゲーム（APEX・Fortnite）,,kaimona0603,taka.4168,,,趣味:複数サイト記載 X:macour掲載・要本人確認 Instagram:macour掲載・要本人確認
+4168,釣り・酒飲み・オンラインゲーム（APEX・Fortnite）,,kaimona0603,taka.4168,,,趣味:複数サイト記載 X:macour掲載・確認済み Instagram:macour掲載・確認済み
 4205,,,,tsuyoshi_yamaguchi,,,Instagram:macour掲載・確認済み
 4208,,,eritwin4208,,,,X:Wikipedia記載・確認済み
 4237,,,,yutaka.omine,,,Instagram:macour掲載・確認済み
@@ -42,7 +42,7 @@ toban,hobby,food,sns_x,sns_instagram,sns_youtube,sns_tiktok,note
 4344,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
 4347,,,kaori4347uotani,kaori4347,UCFsB1X6BPuQiDV91tZsvWmw,,X:macour掲載・Wikipedia記載・確認済み Instagram:macour掲載・Wikipedia記載・確認済み YouTube:ダシオさん提供URL・確認済み
 4350,ショッピング（家族とコストコ）,,motoshi_4350,,,,趣味:複数まとめサイト記載 X:macour掲載・確認済み Instagram(hitoshi4477)は篠崎仁志(4477)のアカウントのため除外
-4362,,,tsuchitomokun,tomonori_tsuchiya2,,,X:Wikipedia記載・要本人確認 Instagram:macour掲載・要本人確認
+4362,,,,tomonori_tsuchiya2,,,X:Wikipedia記載・確認済み Instagram:macour掲載・確認済み NG削除(2026-07-24):sns_x=tsuchitomokun
 4371,,,,ponkotutonkotu3662,,,Instagram:macour掲載・確認済み
 4387,,,4387chika,chika_hirayama,chikahirayama,,X:macour掲載・Wikipedia記載・確認済み Instagram:macour掲載・Wikipedia記載・確認済み YouTube:macour掲載・Wikipedia記載・確認済み
 4418,,,,kp.4418,,,Instagram:macour掲載・確認済み
@@ -50,20 +50,20 @@ toban,hobby,food,sns_x,sns_instagram,sns_youtube,sns_tiktok,note
 4445,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
 4450,,,,,,,Instagram:macour掲載 NG削除(2026-07-24):sns_instagram=hirataka4450
 4456,,,kama4456ryo,ryo.fk4456,,,X:macour掲載・Wikipedia記載・確認済み Instagram:macour掲載・確認済み
-4459,サーフィン,,,kataoka_masahiro_,,,趣味:複数サイト記載 Instagram:macour掲載・要本人確認 X:未確認（macour・Wikipedia掲載なし）
+4459,サーフィン,,,kataoka_masahiro_,,,趣味:複数サイト記載 Instagram:macour掲載・確認済み X:未確認（macour・Wikipedia掲載なし）
 4473,健康について調べること（ジム・温泉）,,,,,,趣味:Wikipedia記載 SNS未確認（macour・Wikipedia掲載なし）
-4477,バス釣り・フィジカルトレーニング・ボクシング観戦,,,hitoshi4477,,,趣味:複数サイト記載 Instagram:macour掲載・要本人確認 X:未確認（macour・Wikipedia掲載なし）
+4477,バス釣り・フィジカルトレーニング・ボクシング観戦,,,hitoshi4477,,,趣味:複数サイト記載 Instagram:macour掲載・確認済み X:未確認（macour・Wikipedia掲載なし）
 4482,,ラーメン二郎,,,,,food:Wikipedia記載（ジロリアン） SNS未確認（macour掲載なし）
-4494,犬（動物好き）,ネギ,,kawai4494,,,趣味:複数サイト記載 food:複数サイト記載 Instagram:macour掲載・要本人確認 X:未確認（macour・Wikipedia掲載なし）
-4500,,,kouji4500,yamako_ffzz,,,X:Wikipedia記載・要本人確認 Instagram:macour掲載・確認済み
+4494,犬（動物好き）,ネギ,,kawai4494,,,趣味:複数サイト記載 food:複数サイト記載 Instagram:macour掲載・確認済み X:未確認（macour・Wikipedia掲載なし）
+4500,,,kouji4500,yamako_ffzz,,,X:Wikipedia記載・確認済み Instagram:macour掲載・確認済み
 4502,あいみょんのコンサート鑑賞,パン,,,,,hobby・food:Wikipedia記載 SNS未確認（macour・Wikipedia掲載なし）
-4503,サバイバルゲーム,,,,,,"hobby:ボートレース公式スター候補サイト(2013)記載 Instagram:macour掲載 NG削除(2026-07-24):sns_instagram=nosuke4503"
-4524,旅行・買い物,,boatrace4524,tomochanegi,,,X:macour掲載・確認済み Instagram:複数サイト記載・要本人確認 趣味:公式スター候補サイト記載 YouTube:macour掲載・確認済み NG削除(2026-07-24):sns_youtube=TV-zy6nd
+4503,サバイバルゲーム,,,,,,hobby:ボートレース公式スター候補サイト(2013)記載 Instagram:macour掲載 NG削除(2026-07-24):sns_instagram=nosuke4503
+4524,旅行・買い物,,boatrace4524,tomochanegi,,,X:macour掲載・確認済み Instagram:複数サイト記載・確認済み 趣味:公式スター候補サイト記載 YouTube:macour掲載・確認済み NG削除(2026-07-24):sns_youtube=TV-zy6nd
 4530,,,,,,,SNS未確認（macour掲載なし・FacebookのみのためID未記載）
 4546,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
 4556,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
 4566,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
-4571,ゴルフ・野球観戦,,fumiya4571,fumiya4571,,,Instagram:macour掲載・確認済み X:複数サイト記載・要本人確認 趣味:複数サイト記載
+4571,ゴルフ・野球観戦,,fumiya4571,fumiya4571,,,Instagram:macour掲載・確認済み X:複数サイト記載・確認済み 趣味:複数サイト記載
 4573,,,satotuba_4573,tsu_ba4573,,,X:macour掲載・確認済み Instagram:macour掲載・確認済み
 4586,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
 4590,ホットヨガ・岩盤浴・銭湯巡り,ビールとチキン南蛮,yumi4590,,,,趣味・food:Wikipedia記載 X:Wikipedia記載・確認済み
@@ -76,7 +76,7 @@ toban,hobby,food,sns_x,sns_instagram,sns_youtube,sns_tiktok,note
 4804,,,hiiiii4804,,,,X:macour掲載・確認済み
 4823,,,,,,,SNS未確認（macour掲載なし・Wikipedia外部リンクなし）
 4825,料理,舞茸,,,,,趣味・food:Wikipedia記載 SNS未確認（macour掲載なし）
-4831,ゴルフ・釣り・サーフィン,まぐろの中トロ,5RpHBeCnC06zY2N,naoyan_114,,,趣味・food:複数サイト記載 X:macour・Wikipedia掲載・要本人確認 Instagram:macour掲載・要本人確認
+4831,ゴルフ・釣り・サーフィン,まぐろの中トロ,5RpHBeCnC06zY2N,naoyan_114,,,趣味・food:複数サイト記載 X:macour・Wikipedia掲載・確認済み Instagram:macour掲載・確認済み
 4848,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
 4885,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
 4914,ポケモンGO・ギター・サッカー,,ts11239,yuhei4914_,,,X:Wikipedia記載・確認済み Instagram:macour掲載・確認済み 趣味:Wikipedia記載
@@ -89,7 +89,7 @@ toban,hobby,food,sns_x,sns_instagram,sns_youtube,sns_tiktok,note
 5045,,,gs5045,gs_5045,,,X:Wikipedia記載・確認済み Instagram:macour掲載・確認済み（ID末尾アンダースコアの有無要確認）
 5084,,,,kazuya8700,,,Instagram:macour掲載・確認済み
 5088,食べること・寝ること・買い物,お肉,,,,,"趣味・food:Wikipedia記載 X:macour掲載・要本人確認 Instagram:macour掲載・要本人確認 NG削除(2026-07-24):sns_x=fourseasons5088,sns_instagram=shiki.5088"
-5121,,,sada_5121,sada.5121,,,X:x.com検索・要本人確認 Instagram:macour掲載・要本人確認
+5121,,,sada_5121,sada.5121,,,X:x.com検索・確認済み Instagram:macour掲載・確認済み
 5163,,,,ami_.5163,,,Instagram:macour掲載・確認済み
 5218,温泉巡り・グランピング・サウナ,,,ig.yamada,,,Instagram:macour掲載・確認済み 趣味:Let's BOAT RACE記事記載・要確認
 5264,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
