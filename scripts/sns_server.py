@@ -44,26 +44,57 @@ def load_profiles():
         rows = list(csv.DictReader(f))
     return rows
 
+FIELD_PREFIX = {
+    "sns_x":         "X:",
+    "sns_instagram": "Instagram:",
+    "sns_youtube":   "YouTube:",
+    "sns_tiktok":    "TikTok:",
+}
+
+def is_confirmed(note, field):
+    """noteの中で、そのSNSフィールドが確認済みかどうかを判定する"""
+    prefix = FIELD_PREFIX.get(field, "")
+    if not prefix:
+        return False
+    idx = note.find(prefix)
+    if idx == -1:
+        return False
+    # このprefixの位置から、次の他プラットフォームのprefixが現れるまでの区間を取得
+    segment_start = idx
+    segment_end = len(note)
+    for other_prefix in FIELD_PREFIX.values():
+        if other_prefix == prefix:
+            continue
+        pos = note.find(other_prefix, segment_start + len(prefix))
+        if pos != -1 and pos < segment_end:
+            segment_end = pos
+    segment = note[segment_start:segment_end]
+    return "確認済み" in segment
+
 def build_entries(racers, profiles):
     entries = []
     for p in profiles:
         toban = p["toban"]
         name  = racers.get(toban, f"登録番号{toban}")
+        note  = p.get("note", "")
         snss  = []
         for field, label, url_tmpl in SNS_FIELDS:
             uid = p.get(field, "").strip()
-            if uid:
-                snss.append({
-                    "field": field,
-                    "label": label,
-                    "id":    uid,
-                    "url":   url_tmpl.format(uid),
-                })
+            if not uid:
+                continue
+            if is_confirmed(note, field):
+                continue  # 確認済みはスキップ
+            snss.append({
+                "field": field,
+                "label": label,
+                "id":    uid,
+                "url":   url_tmpl.format(uid),
+            })
         if snss:
             entries.append({
                 "toban": toban,
                 "name":  name,
-                "note":  p.get("note", ""),
+                "note":  note,
                 "sns":   snss,
             })
     return entries
