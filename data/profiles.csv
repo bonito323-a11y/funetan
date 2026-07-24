@@ -92,14 +92,14 @@ toban,hobby,food,sns_x,sns_instagram,sns_youtube,sns_tiktok,note
 4739,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
 4760,,,,,,,Instagram:macour掲載・要本人確認（別アカgun.yamazaki_officialと要確認） NG削除(2026-07-24):sns_instagram=4760_gun_yamazaki
 4762,トライアスロン・マラソン・ロードバイク,,,,,,趣味:マクールコラム・複数記事記載 SNS未確認（macour・Wikipedia掲載なし）
-4776,,,,kzy4776,,,Instagram:macour掲載・要本人確認 趣味・food未確認（macour・Wikipedia掲載なし）
+4776,,,,,,,Instagram:macour掲載・要本人確認 趣味・food未確認（macour・Wikipedia掲載なし） NG削除(2026-07-24):sns_instagram=kzy4776
 4787,,,,shiina916,,,Instagram:macour掲載・確認済み
 4804,,,hiiiii4804,,,,X:macour掲載・確認済み
 4823,,,,,,,SNS未確認（macour掲載なし・Wikipedia外部リンクなし）
 4825,料理,舞茸,,,,,趣味・food:Wikipedia記載 SNS未確認（macour掲載なし）
 4831,ゴルフ・釣り・サーフィン,まぐろの中トロ,5RpHBeCnC06zY2N,naoyan_114,,,趣味・food:複数サイト記載 X:macour・Wikipedia掲載・確認済み Instagram:macour掲載・確認済み
 4848,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
-4874,,,0116_natsu,natsu4874,,,X:まとめサイト記載・要本人確認 Instagram:まとめサイト記載・要本人確認（非公開）趣味・food未確認
+4874,,,0116_natsu,,,,X:まとめサイト記載・確認済み Instagram:まとめサイト記載・確認済み（非公開）趣味・food未確認 NG削除(2026-07-24):sns_instagram=natsu4874
 4885,畑仕事,,,,,,趣味:複数サイト記載・要本人確認 SNS未確認（macour・Wikipedia掲載なし）
 4901,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
 4907,,,,,,,SNS未確認（macour・Wikipedia掲載なし）
@@ -117,7 +117,7 @@ toban,hobby,food,sns_x,sns_instagram,sns_youtube,sns_tiktok,note
 5121,,,sada_5121,sada.5121,,,X:x.com検索・確認済み Instagram:macour掲載・確認済み
 5163,ドライブ,,,ami_.5163,,,趣味:まとめサイト記載・要本人確認 Instagram:macour掲載・確認済み
 5218,温泉巡り・グランピング・サウナ・映画鑑賞,お刺身,,ig.yamada,,,趣味・food:まとめサイト記載・要本人確認 Instagram:macour掲載・確認済み
-5231,,,,teradaku5231,,,Instagram:macour掲載・要本人確認
+5231,,,,,,,Instagram:macour掲載・要本人確認 NG削除(2026-07-24):sns_instagram=teradaku5231
 5264,運動・映画鑑賞・テレビ鑑賞,鍋,,,,,趣味・food:ヤングレーサー公式サイト記載・要本人確認 SNS未確認（macour・Wikipedia掲載なし）
 5272,,,,mamiboat_5272,,,Instagram:macour掲載・確認済み
 5277,音楽鑑賞,からあげ・フルーツ,,mito__5277,,,趣味・food:Wikipedia記載 Instagram:macour掲載・確認済み（アンダースコア2個）
