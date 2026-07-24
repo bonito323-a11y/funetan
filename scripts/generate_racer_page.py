@@ -518,7 +518,8 @@ def generate_page(toban, racers, relations, ki_map, branch_map, retired_names=No
         sns_btns.append(f'      <a class="sns-btn sns-ig" href="https://www.instagram.com/{uid}/" target="_blank" rel="noopener">&#9711;&nbsp;Instagram</a>')
     if prof.get("sns_youtube", "").strip():
         uid = prof["sns_youtube"].strip()
-        sns_btns.append(f'      <a class="sns-btn sns-yt" href="https://www.youtube.com/@{uid}" target="_blank" rel="noopener">&#9654;&nbsp;YouTube</a>')
+        yt_url = f"https://www.youtube.com/channel/{uid}" if uid.startswith("UC") else f"https://www.youtube.com/@{uid}"
+        sns_btns.append(f'      <a class="sns-btn sns-yt" href="{yt_url}" target="_blank" rel="noopener">&#9654;&nbsp;YouTube</a>')
     if prof.get("sns_tiktok", "").strip():
         uid = prof["sns_tiktok"].strip()
         sns_btns.append(f'      <a class="sns-btn sns-tt" href="https://www.tiktok.com/@{uid}" target="_blank" rel="noopener">&#9836;&nbsp;TikTok</a>')

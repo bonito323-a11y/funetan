@@ -25,7 +25,7 @@ PORT = 8765
 SNS_FIELDS = [
     ("sns_x",         "X (Twitter)", "https://x.com/{}"),
     ("sns_instagram", "Instagram",   "https://www.instagram.com/{}/"),
-    ("sns_youtube",   "YouTube",     "https://www.youtube.com/@{}"),
+    ("sns_youtube",   "YouTube",     None),  # UCから始まる場合はchannel/、それ以外は@
     ("sns_tiktok",    "TikTok",      "https://www.tiktok.com/@{}"),
 ]
 
@@ -84,11 +84,15 @@ def build_entries(racers, profiles):
                 continue
             if is_confirmed(note, field):
                 continue  # 確認済みはスキップ
+            if url_tmpl is None:  # YouTube: UCチャンネルIDとハンドルで分岐
+                url = f"https://www.youtube.com/channel/{uid}" if uid.startswith("UC") else f"https://www.youtube.com/@{uid}"
+            else:
+                url = url_tmpl.format(uid)
             snss.append({
                 "field": field,
                 "label": label,
                 "id":    uid,
-                "url":   url_tmpl.format(uid),
+                "url":   url,
             })
         if snss:
             entries.append({
