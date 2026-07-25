@@ -40,15 +40,42 @@ def load_profiles():
     return profiles
 
 def build_entries(racers, profiles):
-    """SNS IDが1つ以上登録されている行のみ抽出"""
+    """SNS IDが1つ以上登録されていて、かつ未確認（確認済みでない）行のみ抽出"""
     entries = []
+    skipped_confirmed = 0
     for p in profiles:
+        note = p.get("note", "")
         toban = p["toban"]
         name  = racers.get(toban, f"登録番号{toban}")
         snss  = []
         for field, label, url_tmpl in SNS_FIELDS:
             uid = p.get(field, "").strip()
-            if uid:
+            if not uid:
+                continue
+            # このSNSフィールドが確認済みかチェック
+            # note例: "X:macour・確認済み" / "確認済み" / "Instagram:確認済み"
+            field_confirmed = False
+            if "確認済み" in note:
+                # フィールド個別確認済みチェック
+                label_map = {
+                    "sns_x": ["X:", "X・", "X,"],
+                    "sns_instagram": ["Instagram:", "Instagram・", "Instagram,"],
+                    "sns_youtube": ["YouTube:", "YouTube・", "YouTube,"],
+                    "sns_tiktok": ["TikTok:", "TikTok・", "TikTok,"],
+                }
+                markers = label_map.get(field, [])
+                # noteに「確認済み」が含まれる場合、フィールド個別記述がなければ全体確認済みとみなす
+                has_field_marker = any(m in note for m in markers)
+                if has_field_marker:
+                    # フィールド固有の記述があり「確認済み」も含む → 確認済み
+                    field_confirmed = True
+                elif not any(
+                    any(m in note for m in lm)
+                    for lm in label_map.values()
+                ):
+                    # どのフィールド固有記述もない → note全体が確認済み扱い
+                    field_confirmed = True
+            if not field_confirmed:
                 snss.append({
                     "field": field,
                     "label": label,
@@ -59,9 +86,12 @@ def build_entries(racers, profiles):
             entries.append({
                 "toban": toban,
                 "name":  name,
-                "note":  p.get("note", ""),
+                "note":  note,
                 "sns":   snss,
             })
+        elif any(p.get(f[0], "").strip() for f in SNS_FIELDS):
+            skipped_confirmed += 1
+    print(f"  確認済みスキップ: {skipped_confirmed} 名")
     return entries
 
 def generate(entries):
