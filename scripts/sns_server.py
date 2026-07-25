@@ -53,23 +53,35 @@ FIELD_PREFIX = {
 
 def is_confirmed(note, field):
     """noteの中で、そのSNSフィールドが確認済みかどうかを判定する"""
+    if "確認済み" not in note:
+        return False
+
     prefix = FIELD_PREFIX.get(field, "")
-    if not prefix:
-        return False
-    idx = note.find(prefix)
-    if idx == -1:
-        return False
-    # このprefixの位置から、次の他プラットフォームのprefixが現れるまでの区間を取得
-    segment_start = idx
-    segment_end = len(note)
-    for other_prefix in FIELD_PREFIX.values():
-        if other_prefix == prefix:
-            continue
-        pos = note.find(other_prefix, segment_start + len(prefix))
-        if pos != -1 and pos < segment_end:
-            segment_end = pos
-    segment = note[segment_start:segment_end]
-    return "確認済み" in segment
+    all_prefixes = list(FIELD_PREFIX.values())
+
+    # noteにどのフィールドプレフィックスも含まれない場合 → 全体が確認済み
+    has_any_prefix = any(p in note for p in all_prefixes)
+    if not has_any_prefix:
+        return True
+
+    # このフィールドのプレフィックスがnoteに存在する場合 → そのセグメントを確認
+    if prefix and prefix in note:
+        idx = note.find(prefix)
+        segment_start = idx
+        segment_end = len(note)
+        for other_prefix in all_prefixes:
+            if other_prefix == prefix:
+                continue
+            pos = note.find(other_prefix, segment_start + len(prefix))
+            if pos != -1 and pos < segment_end:
+                segment_end = pos
+        segment = note[segment_start:segment_end]
+        return "確認済み" in segment
+
+    # このフィールドのプレフィックスがないが他フィールドのプレフィックスがある
+    # → このフィールドの確認状況は不明 → 未確認扱いにしない（確認済みとみなす）
+    # ただし「要本人確認」が残っている場合は未確認
+    return "要本人確認" not in note
 
 def build_entries(racers, profiles):
     entries = []
