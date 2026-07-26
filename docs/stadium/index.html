@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>レース場 天気・水面情報 ｜ 舟☆探</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --ink:#1C2530;
+    --paper:#F7F5F0;
+    --navy:#0E2A3C;
+    --navy-2:#173B52;
+    --red:#E33A2E;
+    --blue:#2E5FE3;
+    --yellow:#F2C21F;
+    --green:#2FA65A;
+    --line:#D8D3C8;
+    --muted:#6B7280;
+    --serif:'Zen Old Mincho',serif;
+    --sans:'Zen Kaku Gothic New',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.7;font-size:15px}
+  a{color:inherit;text-decoration:none}
+
+  /* 6艇カラーストライプ */
+  .lane-strip{display:flex;height:6px}
+  .lane-strip span{flex:1}
+  .lane-strip .l1{background:#fff;border-bottom:1px solid var(--line)}
+  .lane-strip .l2{background:#222}
+  .lane-strip .l3{background:var(--red)}
+  .lane-strip .l4{background:var(--blue)}
+  .lane-strip .l5{background:var(--yellow)}
+  .lane-strip .l6{background:var(--green)}
+
+  header{background:var(--navy);color:#fff}
+  .topbar{max-width:960px;margin:0 auto;padding:14px 20px;display:flex;justify-content:space-between;align-items:baseline}
+  .brand{font-family:var(--serif);font-weight:900;font-size:18px;letter-spacing:.08em}
+  .brand small{font-family:var(--sans);font-weight:500;font-size:11px;opacity:.7;margin-left:8px;letter-spacing:.15em}
+  .topbar nav{font-size:12px;opacity:.85}
+  .topbar nav a{margin-left:14px}
+  .topbar nav a:hover{opacity:1}
+
+  footer{background:var(--navy-2);color:rgba(255,255,255,.5);font-size:11px;text-align:center;padding:22px 20px;margin-top:60px}
+  footer a{color:rgba(255,255,255,.5)}
+
+  /* スピナー */
+  .spinner{
+    display:inline-block;width:20px;height:20px;
+    border:3px solid rgba(14,42,60,.2);
+    border-top-color:var(--navy);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+    vertical-align:middle;margin-right:6px;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .loading-msg{color:var(--muted);font-size:13px}
+
+  /* 水面タイプバッジ */
+  .badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.06em}
+  .badge-sea{background:#1a6fa8;color:#fff}
+  .badge-river{background:#2a8a4a;color:#fff}
+  .badge-lake{background:#1a3a6a;color:#fff}
+
+
+  .hero{background:var(--navy);color:#fff;padding:36px 20px 44px;text-align:center}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:32px;letter-spacing:.06em}
+  .hero p{margin-top:8px;font-size:13px;color:rgba(255,255,255,.7)}
+
+  main{max-width:960px;margin:0 auto;padding:36px 20px 60px}
+
+  .sec-title{font-family:var(--serif);font-weight:600;font-size:18px;letter-spacing:.06em;
+    padding-bottom:6px;border-bottom:2px solid var(--ink);margin-bottom:18px;
+    display:flex;align-items:baseline;justify-content:space-between}
+  .sec-title .en{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);font-weight:500}
+
+  /* 場カードグリッド */
+  .stadium-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:700px){.stadium-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:420px){.stadium-grid{grid-template-columns:1fr}}
+
+  .stadium-card{background:#fff;border:1px solid var(--line);border-radius:6px;
+    padding:16px;display:block;transition:transform .12s ease, border-color .12s ease}
+  .stadium-card:hover{transform:translateY(-2px);border-color:var(--navy)}
+
+  .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .card-code{font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:600}
+  .card-name{font-family:var(--serif);font-weight:600;font-size:18px;margin-bottom:2px}
+  .card-loc{font-size:11px;color:var(--muted);margin-bottom:8px}
+  .card-weather{min-height:20px;display:flex;align-items:center;gap:4px}
+
+  /* 凡例 */
+  .legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <div class="brand">舟☆探 <small>BOATRACE NAVI</small></div>
+    <nav>
+      <a href="../index.html">選手名鑑</a>
+      <a href="index.html">レース場</a>
+      <a href="../map.html">関係マップ</a>
+    </nav>
+  </div>
+  <div class="lane-strip">
+    <span class="l1"></span><span class="l2"></span><span class="l3"></span>
+    <span class="l4"></span><span class="l5"></span><span class="l6"></span>
+  </div>
+  <div class="hero">
+    <h1>レース場 天気・水面情報</h1>
+    <p>全国24場の今日の天気をリアルタイム表示（気象庁データ）</p>
+  </div>
+</header>
+
+<main>
+  <div class="legend">
+    <span><span class="badge badge-sea">海</span> 海水コース</span>
+    <span><span class="badge badge-river">川</span> 淡水（川）</span>
+    <span><span class="badge badge-lake">湖</span> 淡水（湖）</span>
+  </div>
+
+  <div class="sec-title">全国24場一覧 <span class="en">ALL 24 STADIUMS</span></div>
+
+  <div class="stadium-grid">
+    
+<a class="stadium-card" href="01.html" id="card-01">
+  <div class="card-header">
+    <span class="card-code">01</span>
+    <span><span class="badge badge-lake">湖</span></span>
+  </div>
+  <div class="card-name">桐生</div>
+  <div class="card-loc">群馬県みどり市</div>
+  <div class="card-weather" id="cw-01">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="02.html" id="card-02">
+  <div class="card-header">
+    <span class="card-code">02</span>
+    <span><span class="badge badge-river">川</span></span>
+  </div>
+  <div class="card-name">戸田</div>
+  <div class="card-loc">埼玉県戸田市</div>
+  <div class="card-weather" id="cw-02">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="03.html" id="card-03">
+  <div class="card-header">
+    <span class="card-code">03</span>
+    <span><span class="badge badge-river">川</span></span>
+  </div>
+  <div class="card-name">江戸川</div>
+  <div class="card-loc">東京都江戸川区</div>
+  <div class="card-weather" id="cw-03">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="04.html" id="card-04">
+  <div class="card-header">
+    <span class="card-code">04</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">平和島</div>
+  <div class="card-loc">東京都大田区</div>
+  <div class="card-weather" id="cw-04">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="05.html" id="card-05">
+  <div class="card-header">
+    <span class="card-code">05</span>
+    <span><span class="badge badge-river">川</span></span>
+  </div>
+  <div class="card-name">多摩川</div>
+  <div class="card-loc">東京都府中市</div>
+  <div class="card-weather" id="cw-05">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="06.html" id="card-06">
+  <div class="card-header">
+    <span class="card-code">06</span>
+    <span><span class="badge badge-lake">湖</span></span>
+  </div>
+  <div class="card-name">浜名湖</div>
+  <div class="card-loc">静岡県湖西市</div>
+  <div class="card-weather" id="cw-06">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="07.html" id="card-07">
+  <div class="card-header">
+    <span class="card-code">07</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">蒲郡</div>
+  <div class="card-loc">愛知県蒲郡市</div>
+  <div class="card-weather" id="cw-07">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="08.html" id="card-08">
+  <div class="card-header">
+    <span class="card-code">08</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">常滑</div>
+  <div class="card-loc">愛知県常滑市</div>
+  <div class="card-weather" id="cw-08">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="09.html" id="card-09">
+  <div class="card-header">
+    <span class="card-code">09</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">津</div>
+  <div class="card-loc">三重県津市</div>
+  <div class="card-weather" id="cw-09">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="10.html" id="card-10">
+  <div class="card-header">
+    <span class="card-code">10</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">三国</div>
+  <div class="card-loc">福井県坂井市</div>
+  <div class="card-weather" id="cw-10">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="11.html" id="card-11">
+  <div class="card-header">
+    <span class="card-code">11</span>
+    <span><span class="badge badge-lake">湖</span></span>
+  </div>
+  <div class="card-name">びわこ</div>
+  <div class="card-loc">滋賀県大津市</div>
+  <div class="card-weather" id="cw-11">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="12.html" id="card-12">
+  <div class="card-header">
+    <span class="card-code">12</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">住之江</div>
+  <div class="card-loc">大阪府大阪市</div>
+  <div class="card-weather" id="cw-12">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="13.html" id="card-13">
+  <div class="card-header">
+    <span class="card-code">13</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">尼崎</div>
+  <div class="card-loc">兵庫県尼崎市</div>
+  <div class="card-weather" id="cw-13">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="14.html" id="card-14">
+  <div class="card-header">
+    <span class="card-code">14</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">鳴門</div>
+  <div class="card-loc">徳島県鳴門市</div>
+  <div class="card-weather" id="cw-14">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="15.html" id="card-15">
+  <div class="card-header">
+    <span class="card-code">15</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">丸亀</div>
+  <div class="card-loc">香川県丸亀市</div>
+  <div class="card-weather" id="cw-15">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="16.html" id="card-16">
+  <div class="card-header">
+    <span class="card-code">16</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">児島</div>
+  <div class="card-loc">岡山県倉敷市</div>
+  <div class="card-weather" id="cw-16">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="17.html" id="card-17">
+  <div class="card-header">
+    <span class="card-code">17</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">宮島</div>
+  <div class="card-loc">広島県廿日市市</div>
+  <div class="card-weather" id="cw-17">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="18.html" id="card-18">
+  <div class="card-header">
+    <span class="card-code">18</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">徳山</div>
+  <div class="card-loc">山口県周南市</div>
+  <div class="card-weather" id="cw-18">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="19.html" id="card-19">
+  <div class="card-header">
+    <span class="card-code">19</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">下関</div>
+  <div class="card-loc">山口県下関市</div>
+  <div class="card-weather" id="cw-19">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="20.html" id="card-20">
+  <div class="card-header">
+    <span class="card-code">20</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">若松</div>
+  <div class="card-loc">福岡県北九州市</div>
+  <div class="card-weather" id="cw-20">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="21.html" id="card-21">
+  <div class="card-header">
+    <span class="card-code">21</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">芦屋</div>
+  <div class="card-loc">福岡県遠賀郡</div>
+  <div class="card-weather" id="cw-21">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="22.html" id="card-22">
+  <div class="card-header">
+    <span class="card-code">22</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">福岡</div>
+  <div class="card-loc">福岡県福岡市</div>
+  <div class="card-weather" id="cw-22">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="23.html" id="card-23">
+  <div class="card-header">
+    <span class="card-code">23</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">唐津</div>
+  <div class="card-loc">佐賀県唐津市</div>
+  <div class="card-weather" id="cw-23">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+<a class="stadium-card" href="24.html" id="card-24">
+  <div class="card-header">
+    <span class="card-code">24</span>
+    <span><span class="badge badge-sea">海</span></span>
+  </div>
+  <div class="card-name">大村</div>
+  <div class="card-loc">長崎県大村市</div>
+  <div class="card-weather" id="cw-24">
+    <span class="spinner" style="width:14px;height:14px;border-width:2px"></span>
+    <span style="font-size:11px;color:var(--muted)">取得中...</span>
+  </div>
+</a>
+
+  </div>
+
+  <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:28px">
+    最終確認日：2026-07-26 ／ 天気データ：気象庁予報API（JMA）<br>
+    エンターテインメントコンテンツであり、レース予想の根拠となるものではありません。
+  </p>
+</main>
+
+<footer>
+  <div style="margin-bottom:6px">
+    <a href="../index.html">舟☆探 選手名鑑</a> ｜
+    <a href="../map.html">関係マップ</a>
+  </div>
+  © 舟☆探 – BOATRACE選手名鑑 ｜ データは参考値です。公式サイトで最新情報をご確認ください。
+</footer>
+
+
+<script>
+const AREA_MAP = {
+  '01': '100000',
+  '02': '110000',
+  '03': '130000',
+  '04': '130000',
+  '05': '130000',
+  '06': '220000',
+  '07': '230000',
+  '08': '230000',
+  '09': '240000',
+  '10': '180000',
+  '11': '250000',
+  '12': '270000',
+  '13': '280000',
+  '14': '360000',
+  '15': '370000',
+  '16': '330000',
+  '17': '340000',
+  '18': '350000',
+  '19': '350000',
+  '20': '400000',
+  '21': '400000',
+  '22': '400000',
+  '23': '410000',
+  '24': '420000',
+};
+
+const fetched = {};
+
+function shortWx(raw) {
+  if (!raw) return '—';
+  return raw.replace(/　/g,' ').replace(/　/g,' ').replace(/\s+/g,' ')
+    .replace(/後\s*/g,'→').replace(/時々\s*/g,'時々').trim().slice(0,16);
+}
+
+async function fetchAreaWeather(areaCode) {
+  if (fetched[areaCode]) return fetched[areaCode];
+  try {
+    const r = await fetch(`https://www.jma.go.jp/bosai/forecast/data/forecast/${areaCode}.json`, {cache:'no-store'});
+    if (!r.ok) throw new Error('HTTP '+r.status);
+    const d = await r.json();
+    const area0 = d[0].timeSeries[0].areas[0];
+    const wx = shortWx(area0.weathers ? area0.weathers[0] : null);
+    fetched[areaCode] = wx;
+    return wx;
+  } catch(e) {
+    return '取得失敗';
+  }
+}
+
+async function loadAllWeather() {
+  const codes = Object.keys(AREA_MAP);
+  // 同一エリアコードは1回だけフェッチ（東京3場など）
+  const uniqueAreas = [...new Set(Object.values(AREA_MAP))];
+  // 並列フェッチ（JMAは同一オリジンCORSなので問題なし）
+  await Promise.all(uniqueAreas.map(a => fetchAreaWeather(a)));
+
+  for (const code of codes) {
+    const areaCode = AREA_MAP[code];
+    const wx = fetched[areaCode] || '—';
+    const el = document.getElementById('cw-' + code);
+    if (el) el.innerHTML = `<span style="font-size:12px;color:var(--ink)">${wx}</span>`;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadAllWeather);
+</script>
+
+</body>
+</html>
