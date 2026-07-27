@@ -128,6 +128,23 @@ def water_badge(water_type):
 def water_label(water_type):
     return {"海": "海水", "川": "淡水（川）", "湖": "淡水（湖）"}.get(water_type, water_type)
 
+def direction_label(deg):
+    """角度から方位名を返す"""
+    dirs = [
+        (0,"北"), (22,"北北東"), (45,"北東"), (67,"東北東"),
+        (90,"東"), (112,"東南東"), (135,"南東"), (157,"南南東"),
+        (180,"南"), (202,"南南西"), (225,"南西"), (247,"西南西"),
+        (270,"西"), (292,"西北西"), (315,"北西"), (337,"北北西"),
+    ]
+    deg = int(deg)
+    best, name = 360, "北"
+    for ref, n in dirs:
+        d = abs(deg - ref) % 360
+        if d > 180: d = 360 - d
+        if d < best:
+            best, name = d, n
+    return name + "向き"
+
 # ─────────────────────────────────────────
 # JavaScript（天気・日の出日の入り・風効果）
 # ─────────────────────────────────────────
@@ -154,9 +171,9 @@ const WIND_DIR = {{
 function windEffect(windFromDeg, startDir) {{
   let diff = Math.abs(windFromDeg - startDir) % 360;
   if (diff > 180) diff = 360 - diff;
-  if (diff <= 45)  return '向かい風 ⚠️ アウト有利の傾向';
-  if (diff >= 135) return '追い風　　インが走りやすい傾向';
-  return '横　風　　標準的なコース';
+  if (diff <= 45)  return {{label:'向かい風', impact:'向かい風はスタートがシビアになりアウト艇に不利な傾向'}};
+  if (diff >= 135) return {{label:'追い風',   impact:'追い風はイン艇が加速しやすく逃げが決まりやすい傾向'}};
+  return {{label:'横風', impact:'横風はスタート難易度が上がり技術差・実力差が出やすい'}};
 }}
 
 // ─── 日の出・日の入り（簡易アルゴリズム）───
@@ -184,17 +201,19 @@ function sunriseSunset(lat, lng, date) {{
   return {{sunrise: fmt(riseH), sunset: fmt(setH)}};
 }}
 
-// ─── 天気テキストを短く整形 ───
-function shortWeather(raw) {{
-  if (!raw) return '—';
-  return raw
-    .replace(/\u3000/g,' ')
-    .replace(/　/g,' ')
-    .replace(/\s+/g,' ')
-    .replace(/後\s*/g,'→')
-    .replace(/時々\s*/g,'時々')
-    .trim()
-    .slice(0, 40);
+// ─── 天気テキストを整形（main/detailに分離）───
+function parseWeatherText(raw) {{
+  if (!raw) return {{main:'—', detail:''}};
+  let text = raw.replace(/[\u3000\s]+/g,' ').trim();
+  // 「後」で分割：「晴れ 後 くもり」→ main:晴れ / detail:後にくもり
+  const m = text.match(/^(.+?)\s+後\s+(.+)$/);
+  if (m) {{
+    const main   = m[1].replace(/\s*時々\s*/g,'・時々').trim();
+    const detail = '後に' + m[2].replace(/\s*から\s*/g,'から').replace(/\s*時々\s*/g,'・時々').replace(/\s+/g,' ').trim();
+    return {{main, detail}};
+  }}
+  const main = text.replace(/\s*時々\s*/g,'・時々').trim().slice(0,24);
+  return {{main, detail:''}};
 }}
 
 // ─── 気温文字列をパース ───
@@ -233,8 +252,9 @@ async function loadWeather() {{
     // timeSeries[0]: 天気・風（当日〜3日）
     const ts0    = data[0].timeSeries[0];
     const area0  = ts0.areas[0];
-    const weather = shortWeather(area0.weathers ? area0.weathers[0] : null);
-    const wind    = area0.winds    ? area0.winds[0]    : null;
+    const rawWeather = area0.weathers ? area0.weathers[0] : null;
+    const wx     = parseWeatherText(rawWeather);
+    const wind   = area0.winds ? area0.winds[0] : null;
 
     // timeSeries[1]: 降水確率
     let pop = '—';
@@ -268,18 +288,24 @@ async function loadWeather() {{
     }} catch(e) {{}}
 
     // 風効果
-    let windEffectText = '—';
     const windDeg = extractWindDir(wind);
-    if (windDeg !== null) windEffectText = windEffect(windDeg, START_DIR);
+    let effectLabel = '—', effectImpact = '';
+    if (windDeg !== null) {{
+      const we = windEffect(windDeg, START_DIR);
+      effectLabel  = we.label;
+      effectImpact = we.impact;
+    }}
 
     // DOM更新
     const set = (id, val) => {{ const el = document.getElementById(id); if(el) el.textContent = val || '—'; }};
-    set('w-weather', weather);
-    set('w-wind',    wind ? wind.slice(0, 30) : null);
-    set('w-pop',     pop);
-    set('w-tempmin', tempMin ? tempMin + '℃' : null);
-    set('w-tempmax', tempMax ? tempMax + '℃' : null);
-    set('w-effect',  windEffectText);
+    set('w-weather',      wx.main);
+    set('w-weather-sub',  wx.detail);
+    set('w-wind',         wind ? wind.replace(/[\u3000\s]+/g,' ').trim().slice(0,30) : null);
+    set('w-pop',          pop);
+    set('w-tempmin',      tempMin ? tempMin + '℃' : null);
+    set('w-tempmax',      tempMax ? tempMax + '℃' : null);
+    set('w-effect-label', effectLabel);
+    set('w-effect-impact',effectImpact);
 
     // スピナー消去
     document.querySelectorAll('.weather-loading').forEach(el => el.style.display = 'none');
@@ -314,6 +340,7 @@ def make_detail_page(st):
     note, in1_rate = STADIUM_NOTES.get(code, ("—", "—"))
     badge = water_badge(wtype)
     wlabel = water_label(wtype)
+    sdir_label = direction_label(sdir)
     weather_js = make_weather_js(jma, lat, lng, sdir, code)
 
     # コース入着率テーブル（全国平均）
@@ -421,7 +448,7 @@ def make_detail_page(st):
     <div class="meta">
       <span>📍 {loc}</span>
       <span>{badge}&nbsp;{wlabel}</span>
-      <span>スタート方向 {sdir}°</span>
+      <span>スタート方向 {sdir}°（{sdir_label}）</span>
     </div>
   </div>
 </header>
@@ -446,11 +473,12 @@ def make_detail_page(st):
   <div class="weather-data" style="display:none">
     <div class="weather-grid">
       <div class="w-card" style="grid-column:1/-1">
-        <div class="label">天気</div>
+        <div class="label">現在の天気</div>
         <div class="value sm" id="w-weather">—</div>
+        <div class="sub" id="w-weather-sub" style="font-size:12px;color:var(--muted);margin-top:4px"></div>
       </div>
       <div class="w-card">
-        <div class="label">風</div>
+        <div class="label">風（予報テキスト）</div>
         <div class="value sm" id="w-wind">—</div>
       </div>
       <div class="w-card">
@@ -472,10 +500,13 @@ def make_detail_page(st):
     </div>
 
     <div class="wind-effect-banner">
-      <span class="wlabel">🌊 水面への影響：</span>
-      <span id="w-effect">—</span>
-      <div style="font-size:11px;color:var(--muted);margin-top:4px">
-        ※スタート方向{sdir}°に対する風向きの影響推定。実際のレースは当日の実況をご確認ください。
+      <div style="font-weight:700;margin-bottom:8px">🌊 スタートへの風の影響</div>
+      <div style="padding-left:4px">
+        <div>└ スタート方向（{sdir}° / {sdir_label}）に対して → <strong id="w-effect-label" style="font-size:16px">—</strong></div>
+        <div style="color:var(--muted);font-size:12px;margin-top:6px;padding-left:14px">└ 影響：<span id="w-effect-impact">—</span></div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:10px;border-top:1px solid #B8CCEE;padding-top:6px">
+        ※実際のレースは当日の実況をご確認ください
       </div>
     </div>
   </div>
@@ -492,11 +523,15 @@ def make_detail_page(st):
   <div class="sec-title" style="margin-top:8px">公式水面図 <span class="en">WATER MAP</span></div>
   <div class="water-map-wrap">
     <img
+      id="wmap-img-{code}"
       src="https://www.boatrace.jp/static_extra/pc/images/img_water1_{code}.png"
       alt="{name}ボートレース場 水面図"
-      onerror="this.parentElement.innerHTML='<p style=\\'color:var(--muted);font-size:13px\\'>水面図を読み込めませんでした（オフライン時は表示されません）</p>'"
+      onerror="document.getElementById('wmap-img-{code}').style.display='none';document.getElementById('wmap-err-{code}').style.display='block'"
     >
-    <div class="copyright">© BOATRACE / 水面図画像は日本モーターボート競走会の著作物です</div>
+    <p id="wmap-err-{code}" style="display:none;color:var(--muted);font-size:13px;padding:12px 0">
+      水面図を読み込めませんでした（外部サイト画像のため、オフライン時・ブロック時は表示されません）
+    </p>
+    <div class="copyright">出典：BOAT RACE OFFICIAL WEB ／ 水面図画像は日本モーターボート競走会の著作物です</div>
   </div>
 
   <!-- コース入着率 -->
@@ -530,7 +565,7 @@ def make_detail_page(st):
     <tr><th>場コード</th><td>{code}</td></tr>
     <tr><th>所在地</th><td>{loc}</td></tr>
     <tr><th>水面タイプ</th><td>{badge} {wlabel}</td></tr>
-    <tr><th>スタート方向</th><td>{sdir}°</td></tr>
+    <tr><th>スタート方向</th><td>{sdir}°（{sdir_label}）</td></tr>
     <tr><th>都道府県</th><td>{pref}</td></tr>
     <tr><th>気象庁エリアコード</th><td><span style="font-family:var(--mono)">{jma}</span></td></tr>
   </table>
