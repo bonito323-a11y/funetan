@@ -204,13 +204,43 @@
       </div>
     </div>
 
-    <div class="wind-effect-banner">
-      <div style="font-weight:700;margin-bottom:8px">🌊 スタートへの風の影響</div>
-      <div style="padding-left:4px">
-        <div>└ スタート方向（270° / 西向き）に対して → <strong id="w-effect-label" style="font-size:16px">—</strong></div>
-        <div style="color:var(--muted);font-size:12px;margin-top:6px;padding-left:14px">└ 影響：<span id="w-effect-impact">—</span></div>
+    <!-- 詳細風分析ボックス -->
+    <div id="wind-analysis-box" style="display:none;margin-bottom:28px">
+      <div style="border:1px solid #B8CCEE;border-radius:6px;overflow:hidden;font-size:14px">
+        <div style="background:#EEF4FF;padding:10px 16px;font-weight:700;font-family:var(--serif);font-size:15px;border-bottom:1px solid #B8CCEE">
+          💨 スタート時の風の影響（西向きスタート）
+        </div>
+        <div style="background:#fff;padding:14px 18px">
+          <div style="margin-bottom:8px">
+            <span style="color:var(--muted);font-size:12px;font-weight:700">風の来る方向</span><br>
+            <strong id="w-wind-pos" style="font-size:15px">—</strong>
+          </div>
+          <div id="w-wind-drift-row" style="margin-bottom:8px">
+            <span style="color:var(--muted);font-size:12px;font-weight:700">艇の流され方</span><br>
+            <strong id="w-wind-drift" style="color:var(--blue)">—</strong>
+          </div>
+          <div style="margin-bottom:8px">
+            <span style="color:var(--muted);font-size:12px;font-weight:700">コース有利不利</span><br>
+            <span id="w-wind-advantage">—</span>
+          </div>
+          <div style="background:#F7F5F0;border-radius:4px;padding:8px 12px;font-size:12px;color:var(--muted)">
+            <span id="w-wind-startnote">—</span>
+          </div>
+        </div>
       </div>
-      <div style="font-size:11px;color:var(--muted);margin-top:10px;border-top:1px solid #B8CCEE;padding-top:6px">
+
+      <!-- 季節風ボックス（該当時のみ表示） -->
+      <div id="sw-box" style="display:none;border:1px solid #D4A96A;border-radius:6px;overflow:hidden;margin-top:10px;font-size:14px">
+        <div style="background:#FFF8ED;padding:10px 16px;font-weight:700;font-family:var(--serif);font-size:15px;border-bottom:1px solid #D4A96A">
+          🍂 <span id="sw-name">—</span>
+        </div>
+        <div style="background:#fff;padding:14px 18px">
+          <div style="color:var(--muted);font-size:12px;margin-bottom:6px" id="sw-season">—</div>
+          <div id="sw-note">—</div>
+        </div>
+      </div>
+
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;text-align:right">
         ※実際のレースは当日の実況をご確認ください
       </div>
     </div>
@@ -318,7 +348,15 @@ const LNG       = 130.643;
 const START_DIR = 270;
 const STADIUM   = '21';
 
-// ─── 風向き→度数変換 ───
+// ─── 季節風データ ───
+const SEASONAL_WIND = {
+  name:   '',
+  dir:    '',
+  season: '',
+  note:   ''
+};
+
+// ─── 風向き→度数変換（風が"来る方向"）───
 const WIND_DIR = {
   '北':0,'北北東':22,'北東':45,'東北東':67,
   '東':90,'東南東':112,'南東':135,'南南東':157,
@@ -326,13 +364,72 @@ const WIND_DIR = {
   '西':270,'西北西':292,'北西':315,'北北西':337
 };
 
-// ─── 風効果（向かい風・追い風・横風）───
-function windEffect(windFromDeg, startDir) {
-  let diff = Math.abs(windFromDeg - startDir) % 360;
+// ─── 風の相対位置・艇への影響を詳細分析 ───
+function analyzeWind(windFromDeg, startDir) {
+  // relAngle: 0=正面向かい風, 90=右, 180=真後ろ追い風, 270=左
+  const rel = ((windFromDeg - startDir) + 360) % 360;
+
+  // 風が選手のどの方向から来るか
+  let pos;
+  if      (rel < 22.5 || rel >= 337.5) pos = '正面';
+  else if (rel < 67.5)                  pos = '右前方';
+  else if (rel < 112.5)                 pos = '右';
+  else if (rel < 157.5)                 pos = '右後方';
+  else if (rel < 202.5)                 pos = '真後ろ';
+  else if (rel < 247.5)                 pos = '左後方';
+  else if (rel < 292.5)                 pos = '左';
+  else                                  pos = '左前方';
+
+  // 艇の流され方・コース有利不利
+  let drift = null, advantage = null, startNote = null;
+  if (rel < 45 || rel >= 315) {
+    // 向かい風系
+    drift     = null;
+    advantage = '全艇にほぼ均等に影響';
+    startNote = 'スタートのタイミングがズレやすい（向かい風）';
+  } else if (rel >= 135 && rel < 225) {
+    // 追い風系
+    drift     = null;
+    advantage = '全艇にほぼ均等に影響';
+    startNote = '艇が加速しやすく、スタートがよりシビアになる傾向（追い風）';
+  } else if (rel >= 45 && rel < 135) {
+    // 右からの風 → 艇はイン側（左）に流される
+    drift     = 'イン側（左）に流されやすい';
+    advantage = 'アウト艇ほど流されやすく、インが比較的有利';
+    startNote = '風で艇がイン側に寄りやすく、アウト艇のコース取りが難しくなる';
+  } else {
+    // 左からの風 → 艇はアウト側（右）に流される
+    drift     = 'アウト側（右）に流されやすい';
+    advantage = 'イン艇ほど流されやすく、アウトが比較的有利';
+    startNote = '風で艇がアウト側に寄りやすく、インのコース取りが難しくなる';
+  }
+
+  return { rel, pos, drift, advantage, startNote };
+}
+
+// ─── 季節風チェック ───
+function checkSeasonalWind(windFromDeg, month) {
+  if (!SEASONAL_WIND.name || !SEASONAL_WIND.dir) return null;
+  const swDeg = WIND_DIR[SEASONAL_WIND.dir];
+  if (swDeg === undefined) return null;
+
+  // 風向きの一致（±45°以内）
+  let diff = Math.abs(windFromDeg - swDeg) % 360;
   if (diff > 180) diff = 360 - diff;
-  if (diff <= 45)  return {label:'向かい風', impact:'向かい風はスタートがシビアになりアウト艇に不利な傾向'};
-  if (diff >= 135) return {label:'追い風',   impact:'追い風はイン艇が加速しやすく逃げが決まりやすい傾向'};
-  return {label:'横風', impact:'横風はスタート難易度が上がり技術差・実力差が出やすい'};
+  if (diff > 45) return null;
+
+  // 季節の一致
+  const s = SEASONAL_WIND.season;
+  const w = [12,1,2].includes(month);
+  const sp= [3,4,5].includes(month);
+  const su= [6,7,8].includes(month);
+  const a = [9,10,11].includes(month);
+  if (s.includes('冬') && w) return SEASONAL_WIND;
+  if (s.includes('春') && sp) return SEASONAL_WIND;
+  if (s.includes('夏') && su) return SEASONAL_WIND;
+  if (s.includes('秋') && a)  return SEASONAL_WIND;
+  if (s.includes('通年') || s.includes('年間')) return SEASONAL_WIND;
+  return null;
 }
 
 // ─── 日の出・日の入り（簡易アルゴリズム）───
@@ -446,25 +543,52 @@ async function loadWeather() {
       }
     } catch(e) {}
 
-    // 風効果
+    // 風の詳細分析
     const windDeg = extractWindDir(wind);
-    let effectLabel = '—', effectImpact = '';
+    const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val || '—'; };
+    const setHtml = (id, val) => { const el = document.getElementById(id); if(el) el.innerHTML = val || '—'; };
+    const show = (id) => { const el = document.getElementById(id); if(el) el.style.display = ''; };
+    const hide = (id) => { const el = document.getElementById(id); if(el) el.style.display = 'none'; };
+
     if (windDeg !== null) {
-      const we = windEffect(windDeg, START_DIR);
-      effectLabel  = we.label;
-      effectImpact = we.impact;
+      const wa = analyzeWind(windDeg, START_DIR);
+
+      // 風の位置
+      set('w-wind-pos', '風は選手の' + wa.pos + 'から');
+      // 艇の流され方
+      if (wa.drift) {
+        set('w-wind-drift', '艇は' + wa.drift);
+        show('w-wind-drift-row');
+      } else {
+        hide('w-wind-drift-row');
+      }
+      // コース有利不利
+      set('w-wind-advantage', wa.advantage);
+      set('w-wind-startnote', wa.startNote);
+
+      // 季節風チェック
+      const sw = checkSeasonalWind(windDeg, new Date().getMonth() + 1);
+      if (sw) {
+        set('sw-name', sw.name + 'の可能性');
+        set('sw-season', sw.season + 'に吹きやすい風です');
+        set('sw-note', sw.note);
+        show('sw-box');
+      } else {
+        hide('sw-box');
+      }
+
+      show('wind-analysis-box');
+    } else {
+      hide('wind-analysis-box');
     }
 
-    // DOM更新
-    const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val || '—'; };
-    set('w-weather',      wx.main);
-    set('w-weather-sub',  wx.detail);
-    set('w-wind',         wind ? wind.replace(/[　\s]+/g,' ').trim().slice(0,30) : null);
-    set('w-pop',          pop);
-    set('w-tempmin',      tempMin ? tempMin + '℃' : null);
-    set('w-tempmax',      tempMax ? tempMax + '℃' : null);
-    set('w-effect-label', effectLabel);
-    set('w-effect-impact',effectImpact);
+    // DOM更新（基本情報）
+    set('w-weather',     wx.main);
+    set('w-weather-sub', wx.detail);
+    set('w-wind',        wind ? wind.replace(/[　\s]+/g,' ').trim().slice(0,30) : null);
+    set('w-pop',         pop);
+    set('w-tempmin',     tempMin ? tempMin + '℃' : null);
+    set('w-tempmax',     tempMax ? tempMax + '℃' : null);
 
     // スピナー消去
     document.querySelectorAll('.weather-loading').forEach(el => el.style.display = 'none');
